@@ -13,7 +13,9 @@ export const Home = () => {
     <SingleColumnLayout>
       <H2>DAOhaus is your haus</H2>
       <HausAnimated />
-      <ParMd>Get started by editing src/pages/Home.tsx</ParMd>
+      <ParMd style={{ marginBottom: '2.4rem' }}>
+        Get started by editing src/pages/Home.tsx
+      </ParMd>
       <LinkBox>
         <Link href="https://github.com/HausDAO/monorepo" linkType="external">
           Github

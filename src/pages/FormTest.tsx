@@ -1,9 +1,8 @@
 import { useDHConnect } from '@daohaus/connect';
 import { FormBuilder } from '@daohaus/form-builder';
 import { TXBuilder } from '@daohaus/tx-builder';
-import { FormLayout } from '@daohaus/ui';
-import React from 'react';
-import { FORM } from '../assets/forms';
+
+import { FORM } from '../legos/forms';
 
 export const FormTest = () => {
   const { provider } = useDHConnect();

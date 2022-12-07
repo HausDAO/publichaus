@@ -10,14 +10,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0", 
-    "@daohaus/ui": "0.0.25", 
-    "@daohaus/moloch-v3-data": "0.0.2", 
-    "@daohaus/moloch-v3-context": "0.0.1", 
-    "@daohaus/connect": "0.0.4",
-    "@daohaus/tx-builder": "0.0.2",
-    "@daohaus/form-builder": "0.0.2"
-
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.22",

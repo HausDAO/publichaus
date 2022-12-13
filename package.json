@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@daohaus/connect": "^0.1.0",
-    "@daohaus/form-builder": "^0.1.0",
-    "@daohaus/tx-builder": "^0.1.0",
-    "@daohaus/ui": "^0.1.0",
+    "@daohaus/connect": "^0.1.1",
+    "@daohaus/form-builder": "^0.1.1",
+    "@daohaus/tx-builder": "^0.1.1",
+    "@daohaus/ui": "^0.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5"

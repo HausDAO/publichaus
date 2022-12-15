@@ -15,9 +15,11 @@ export enum ProposalTypeIds {
   WalletConnect = 'WALLETCONNECT',
 }
 
+export const DELEGATE_TABLE_REF = 'publicHausDelegate';
+
 export const TX = {
-  POST_SIGNAL: buildMultiCallTX({
-    id: 'POST_SIGNAL',
+  VERIFY_DELEGATE: buildMultiCallTX({
+    id: 'VERIFY_DELEGATE',
     JSONDetails: {
       type: 'JSONDetails',
       jsonSchema: {
@@ -36,14 +38,28 @@ export const TX = {
           {
             type: 'JSONDetails',
             jsonSchema: {
-              title: `.formValues.title`,
-              description: `.formValues.description`,
-              contentURI: `.formValues.link`,
-              contentURIType: { type: 'static', value: 'url' },
-              proposalType: { type: 'static', value: ProposalTypeIds.Signal },
+              daoId: '.daoId',
+              table: { type: 'static', value: 'credential' },
+              queryType: { type: 'static', value: 'list' },
+              recipientAddress: '.memberAddress',
+              credentialIdentifier: {
+                type: 'static',
+                value: DELEGATE_TABLE_REF,
+              },
+              title: {
+                type: 'static',
+                value: 'Public Haus Delegate',
+              },
+              description: {
+                type: 'static',
+                value:
+                  'Verified Delegate of Public Haus. The DAO has verified that this member is a registered delegate of Public Haus.',
+              },
+              longDescription: `.formValues.delegateDescription`,
+              link: `.formValues.delegateLink`,
             },
           },
-          { type: 'static', value: POSTER_TAGS.signalProposal },
+          { type: 'static', value: POSTER_TAGS.daoDatabaseProposal },
         ],
       },
     ],

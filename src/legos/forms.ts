@@ -3,19 +3,31 @@ import { FIELD } from './fields';
 import { TX } from './tx';
 
 export const FORM: Record<string, FormLego> = {
-  SIGNAL: {
-    id: 'SIGNAL',
-    title: 'Signal Form',
-    subtitle: 'Signal Proposal',
-    description: 'Ratify on-chain using a DAO proposal.',
+  VERIFY_DELEGATE: {
+    id: 'VERIFY_DELEGATE',
+    title: 'Verify Delegate',
+    subtitle: 'Verification Proposal',
+    description: 'Verify yourself as a DAO Delegate',
     requiredFields: { title: true, description: true },
     log: true,
-    tx: TX.POST_SIGNAL,
+    tx: TX.VERIFY_DELEGATE,
     fields: [
       FIELD.TITLE,
       FIELD.DESCRIPTION,
       FIELD.LINK,
-      // ...PROPOSAL_SETTINGS_FIELDS,
+      {
+        id: 'segment',
+        type: 'formSegment',
+        title: 'User Data',
+        fields: [
+          {
+            ...FIELD.DESCRIPTION,
+            id: 'delegateDescription',
+            label: 'User Description',
+          },
+          { ...FIELD.LINK, id: 'delegateLink' },
+        ],
+      },
     ],
   },
 };

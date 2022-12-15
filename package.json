@@ -9,12 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@daohaus/connect": "^0.1.1",
-    "@daohaus/form-builder": "^0.1.1",
-    "@daohaus/tx-builder": "^0.1.1",
-    "@daohaus/ui": "^0.1.1",
+    "@daohaus/connect": "^0.1.2",
+    "@daohaus/form-builder": "^0.1.2",
+    "@daohaus/tx-builder": "^0.1.2",
+    "@daohaus/ui": "^0.1.2",
+    "@daohaus/utils": "^0.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-query": "^3.39.2",
     "react-router-dom": "^6.4.5"
   },
   "devDependencies": {

@@ -24,10 +24,8 @@ const fetchRecords = async ({
   graphApiKeys: Keychain;
   credentialType?: string;
 }) => {
-  console.log('credentialType', credentialType);
   try {
     if (credentialType) {
-      console.log('fired');
       const data = await listRecords({
         networkId: chainId,
         graphApiKeys: graphApiKeys,
@@ -85,6 +83,6 @@ export const useRecords = ({
       }),
     { enabled: !!daoId && !!chainId }
   );
-  console.log('data', data);
+
   return { records: data, ...rest };
 };

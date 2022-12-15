@@ -7,6 +7,7 @@ import {
 } from '@daohaus/ui';
 import { useEffect, useMemo } from 'react';
 import styled from 'styled-components';
+import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
 
@@ -16,6 +17,11 @@ export const Delegates = () => {
     chainId: '0x5',
     recordType: 'credential',
     credentialType: DELEGATE_TABLE_REF,
+  });
+
+  const results = useMembers({
+    daoId: '0xc035dd7cda32ae73f0f306ed56658527aad47648',
+    chainId: '0x5',
   });
 
   const registeredDelegates = useEffect(() => {}, [records]);

@@ -21,13 +21,14 @@ const fetchMembers = async ({
   paging: Paging;
 }) => {
   try {
-    return listMembers({
+    const data = await listMembers({
       networkId: chainId,
       graphApiKeys: graphApiKeys,
       filter,
       paging,
       ordering,
     });
+    return data;
   } catch (error: any) {
     console.error(error);
     throw new Error(error?.message as string);
@@ -38,7 +39,7 @@ export const useMembers = ({
   daoId,
   chainId,
   filter,
-  paging = { pageSize: 1000, offset: 0 },
+  paging = { pageSize: 500, offset: 0 },
   ordering,
 }: {
   daoId: string;
@@ -55,7 +56,8 @@ export const useMembers = ({
         filter: filter || { dao: daoId },
         paging,
         ordering,
-      })
+      }),
+    { enabled: !!daoId && !!chainId && !!filter && !!ordering }
   );
 
   return { data, ...rest };

@@ -25,26 +25,18 @@ const fetchRecords = async ({
   credentialType?: string;
 }) => {
   try {
-    if (credentialType) {
-      const data = await listRecords({
-        networkId: chainId,
-        graphApiKeys: graphApiKeys,
-        filter: { dao: daoId, table: recordType },
-        paging: { pageSize, offset },
-      });
-      return data.items.filter(
-        (item: any) =>
-          item?.parsedContent?.credentialIdentifier === credentialType
-      );
-    }
-
     const data = await listRecords({
       networkId: chainId,
       graphApiKeys: graphApiKeys,
       filter: { dao: daoId, table: recordType },
       paging: { pageSize, offset },
     });
-
+    if (credentialType) {
+      return data.items.filter(
+        (item: any) =>
+          item?.parsedContent?.credentialIdentifier === credentialType
+      );
+    }
     return data.items;
   } catch (error: any) {
     console.error(error);

@@ -1,18 +1,14 @@
-import {
-  Card,
-  DataIndicator,
-  SingleColumnLayout,
-  Theme,
-  widthQuery,
-} from '@daohaus/ui';
 import { useMemo } from 'react';
-import styled from 'styled-components';
-import { DelegateOverview } from '../components/DelegateOverview';
+import { Card, SingleColumnLayout, widthQuery } from '@daohaus/ui';
+
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
+import { DelegateOverview } from '../components/DelegateOverview';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
 import { isDelegateData } from '../utils/typeguards';
 import { RegisteredMembers } from '../utils/types';
+import styled from 'styled-components';
+import { DelegateTable } from '../components/DelegateTable';
 
 export const Delegates = () => {
   const {
@@ -104,12 +100,4 @@ export const Delegates = () => {
       <DelegateTable registeredDelegates={registeredDelegates} />
     </SingleColumnLayout>
   );
-};
-
-const DelegateTable = ({
-  registeredDelegates,
-}: {
-  registeredDelegates: RegisteredMembers;
-}) => {
-  return <DelegateOverview registeredDelegates={registeredDelegates} />;
 };

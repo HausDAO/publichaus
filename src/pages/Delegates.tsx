@@ -9,6 +9,7 @@ import { isDelegateData } from '../utils/typeguards';
 import { RegisteredMembers } from '../utils/types';
 import styled from 'styled-components';
 import { DelegateTable } from '../components/DelegateTable';
+import { TARGET_DAO } from '../targetDAO';
 
 export const Delegates = () => {
   const {
@@ -17,8 +18,8 @@ export const Delegates = () => {
     records,
     error: recordsError,
   } = useRecords({
-    daoId: '0xc035dd7cda32ae73f0f306ed56658527aad47648',
-    chainId: '0x5',
+    daoId: TARGET_DAO.ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
     recordType: 'credential',
     credentialType: DELEGATE_TABLE_REF,
   });
@@ -29,8 +30,8 @@ export const Delegates = () => {
     members,
     error: membersError,
   } = useMembers({
-    daoId: '0xc035dd7cda32ae73f0f306ed56658527aad47648',
-    chainId: '0x5',
+    daoId: TARGET_DAO.ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
   });
 
   const isIdleAny = isRecordsIdle || isMembersIdle;

@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { ValidNetwork } from '@daohaus/keychain-utils';
+import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import {
   listMembers,
   Member_OrderBy,
@@ -8,23 +8,26 @@ import {
 } from '@daohaus/moloch-v3-data';
 import { Paging, Ordering } from '@daohaus/data-fetch-utils';
 import { Member } from '../utils/types';
-const graphApiKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
+
+const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
 const fetchMembers = async ({
   chainId,
   filter,
   paging,
   ordering,
+  graphApiKeys,
 }: {
   chainId: ValidNetwork;
   ordering?: Ordering<Member_OrderBy>;
   filter: Member_Filter;
   paging: Paging;
+  graphApiKeys: Keychain;
 }) => {
   try {
     const data = await listMembers({
       networkId: chainId,
-      graphApiKeys: graphApiKeys,
+      graphApiKeys,
       filter,
       paging,
       ordering,
@@ -42,12 +45,14 @@ export const useMembers = ({
   filter,
   paging = { pageSize: 500, offset: 0 },
   ordering = { orderDirection: 'desc', orderBy: 'shares' },
+  graphApiKeys = defaultGraphKeys,
 }: {
   daoId: string;
   chainId: ValidNetwork;
   ordering?: Ordering<Member_OrderBy>;
   filter?: Member_Filter;
   paging?: Paging;
+  graphApiKeys?: Keychain;
 }) => {
   const defaultFilter = filter || { dao: daoId };
 
@@ -59,6 +64,7 @@ export const useMembers = ({
         filter: defaultFilter,
         paging,
         ordering,
+        graphApiKeys,
       }),
     { enabled: !!daoId && !!chainId && !!defaultFilter && !!ordering }
   );

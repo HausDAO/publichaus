@@ -1,7 +1,14 @@
 import { Card, widthQuery } from '@daohaus/ui';
+import {
+  formatValueTo,
+  fromWei,
+  sharesDelegatedToMember,
+} from '@daohaus/utils';
 import { useMemo } from 'react';
 import { Column } from 'react-table';
 import styled from 'styled-components';
+import { useDaoData } from '../hooks/useDaoData';
+import { TARGET_DAO } from '../targetDAO';
 
 import { RegisteredMembers, RegisteredMember } from '../utils/types';
 import { DaoTable } from './DaoTable';
@@ -39,7 +46,13 @@ export const DelegateTable = ({
 }: {
   registeredDelegates: RegisteredMembers;
 }) => {
+  const { dao } = useDaoData({
+    daoid: TARGET_DAO.ADDRESS,
+    daochain: TARGET_DAO.CHAIN_ID,
+  });
+
   const columns = useMemo<Column<RegisteredMember>[]>(() => {
+    if (!dao) return [];
     return [
       {
         Header: 'Delegate',
@@ -47,15 +60,54 @@ export const DelegateTable = ({
         Cell: ({ value }) => {
           return (
             <MemberProfileAvatar
-              daochain="0x5"
-              daoid="0xc035dd7cda32ae73f0f306ed56658527aad47648"
+              daochain={TARGET_DAO.CHAIN_ID}
+              daoid={TARGET_DAO.ADDRESS}
               memberAddress={value}
             />
           );
         },
       },
+      {
+        Header: 'Shares',
+        accessor: 'shares',
+        Cell: ({ value }) => {
+          return (
+            <>
+              {formatValueTo({
+                value: fromWei(value),
+                decimals: 2,
+                format: 'number',
+              })}
+            </>
+          );
+        },
+      },
+      {
+        Header: 'Delegate Shares',
+        accessor: 'delegateShares',
+        Cell: ({ value, row }) => {
+          const { shares } = row.original;
+          const delegatedShares = sharesDelegatedToMember(value, shares);
+          return (
+            <>
+              {formatValueTo({
+                value: fromWei(delegatedShares.toString()),
+                decimals: 2,
+                format: 'number',
+              })}
+            </>
+          );
+        },
+      },
+      {
+        Header: 'Delegatees',
+        accessor: 'delegateOfCount',
+        Cell: ({ value }) => {
+          return <>{value}</>;
+        },
+      },
     ];
-  }, []);
+  }, [dao, registeredDelegates]);
 
   return (
     <DelegateContainer>

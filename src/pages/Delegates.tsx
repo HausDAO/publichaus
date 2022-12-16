@@ -5,64 +5,111 @@ import {
   Theme,
   widthQuery,
 } from '@daohaus/ui';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import styled from 'styled-components';
+import { DelegateOverview } from '../components/DelegateOverview';
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
+import { isDelegateData } from '../utils/typeguards';
+import { RegisteredMembers } from '../utils/types';
 
 export const Delegates = () => {
-  const { isLoading, records } = useRecords({
+  const {
+    isIdle: isRecordsIdle,
+    isLoading: isLoadingRecords,
+    records,
+    error: recordsError,
+  } = useRecords({
     daoId: '0xc035dd7cda32ae73f0f306ed56658527aad47648',
     chainId: '0x5',
     recordType: 'credential',
     credentialType: DELEGATE_TABLE_REF,
   });
 
-  const results = useMembers({
+  const {
+    isIdle: isMembersIdle,
+    isLoading: isLoadingMembers,
+    members,
+    error: membersError,
+  } = useMembers({
     daoId: '0xc035dd7cda32ae73f0f306ed56658527aad47648',
     chainId: '0x5',
   });
 
-  const registeredDelegates = useEffect(() => {}, [records]);
+  const isIdleAny = isRecordsIdle || isMembersIdle;
+  const isLoadingAny = isLoadingMembers || isLoadingRecords;
+
+  const registeredDelegates = useMemo(() => {
+    if (!records?.length || !members?.length) return {};
+    return records.reduce((acc, record) => {
+      // If the record is not valid, skip it
+
+      const { parsedContent, createdAt } = record;
+      if (!isDelegateData(parsedContent)) {
+        console.warn('Delegate data is not valid', parsedContent);
+        return acc;
+      }
+      const delegateAddress = parsedContent.recipientAddress;
+
+      // If the delegate is already in the accumulator, add the record to the array
+
+      if (acc[delegateAddress]) {
+        return {
+          ...acc,
+          [delegateAddress]: {
+            ...acc[delegateAddress],
+            records: [
+              ...acc[delegateAddress].records,
+              { ...parsedContent, createdAt },
+            ],
+          },
+        };
+      }
+
+      // If the delegate is not in the accumulator, add the delegate and the record
+
+      const delegateMemberData = members.find(
+        (member) =>
+          member.memberAddress.toLowerCase() === delegateAddress.toLowerCase()
+      );
+
+      // If the delegate is not a member of the DAO, skip it
+
+      if (!delegateMemberData) {
+        console.warn(
+          'Delegate is not a member of the DAO',
+          delegateAddress,
+          members
+        );
+        return acc;
+      }
+
+      return {
+        ...acc,
+        [delegateAddress]: {
+          ...delegateMemberData,
+          records: [{ ...parsedContent, createdAt }],
+        },
+      };
+    }, {} as RegisteredMembers);
+  }, [members, records]);
+
+  if (isLoadingAny || isIdleAny) return 'Loading...';
+  if (recordsError) return 'Error loading records.';
+  if (membersError) return 'Error loading members.';
 
   return (
     <SingleColumnLayout>
-      <DelegateTable />
+      <DelegateTable registeredDelegates={registeredDelegates} />
     </SingleColumnLayout>
   );
 };
 
-const DelegateTable = () => {
-  return null;
-};
-const DataGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  align-content: space-between;
-  div {
-    padding: 2rem 0;
-    width: 19.7rem;
-
-    @media ${widthQuery.sm} {
-      min-width: 100%;
-    }
-  }
-`;
-
-const DelegatesOverviewCard = styled(Card)`
-  background-color: ${({ theme }: { theme: Theme }) => theme.secondary.step3};
-  border: none;
-  padding: 3rem;
-  width: 100%;
-`;
-
-const DelegateOverview = () => {
-  return (
-    <DelegatesOverviewCard>
-      <DataIndicator label="Delegates" data={2} />
-      <DataIndicator />
-    </DelegatesOverviewCard>
-  );
+const DelegateTable = ({
+  registeredDelegates,
+}: {
+  registeredDelegates: RegisteredMembers;
+}) => {
+  return <DelegateOverview registeredDelegates={registeredDelegates} />;
 };

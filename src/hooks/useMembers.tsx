@@ -7,6 +7,7 @@ import {
   Member_Filter,
 } from '@daohaus/moloch-v3-data';
 import { Paging, Ordering } from '@daohaus/data-fetch-utils';
+import { Member } from '../utils/types';
 const graphApiKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
 const fetchMembers = async ({
@@ -40,7 +41,7 @@ export const useMembers = ({
   chainId,
   filter,
   paging = { pageSize: 500, offset: 0 },
-  ordering,
+  ordering = { orderDirection: 'desc', orderBy: 'shares' },
 }: {
   daoId: string;
   chainId: ValidNetwork;
@@ -48,17 +49,19 @@ export const useMembers = ({
   filter?: Member_Filter;
   paging?: Paging;
 }) => {
+  const defaultFilter = filter || { dao: daoId };
+
   const { data, ...rest } = useQuery(
     ['molochV3Members', { daoId, chainId }],
     () =>
       fetchMembers({
         chainId,
-        filter: filter || { dao: daoId },
+        filter: defaultFilter,
         paging,
         ordering,
       }),
-    { enabled: !!daoId && !!chainId && !!filter && !!ordering }
+    { enabled: !!daoId && !!chainId && !!defaultFilter && !!ordering }
   );
 
-  return { data, ...rest };
+  return { members: data?.items as Member[], ...data, ...rest };
 };

@@ -1,8 +1,9 @@
-import { Card, widthQuery } from '@daohaus/ui';
+import { Card, Link, widthQuery } from '@daohaus/ui';
 import {
   formatValueTo,
   fromWei,
   sharesDelegatedToMember,
+  votingPowerPercentage,
 } from '@daohaus/utils';
 import { useMemo } from 'react';
 import { Column } from 'react-table';
@@ -68,6 +69,16 @@ export const DelegateTable = ({
         },
       },
       {
+        Header: 'Voting Power',
+        accessor: 'id',
+        Cell: ({ row }) => {
+          const { delegateShares } = row.original;
+          return (
+            <>{votingPowerPercentage(dao?.totalShares, delegateShares)} %</>
+          );
+        },
+      },
+      {
         Header: 'Shares',
         accessor: 'shares',
         Cell: ({ value }) => {
@@ -104,6 +115,14 @@ export const DelegateTable = ({
         accessor: 'delegateOfCount',
         Cell: ({ value }) => {
           return <>{value}</>;
+        },
+      },
+      {
+        Header: 'Platform',
+        accessor: 'votes',
+        Cell: ({ row }) => {
+          const { memberAddress } = row.original;
+          return <Link href={`profile/${memberAddress}`}>See Profile</Link>;
         },
       },
     ];

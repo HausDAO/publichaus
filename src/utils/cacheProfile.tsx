@@ -1,15 +1,23 @@
-import * as localforage from 'localforage';
 import {
   AccountProfile,
   ArbitraryState,
   CACHE_CONFIG,
   CacheStoreName,
-  getlocalForage,
 } from '@daohaus/utils';
 import { getProfileForAddress } from '@daohaus/profile-data';
 
-export const getProfileStore = async () =>
-  (await getlocalForage(CacheStoreName.MEMBERS_PROFILE)) as ArbitraryState;
+const localforage = import('localforage').then(async (localforage) => {
+  // workaround for https://github.com/localForage/localForage/issues/1038
+  if (typeof window === 'object') await localforage.default.ready();
+  return localforage.default;
+});
+
+export const getProfileStore = async () => {
+  const local = await localforage;
+  return (await local.getItem(
+    CacheStoreName.MEMBERS_PROFILE
+  )) as ArbitraryState;
+};
 
 export const getCachedProfile = async ({ address }: { address: string }) => {
   const abiStore = await getProfileStore();
@@ -45,13 +53,16 @@ export const cacheProfile = async ({
   profile: AccountProfile;
 }) => {
   const profileStore = await getProfileStore();
+
   const newStore = addProfile({
     profileStore,
     address,
     profile,
   });
+  const local = await localforage;
+
   try {
-    await localforage.setItem(CacheStoreName.MEMBERS_PROFILE, newStore);
+    await local.setItem(CacheStoreName.MEMBERS_PROFILE, newStore);
     return true;
   } catch (error) {
     console.error(error);
@@ -73,10 +84,11 @@ export const fetchProfile = async (
 };
 
 const initProfilesStore = async () => {
-  localforage.config(CACHE_CONFIG);
+  const local = await localforage;
+  local.config(CACHE_CONFIG);
   const store = await getProfileStore();
   if (!store) {
-    localforage.setItem(CacheStoreName.MEMBERS_PROFILE, {});
+    await local.setItem(CacheStoreName.MEMBERS_PROFILE, {});
   }
 };
 

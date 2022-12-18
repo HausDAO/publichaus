@@ -25,8 +25,7 @@ export const MemberProfileAvatar = ({
   daoid,
 }: MemberProfileProps) => {
   const [memberProfile, setMemberProfile] = useState<AccountProfile>();
-  const customProfileURI =
-    daoid && daoid && `/molochv3/${daochain}/${daoid}/members/${memberAddress}`;
+  const customProfileURI = `/profile/${memberAddress}`;
 
   const fetchMemberProfile = useCallback(
     async (address: string, setter: typeof setMemberProfile) => {

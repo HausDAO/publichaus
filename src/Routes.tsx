@@ -3,6 +3,7 @@ import { Routes as Router, Route, useLocation } from 'react-router-dom';
 import { Delegates } from './pages/Delegates';
 import { Application } from './pages/Application';
 import { Home } from './pages/Home';
+import { Profile } from './pages/Profile';
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -19,6 +20,7 @@ export const Routes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/apply" element={<Application />} />
         <Route path="/delegates" element={<Delegates />} />
+        <Route path="/profile/:memberAddress" element={<Profile />} />
       </Router>
     </DHLayout>
   );

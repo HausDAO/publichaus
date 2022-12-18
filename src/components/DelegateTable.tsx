@@ -122,11 +122,7 @@ export const DelegateTable = ({
         accessor: 'votes',
         Cell: ({ row }) => {
           const { memberAddress } = row.original;
-          return (
-            <Link href={`${TARGET_DAO.ADDRESS}/members/${memberAddress}`}>
-              See Profile
-            </Link>
-          );
+          return <Link href={`/profile/${memberAddress}`}>See Profile</Link>;
         },
       },
     ];

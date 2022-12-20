@@ -38,6 +38,7 @@ import { ButtonRouterLink } from '../components/ButtonRouterLink';
 import { DaoTable } from '../components/DaoTable';
 import { ProfileDisplay } from '../components/ProfileDisplay';
 import { MemberWithProfile } from '../utils/types';
+import { PlatformDisplay } from '../components/PlatformDisplay';
 
 type TokenTableType = {
   token: {
@@ -168,10 +169,6 @@ export const Profile = () => {
               linkType="no-icon-external"
               variant="outline"
               fullWidth={isMobile}
-              // was centerAlign={isMobile}
-              // Default has always been center.
-              // Not sure what is supposed to happen here?
-              // justify={isMobile ? 'center' : 'flex-start'}
             >
               DELEGATES
             </ButtonRouterLink>
@@ -179,8 +176,6 @@ export const Profile = () => {
               IconLeft={BsShareFill}
               onClick={handleOnClick}
               fullWidth={isMobile}
-              // Same as above
-              // centerAlign={isMobile}
             >
               SHARE PROFILE
             </Button>
@@ -193,6 +188,9 @@ export const Profile = () => {
                   profile={member.profile}
                   membership={member as MemberWithProfile}
                 />
+                {memberAddress && (
+                  <PlatformDisplay memberAddress={memberAddress} />
+                )}
                 <ValueRow>
                   <DataIndicator
                     label="Total Exit Amount"
@@ -211,7 +209,6 @@ export const Profile = () => {
                 </ValueRow>
               </>
             )}
-
             {treasury && tableData && columns && (
               <DaoTable<TokenTableType>
                 tableData={tableData}

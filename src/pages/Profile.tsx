@@ -38,6 +38,8 @@ import { ProfileDisplay } from '../components/ProfileDisplay';
 import { MemberWithProfile } from '../utils/types';
 import { CredentialDisplay } from '../components/CredentialDisplay';
 import { StatusDisplay } from '../components/StatusDisplay';
+import { useUserMember } from '../hooks/useUserMember';
+import { DelegationActions } from '../components/DelegationActions';
 
 export const Profile = () => {
   const { memberAddress } = useParams();
@@ -58,8 +60,8 @@ export const Profile = () => {
     isLoading: isLoadingUser,
     isIdle: isUserIdle,
     error: userError,
-    member: user,
-  } = useMember({
+    user,
+  } = useUserMember({
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: address as string,
@@ -78,9 +80,13 @@ export const Profile = () => {
   const isMobile = useBreakpoint(widthQuery.sm);
 
   const isLoadingAny =
-    isDaoIdle || isLoadingDao || isMemberIdle || isLoadingMember;
+    isDaoIdle ||
+    isLoadingDao ||
+    isLoadingUser ||
+    isMemberIdle ||
+    isLoadingMember;
 
-  const isErrorAny = daoError || memberError;
+  const isErrorAny = daoError || memberError || userError;
 
   const handleOnClick = () => {
     navigator.clipboard.writeText(`${window.location.href}`);
@@ -98,7 +104,9 @@ export const Profile = () => {
       <StatusDisplay
         title="Delegate Profile"
         status="Error:"
-        description={memberError?.message || daoError?.message}
+        description={
+          memberError?.message || daoError?.message || userError?.message
+        }
       />
     );
   }
@@ -137,38 +145,20 @@ export const Profile = () => {
                 {memberAddress && (
                   <CredentialDisplay memberAddress={memberAddress} />
                 )}
-                <ValueRow>
-                  <DataIndicator
-                    label="Total Exit Amount"
-                    data={formatValueTo({
-                      value: memberUsdValueShare(
-                        dao?.fiatTotal || 0,
-                        dao?.totalShares || 0,
-                        dao?.totalLoot || 0,
-                        member.shares || 0,
-                        member.loot || 0
-                      ),
-                      decimals: 2,
-                      format: 'currency',
-                    })}
-                  />
-                </ValueRow>
               </>
             )}
-            <Divider />
-            <DelegationBox>
-              <Button fullWidth>Delegate</Button>
-            </DelegationBox>
+            <DelegationActions
+              userAddress={address}
+              userDelegatingTo={user?.delegatingTo}
+              memberAddress={memberAddress}
+              isUserMember={!!user}
+            />
           </ProfileCard>
         </>
       )}
     </SingleColumnLayout>
   );
 };
-
-const DelegationBox = styled.div`
-  margin-top: 2rem;
-`;
 
 const ProfileCard = styled(Card)`
   width: 64rem;

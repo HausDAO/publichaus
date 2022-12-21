@@ -68,6 +68,6 @@ export const TX: Record<string, TXLego> = {
     id: 'MANAGE_DELEGATE',
     contract: CONTRACT.SHARES_ERC20,
     method: 'delegate',
-    args: [],
+    staticArgs: [],
   },
 };

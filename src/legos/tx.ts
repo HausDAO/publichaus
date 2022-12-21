@@ -1,4 +1,4 @@
-import { POSTER_TAGS } from '@daohaus/utils';
+import { POSTER_TAGS, TXLego } from '@daohaus/utils';
 import { buildMultiCallTX } from '@daohaus/tx-builder';
 import { CONTRACT } from './contract';
 
@@ -17,7 +17,7 @@ export enum ProposalTypeIds {
 
 export const DELEGATE_TABLE_REF = 'publicHausDelegate';
 
-export const TX = {
+export const TX: Record<string, TXLego> = {
   VERIFY_DELEGATE: buildMultiCallTX({
     id: 'VERIFY_DELEGATE',
     JSONDetails: {
@@ -64,4 +64,10 @@ export const TX = {
       },
     ],
   }),
+  MANAGE_DELEGATE: {
+    id: 'MANAGE_DELEGATE',
+    contract: CONTRACT.SHARES_ERC20,
+    method: 'delegate',
+    args: [],
+  },
 };

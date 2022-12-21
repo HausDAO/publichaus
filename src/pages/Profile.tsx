@@ -5,10 +5,13 @@ import {
   Card,
   DataIndicator,
   DataMd,
-  H2,
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  Divider,
   ParMd,
+  ParSm,
   SingleColumnLayout,
-  Spinner,
   useBreakpoint,
   useToast,
   widthQuery,
@@ -36,19 +39,10 @@ import { MemberWithProfile } from '../utils/types';
 import { CredentialDisplay } from '../components/CredentialDisplay';
 import { StatusDisplay } from '../components/StatusDisplay';
 
-type TokenTableType = {
-  token: {
-    address: string;
-    name: string | undefined;
-  };
-  balance: string;
-  fiatBalance: string;
-};
-
 export const Profile = () => {
   const { memberAddress } = useParams();
-  const { networks } = useDHConnect();
   const { successToast } = useToast();
+  const { address } = useDHConnect();
   const {
     isLoading: isLoadingMember,
     isIdle: isMemberIdle,
@@ -58,7 +52,17 @@ export const Profile = () => {
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: memberAddress as string,
-    withProfile: true,
+  });
+
+  const {
+    isLoading: isLoadingUser,
+    isIdle: isUserIdle,
+    error: userError,
+    member: user,
+  } = useMember({
+    daoId: TARGET_DAO.ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
+    memberAddress: address as string,
   });
 
   const {
@@ -73,97 +77,10 @@ export const Profile = () => {
 
   const isMobile = useBreakpoint(widthQuery.sm);
 
-  const treasury: MolochV3Dao['vaults'][number] | undefined = useMemo(() => {
-    if (!dao) return;
-
-    return (
-      dao.vaults.find((v: DaoVault) => v.safeAddress === dao.safeAddress) ||
-      undefined
-    );
-  }, [dao]);
-
   const isLoadingAny =
     isDaoIdle || isLoadingDao || isMemberIdle || isLoadingMember;
 
   const isErrorAny = daoError || memberError;
-
-  const tableData: TokenTableType[] | null = useMemo(() => {
-    if (dao && member && treasury) {
-      return treasury.tokenBalances
-        .filter((bal) => Number(bal.balance))
-        .map((bal) => {
-          return {
-            token: {
-              address: bal.tokenAddress || NETWORK_TOKEN_ETH_ADDRESS,
-              name: charLimit(bal.token?.name, 21),
-            },
-            fiatBalance: formatValueTo({
-              value: memberUsdValueShare(
-                bal.fiatBalance,
-                dao.totalShares || 0,
-                dao.totalLoot || 0,
-                member.shares || 0,
-                member.loot || 0
-              ),
-              decimals: 2,
-              format: 'currency',
-            }),
-            balance: formatValueTo({
-              value: memberTokenBalanceShare(
-                bal.balance,
-                dao.totalShares || 0,
-                dao.totalLoot || 0,
-                member.shares || 0,
-                member.loot || 0,
-                bal.token?.decimals || 18
-              ),
-              format: 'number',
-            }),
-          };
-        });
-    } else {
-      return null;
-    }
-  }, [dao, member, treasury]);
-
-  const columns = useMemo<Column<TokenTableType>[]>(
-    () => [
-      {
-        Header: 'Token',
-        accessor: 'token',
-        Cell: ({ value }: { value: TokenTableType['token'] }) => {
-          return value.address === NETWORK_TOKEN_ETH_ADDRESS ? (
-            <DataMd>{networks?.[TARGET_DAO.CHAIN_ID]?.symbol}</DataMd>
-          ) : (
-            <AddressDisplay
-              address={value.address}
-              textOverride={value.name}
-              truncate
-              copy
-              explorerNetworkId={TARGET_DAO.CHAIN_ID}
-            />
-          );
-        },
-      },
-      {
-        Header: 'Amount',
-        accessor: 'balance',
-        Cell: ({ value }: { value: string }) => {
-          return <div>{value}</div>;
-        },
-      },
-      {
-        Header: () => {
-          return <div>USD Value</div>;
-        },
-        accessor: 'fiatBalance',
-        Cell: ({ value }: { value: string }) => {
-          return <div>{value}</div>;
-        },
-      },
-    ],
-    [networks]
-  );
 
   const handleOnClick = () => {
     navigator.clipboard.writeText(`${window.location.href}`);
@@ -238,19 +155,20 @@ export const Profile = () => {
                 </ValueRow>
               </>
             )}
-            {treasury && tableData && columns && (
-              <DaoTable<TokenTableType>
-                tableData={tableData}
-                columns={columns}
-                sortableColumns={[]}
-              />
-            )}
+            <Divider />
+            <DelegationBox>
+              <Button fullWidth>Delegate</Button>
+            </DelegationBox>
           </ProfileCard>
         </>
       )}
     </SingleColumnLayout>
   );
 };
+
+const DelegationBox = styled.div`
+  margin-top: 2rem;
+`;
 
 const ProfileCard = styled(Card)`
   width: 64rem;

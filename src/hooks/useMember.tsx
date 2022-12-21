@@ -12,21 +12,20 @@ const fetchMember = async ({
   daoId,
   memberAddress,
   graphApiKeys,
-  withProfile,
 }: {
   chainId: ValidNetwork;
   daoId: string;
   graphApiKeys: Keychain;
   memberAddress: string;
-  withProfile: boolean;
 }) => {
   try {
     const data = await findMember({
       networkId: chainId,
       graphApiKeys,
       dao: daoId,
-      memberAddress,
+      memberAddress: memberAddress.toLowerCase(),
     });
+
     const profile = await fetchProfile(memberAddress);
     if (!data?.data?.member || !profile)
       throw new Error('No member or profile found');
@@ -45,18 +44,15 @@ export const useMember = ({
   daoId,
   memberAddress,
   graphApiKeys = defaultGraphKeys,
-  withProfile = false,
 }: {
   chainId: ValidNetwork;
   daoId: string;
   graphApiKeys?: Keychain;
   memberAddress: string;
-  withProfile?: boolean;
 }) => {
   const { data, error, ...rest } = useQuery(
     [`MolochV3Member/${memberAddress}`, { chainId, daoId, memberAddress }],
-    () =>
-      fetchMember({ chainId, daoId, memberAddress, graphApiKeys, withProfile }),
+    () => fetchMember({ chainId, daoId, memberAddress, graphApiKeys }),
     { enabled: !!chainId && !!daoId && !!memberAddress }
   );
   return { member: data, error: error as Error, ...rest };

@@ -95,7 +95,7 @@ export const Delegates = () => {
   }, [members, records]);
 
   if (isLoadingAny || !registeredDelegates)
-    return <StatusDisplay status="Loading" spinner />;
+    return <StatusDisplay title="Loading Delegates" spinner />;
   if (isErrorAny)
     return (
       <StatusDisplay
@@ -105,7 +105,7 @@ export const Delegates = () => {
     );
 
   return (
-    <SingleColumnLayout>
+    <SingleColumnLayout title="PublisHaus Delegates">
       <DelegateTable registeredDelegates={registeredDelegates} />
     </SingleColumnLayout>
   );

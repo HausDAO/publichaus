@@ -3,7 +3,7 @@ import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import { useQuery } from 'react-query';
 import { fetchProfile } from '../utils/cacheProfile';
 import { MolochV3Member } from '@daohaus/moloch-v3-data';
-import { AccountProfile } from '@daohaus/utils';
+import { AccountProfile, handleErrorMessage } from '@daohaus/utils';
 import { MemberWithProfile } from '../utils/types';
 const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
@@ -27,17 +27,16 @@ const fetchMember = async ({
       dao: daoId,
       memberAddress,
     });
-    // if (withProfile) {
     const profile = await fetchProfile(memberAddress);
     if (!data?.data?.member || !profile)
       throw new Error('No member or profile found');
 
     return { ...(data.data.member as MolochV3Member), profile };
-    // }
-    // return data?.data?.member;
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    throw new Error(error?.message as string);
+    throw new Error(
+      handleErrorMessage({ error, fallback: 'Error fetching member' })
+    );
   }
 };
 
@@ -54,11 +53,11 @@ export const useMember = ({
   memberAddress: string;
   withProfile?: boolean;
 }) => {
-  const { data, ...rest } = useQuery(
+  const { data, error, ...rest } = useQuery(
     [`MolochV3Member/${memberAddress}`, { chainId, daoId, memberAddress }],
     () =>
       fetchMember({ chainId, daoId, memberAddress, graphApiKeys, withProfile }),
     { enabled: !!chainId && !!daoId && !!memberAddress }
   );
-  return { member: data, ...rest };
+  return { member: data, error: error as Error, ...rest };
 };

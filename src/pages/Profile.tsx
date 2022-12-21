@@ -6,6 +6,7 @@ import {
   DataIndicator,
   DataMd,
   H1,
+  H2,
   ParMd,
   SingleColumnLayout,
   Spinner,
@@ -38,7 +39,7 @@ import { ButtonRouterLink } from '../components/ButtonRouterLink';
 import { DaoTable } from '../components/DaoTable';
 import { ProfileDisplay } from '../components/ProfileDisplay';
 import { MemberWithProfile } from '../utils/types';
-import { PlatformDisplay } from '../components/PlatformDisplay';
+import { CredentialDisplay } from '../components/CredentialDisplay';
 
 type TokenTableType = {
   token: {
@@ -53,18 +54,30 @@ export const Profile = () => {
   const { memberAddress } = useParams();
   const { networks } = useDHConnect();
   const { successToast } = useToast();
-  const { member } = useMember({
+  const {
+    isLoading: isLoadingMember,
+    isIdle: isMemberIdle,
+    error: memberError,
+    member,
+  } = useMember({
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: memberAddress as string,
     withProfile: true,
   });
 
-  const { dao } = useDaoData({
+  const {
+    isLoading: isLoadingDao,
+    isIdle: isDaoIdle,
+    error: daoError,
+    dao,
+  } = useDaoData({
     daoid: TARGET_DAO.ADDRESS,
     daochain: TARGET_DAO.CHAIN_ID,
   });
+
   const isMobile = useBreakpoint(widthQuery.sm);
+
   const treasury: MolochV3Dao['vaults'][number] | undefined = useMemo(() => {
     if (!dao) return;
 
@@ -73,6 +86,11 @@ export const Profile = () => {
       undefined
     );
   }, [dao]);
+
+  const isLoadingAny =
+    isDaoIdle || isLoadingDao || isMemberIdle || isLoadingMember;
+
+  const isErrorAny = daoError || memberError;
 
   const tableData: TokenTableType[] | null = useMemo(() => {
     if (dao && member && treasury) {
@@ -112,6 +130,7 @@ export const Profile = () => {
       return null;
     }
   }, [dao, member, treasury]);
+
   const columns = useMemo<Column<TokenTableType>[]>(
     () => [
       {
@@ -157,8 +176,27 @@ export const Profile = () => {
       title: 'URL copied to clipboard',
     });
   };
+
+  if (isLoadingAny) {
+    return (
+      <SingleColumnLayout title="Delegate Profile">
+        <H2>Loading Member Data</H2>
+        <Spinner size="12rem" />
+      </SingleColumnLayout>
+    );
+  }
+
+  if (isErrorAny) {
+    return (
+      <SingleColumnLayout title="Delegate Profile">
+        <H2>Error</H2>
+        <ParMd>{daoError?.message || memberError?.message}</ParMd>
+      </SingleColumnLayout>
+    );
+  }
+
   return (
-    <SingleColumnLayout title="Member Profile">
+    <SingleColumnLayout title="Delegate Profile">
       {member && (
         <>
           <ButtonsContainer>
@@ -189,7 +227,7 @@ export const Profile = () => {
                   membership={member as MemberWithProfile}
                 />
                 {memberAddress && (
-                  <PlatformDisplay memberAddress={memberAddress} />
+                  <CredentialDisplay memberAddress={memberAddress} />
                 )}
                 <ValueRow>
                   <DataIndicator

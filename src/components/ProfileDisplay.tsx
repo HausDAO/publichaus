@@ -142,15 +142,12 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
             )}
           </Container>
         </ProfileMetadataContainer>
-        {/* {membership && (
-          <MemberProfileMenu memberAddress={membership.memberAddress} />
-        )} */}
       </PSubContainer>
       {membership && dao && (
         <>
           <DataGrid>
             <DataIndicator
-              label="Power"
+              label="Voting Power"
               data={formatValueTo({
                 value: votingPowerPercentage(
                   dao?.totalShares || '0',
@@ -161,7 +158,7 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
               })}
             />
             <DataIndicator
-              label="Voting Tokens"
+              label="Shares"
               data={formatValueTo({
                 value: fromWei(membership.shares),
                 decimals: 2,
@@ -169,9 +166,14 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
               })}
             />
             <DataIndicator
-              label="Non-Voting Tokens"
+              label="Delegated Shares"
               data={formatValueTo({
-                value: fromWei(membership.loot),
+                value: fromWei(
+                  (
+                    Number(membership.delegateShares) -
+                    Number(membership.shares)
+                  ).toString()
+                ),
                 decimals: 2,
                 format: 'number',
               })}

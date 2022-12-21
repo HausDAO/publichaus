@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 
 import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import { listRecords } from '@daohaus/moloch-v3-data';
+import { handleErrorMessage } from '@daohaus/utils';
 
 const defaultGraphApiKeys = {
   '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET,
@@ -38,9 +39,11 @@ const fetchRecords = async ({
       );
     }
     return data.items;
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    throw new Error(error?.message as string);
+    throw new Error(
+      handleErrorMessage({ error, fallback: 'Error fetching records' })
+    );
   }
 };
 
@@ -61,7 +64,7 @@ export const useRecords = ({
   graphApiKeys?: Keychain;
   credentialType?: string;
 }) => {
-  const { data, ...rest } = useQuery(
+  const { data, error, ...rest } = useQuery(
     [credentialType || recordType, { daoId, chainId }],
     () =>
       fetchRecords({
@@ -76,5 +79,5 @@ export const useRecords = ({
     { enabled: !!daoId && !!chainId }
   );
 
-  return { records: data, ...rest };
+  return { records: data, error: error as Error | null, ...rest };
 };

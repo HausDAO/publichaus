@@ -8,6 +8,7 @@ import {
 } from '@daohaus/moloch-v3-data';
 import { Paging, Ordering } from '@daohaus/data-fetch-utils';
 import { Member } from '../utils/types';
+import { handleErrorMessage } from '@daohaus/utils';
 
 const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
@@ -33,9 +34,11 @@ const fetchMembers = async ({
       ordering,
     });
     return data;
-  } catch (error: any) {
+  } catch (error) {
     console.error(error);
-    throw new Error(error?.message as string);
+    throw new Error(
+      handleErrorMessage({ error, fallback: 'Error fetching members' })
+    );
   }
 };
 
@@ -56,7 +59,7 @@ export const useMembers = ({
 }) => {
   const defaultFilter = filter || { dao: daoId };
 
-  const { data, ...rest } = useQuery(
+  const { data, error, ...rest } = useQuery(
     ['molochV3Members', { daoId, chainId }],
     () =>
       fetchMembers({
@@ -69,5 +72,9 @@ export const useMembers = ({
     { enabled: !!daoId && !!chainId && !!defaultFilter && !!ordering }
   );
 
-  return { members: data?.items as Member[], ...data, ...rest };
+  return {
+    members: data?.items as Member[],
+    error: error as Error,
+    ...rest,
+  };
 };

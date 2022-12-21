@@ -2,22 +2,15 @@ import {
   Bold,
   Button,
   Divider,
-  H3,
   H4,
-  H5,
-  Italic,
   Link,
   ParMd,
   ParSm,
   ParXs,
   TintSecondary,
 } from '@daohaus/ui';
-import {
-  charLimit,
-  formatDateFromSeconds,
-  formatShortDateTimeFromSeconds,
-} from '@daohaus/utils';
-import React, { useMemo, useState } from 'react';
+import { charLimit, formatShortDateTimeFromSeconds } from '@daohaus/utils';
+import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { useRecords } from '../hooks/useRecord';
 import { TARGET_DAO } from '../targetDAO';
@@ -25,7 +18,7 @@ import { isDelegateData } from '../utils/typeguards';
 import { DelegateData } from '../utils/types';
 import { BiPlus, BiMinus } from 'react-icons/bi';
 
-export const PlatformDisplay = ({
+export const CredentialDisplay = ({
   memberAddress,
 }: {
   memberAddress: string;
@@ -162,7 +155,7 @@ const CredUserDescription = ({ description }: { description?: string }) => {
   return (
     <div className="section">
       <ParMd className="descriptor">
-        <Bold>Platform:</Bold>{' '}
+        <Bold>Member's Platform:</Bold>{' '}
       </ParMd>
       <ParMd>{description}</ParMd>
     </div>

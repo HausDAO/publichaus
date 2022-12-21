@@ -173,13 +173,7 @@ export const Profile = () => {
   };
 
   if (isLoadingAny) {
-    return (
-      <StatusDisplay
-        title="Delegate Profile"
-        status="Loading Member Data"
-        spinner
-      />
-    );
+    return <StatusDisplay title="Loading Delegate Profile" spinner />;
   }
 
   if (isErrorAny) {

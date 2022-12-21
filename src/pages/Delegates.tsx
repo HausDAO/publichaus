@@ -10,6 +10,7 @@ import { RegisteredMembers } from '../utils/types';
 import styled from 'styled-components';
 import { DelegateTable } from '../components/DelegateTable';
 import { TARGET_DAO } from '../targetDAO';
+import { StatusDisplay } from '../components/StatusDisplay';
 
 export const Delegates = () => {
   const {
@@ -34,8 +35,9 @@ export const Delegates = () => {
     chainId: TARGET_DAO.CHAIN_ID,
   });
 
-  const isIdleAny = isRecordsIdle || isMembersIdle;
-  const isLoadingAny = isLoadingMembers || isLoadingRecords;
+  const isLoadingAny =
+    isLoadingMembers || isLoadingRecords || isRecordsIdle || isMembersIdle;
+  const isErrorAny = recordsError || membersError;
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
@@ -92,9 +94,15 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny || isIdleAny) return 'Loading...';
-  if (recordsError) return 'Error loading records.';
-  if (membersError) return 'Error loading members.';
+  if (isLoadingAny || !registeredDelegates)
+    return <StatusDisplay status="Loading" spinner />;
+  if (isErrorAny)
+    return (
+      <StatusDisplay
+        status="Error"
+        description={recordsError?.message || membersError?.message}
+      />
+    );
 
   return (
     <SingleColumnLayout>

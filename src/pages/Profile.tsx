@@ -5,7 +5,6 @@ import {
   Card,
   DataIndicator,
   DataMd,
-  H1,
   H2,
   ParMd,
   SingleColumnLayout,
@@ -19,14 +18,9 @@ import { useMember } from '../hooks/useMember';
 import { TARGET_DAO } from '../targetDAO';
 import styled from 'styled-components';
 import { useDaoData } from '../hooks/useDaoData';
-import {
-  MolochV3Dao,
-  FindMemberQuery,
-  DaoVault,
-} from '@daohaus/moloch-v3-data';
+import { MolochV3Dao, DaoVault } from '@daohaus/moloch-v3-data';
 import { useMemo } from 'react';
 import {
-  AccountProfile,
   charLimit,
   formatValueTo,
   memberTokenBalanceShare,
@@ -40,6 +34,7 @@ import { DaoTable } from '../components/DaoTable';
 import { ProfileDisplay } from '../components/ProfileDisplay';
 import { MemberWithProfile } from '../utils/types';
 import { CredentialDisplay } from '../components/CredentialDisplay';
+import { StatusDisplay } from '../components/StatusDisplay';
 
 type TokenTableType = {
   token: {
@@ -179,19 +174,21 @@ export const Profile = () => {
 
   if (isLoadingAny) {
     return (
-      <SingleColumnLayout title="Delegate Profile">
-        <H2>Loading Member Data</H2>
-        <Spinner size="12rem" />
-      </SingleColumnLayout>
+      <StatusDisplay
+        title="Delegate Profile"
+        status="Loading Member Data"
+        spinner
+      />
     );
   }
 
   if (isErrorAny) {
     return (
-      <SingleColumnLayout title="Delegate Profile">
-        <H2>Error</H2>
-        <ParMd>{daoError?.message || memberError?.message}</ParMd>
-      </SingleColumnLayout>
+      <StatusDisplay
+        title="Delegate Profile"
+        status="Error:"
+        description={memberError?.message || daoError?.message}
+      />
     );
   }
 

@@ -22,7 +22,7 @@ import { TARGET_DAO } from '../targetDAO';
 import styled from 'styled-components';
 import { useDaoData } from '../hooks/useDaoData';
 import { MolochV3Dao, DaoVault } from '@daohaus/moloch-v3-data';
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import {
   charLimit,
   formatValueTo,
@@ -49,6 +49,7 @@ export const Profile = () => {
     isLoading: isLoadingMember,
     isIdle: isMemberIdle,
     error: memberError,
+    refetch: refetchMember,
     member,
   } = useMember({
     daoId: TARGET_DAO.ADDRESS,
@@ -60,6 +61,7 @@ export const Profile = () => {
     isLoading: isLoadingUser,
     isIdle: isUserIdle,
     error: userError,
+    refetch: refetchUser,
     user,
   } = useUserMember({
     daoId: TARGET_DAO.ADDRESS,
@@ -94,6 +96,11 @@ export const Profile = () => {
       title: 'URL copied to clipboard',
     });
   };
+
+  const onDelegateSuccess = useCallback(() => {
+    refetchMember?.();
+    refetchUser?.();
+  }, []);
 
   if (isLoadingAny) {
     return <StatusDisplay title="Loading Delegate Profile" spinner />;
@@ -152,6 +159,7 @@ export const Profile = () => {
               userDelegatingTo={user?.delegatingTo}
               memberAddress={memberAddress}
               isUserMember={!!user}
+              onSuccess={onDelegateSuccess}
             />
           </ProfileCard>
         </>

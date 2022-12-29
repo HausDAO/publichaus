@@ -1,16 +1,15 @@
 import { useMemo } from 'react';
-import { Card, SingleColumnLayout, widthQuery } from '@daohaus/ui';
+import { SingleColumnLayout } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
-import { DelegateOverview } from '../components/DelegateOverview';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
 import { isDelegateData } from '../utils/typeguards';
 import { RegisteredMembers } from '../utils/types';
-import styled from 'styled-components';
 import { DelegateTable } from '../components/DelegateTable';
 import { TARGET_DAO } from '../targetDAO';
 import { StatusDisplay } from '../components/StatusDisplay';
+import { useDaoData } from '../hooks/useDaoData';
 
 export const Delegates = () => {
   const {
@@ -35,8 +34,17 @@ export const Delegates = () => {
     chainId: TARGET_DAO.CHAIN_ID,
   });
 
+  const { dao, isLoading: isLoadingDao } = useDaoData({
+    daoid: TARGET_DAO.ADDRESS,
+    daochain: TARGET_DAO.CHAIN_ID,
+  });
+
   const isLoadingAny =
-    isLoadingMembers || isLoadingRecords || isRecordsIdle || isMembersIdle;
+    isLoadingMembers ||
+    isLoadingRecords ||
+    isRecordsIdle ||
+    isMembersIdle ||
+    isLoadingDao;
   const isErrorAny = recordsError || membersError;
 
   const registeredDelegates = useMemo(() => {
@@ -94,7 +102,7 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny || !registeredDelegates)
+  if (isLoadingAny || !Object.keys(registeredDelegates)?.length)
     return <StatusDisplay title="Loading Delegates" spinner />;
   if (isErrorAny)
     return (
@@ -106,7 +114,7 @@ export const Delegates = () => {
 
   return (
     <SingleColumnLayout title="PublisHaus Delegates">
-      <DelegateTable registeredDelegates={registeredDelegates} />
+      <DelegateTable registeredDelegates={registeredDelegates} dao={dao} />
     </SingleColumnLayout>
   );
 };

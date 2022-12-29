@@ -16,6 +16,7 @@ type MemberProfileProps = {
 const MemberContainer = styled.div`
   button {
     padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 `;
 

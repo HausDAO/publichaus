@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { Column } from 'react-table';
 import styled from 'styled-components';
 import { useDaoData } from '../hooks/useDaoData';
+import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { TARGET_DAO } from '../targetDAO';
 
 import { RegisteredMembers, RegisteredMember } from '../utils/types';
@@ -44,14 +45,11 @@ const DelegateContainer = styled(Card)`
 
 export const DelegateTable = ({
   registeredDelegates,
+  dao,
 }: {
   registeredDelegates: RegisteredMembers;
+  dao?: MolochV3Dao;
 }) => {
-  const { dao } = useDaoData({
-    daoid: TARGET_DAO.ADDRESS,
-    daochain: TARGET_DAO.CHAIN_ID,
-  });
-
   const columns = useMemo<Column<RegisteredMember>[]>(() => {
     if (!dao) return [];
     return [
@@ -69,7 +67,7 @@ export const DelegateTable = ({
         },
       },
       {
-        Header: 'Voting Power',
+        Header: 'Power',
         accessor: 'id',
         Cell: ({ row }) => {
           const { delegateShares } = row.original;
@@ -102,7 +100,7 @@ export const DelegateTable = ({
           return (
             <>
               {formatValueTo({
-                value: fromWei(delegatedShares.toString()),
+                value: fromWei(delegatedShares.toFixed()),
                 decimals: 2,
                 format: 'number',
               })}
@@ -115,6 +113,23 @@ export const DelegateTable = ({
         accessor: 'delegateOfCount',
         Cell: ({ value }) => {
           return <>{value}</>;
+        },
+      },
+      {
+        Header: 'Delegating to',
+        accessor: 'delegatingTo',
+        Cell: ({ value, row }) => {
+          const { memberAddress } = row.original;
+
+          return memberAddress !== value ? (
+            <MemberProfileAvatar
+              daochain={TARGET_DAO.CHAIN_ID}
+              daoid={TARGET_DAO.ADDRESS}
+              memberAddress={value}
+            />
+          ) : (
+            <>--</>
+          );
         },
       },
       {

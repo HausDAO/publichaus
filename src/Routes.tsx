@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Profile } from './pages/Profile';
 import { TXBuilder } from '@daohaus/tx-builder';
 import { TARGET_DAO } from './targetDAO';
+import { Join } from './pages/Join';
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -24,6 +25,7 @@ export const Routes = () => {
         pathname={pathname}
         navLinks={[
           { label: 'Home', href: '/' },
+          { label: 'Join DAO', href: '/join' },
           { label: 'Apply', href: '/apply' },
           { label: 'Delegates', href: '/delegates' },
         ]}
@@ -32,6 +34,7 @@ export const Routes = () => {
           <Route path="/" element={<Home />} />
           <Route path="/apply" element={<Application />} />
           <Route path="/delegates" element={<Delegates />} />
+          <Route path="/join" element={<Join />} />
           <Route path="/profile/:memberAddress" element={<Profile />} />
         </Router>
       </DHLayout>

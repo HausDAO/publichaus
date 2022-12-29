@@ -1,9 +1,11 @@
+import { MouseEventHandler } from 'react';
+import styled from 'styled-components';
+
 import { useDHConnect } from '@daohaus/connect';
 import { useTxBuilder } from '@daohaus/tx-builder';
-import { Bold, Button, ParMd, useToast } from '@daohaus/ui';
+import { Button, ParMd, useToast } from '@daohaus/ui';
 import { TXLego } from '@daohaus/utils';
-import React, { MouseEventHandler } from 'react';
-import styled from 'styled-components';
+
 import { TX } from '../legos/tx';
 import { ButtonRouterLink } from './ButtonRouterLink';
 

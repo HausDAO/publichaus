@@ -1,10 +1,5 @@
 import { Card, Link, widthQuery } from '@daohaus/ui';
-import {
-  formatValueTo,
-  fromWei,
-  sharesDelegatedToMember,
-  votingPowerPercentage,
-} from '@daohaus/utils';
+import { formatValueTo, fromWei, votingPowerPercentage } from '@daohaus/utils';
 import { useMemo } from 'react';
 import { Column } from 'react-table';
 import styled from 'styled-components';
@@ -16,6 +11,7 @@ import { RegisteredMembers, RegisteredMember } from '../utils/types';
 import { DaoTable } from './DaoTable';
 import { DelegateOverview } from './DelegateOverview';
 import { MemberProfileAvatar } from './MemberProfileAvatar';
+import { sharesDelegatedToMember } from '../utils/conversion';
 
 const DelegateContainer = styled(Card)`
   padding: 3rem;
@@ -45,10 +41,14 @@ const DelegateContainer = styled(Card)`
 
 export const DelegateTable = ({
   registeredDelegates,
+  userAddress,
+  userDelegateAddress,
   dao,
 }: {
   registeredDelegates: RegisteredMembers;
   dao?: MolochV3Dao;
+  userAddress?: string;
+  userDelegateAddress?: string;
 }) => {
   const columns = useMemo<Column<RegisteredMember>[]>(() => {
     if (!dao) return [];
@@ -97,10 +97,11 @@ export const DelegateTable = ({
         Cell: ({ value, row }) => {
           const { shares } = row.original;
           const delegatedShares = sharesDelegatedToMember(value, shares);
+
           return (
             <>
               {formatValueTo({
-                value: fromWei(delegatedShares.toFixed()),
+                value: fromWei(delegatedShares),
                 decimals: 2,
                 format: 'number',
               })}
@@ -116,23 +117,6 @@ export const DelegateTable = ({
         },
       },
       {
-        Header: 'Delegating to',
-        accessor: 'delegatingTo',
-        Cell: ({ value, row }) => {
-          const { memberAddress } = row.original;
-
-          return memberAddress !== value ? (
-            <MemberProfileAvatar
-              daochain={TARGET_DAO.CHAIN_ID}
-              daoid={TARGET_DAO.ADDRESS}
-              memberAddress={value}
-            />
-          ) : (
-            <>--</>
-          );
-        },
-      },
-      {
         Header: 'Platform',
         accessor: 'votes',
         Cell: ({ row }) => {
@@ -145,7 +129,11 @@ export const DelegateTable = ({
 
   return (
     <DelegateContainer>
-      <DelegateOverview registeredDelegates={registeredDelegates} />
+      <DelegateOverview
+        registeredDelegates={registeredDelegates}
+        userAddress={userAddress}
+        userDelegateAddress={userDelegateAddress}
+      />
       <DaoTable<RegisteredMember>
         tableData={Object.values(registeredDelegates)}
         columns={columns}

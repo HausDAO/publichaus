@@ -59,7 +59,6 @@ export const Profile = () => {
 
   const {
     isLoading: isLoadingUser,
-    isIdle: isUserIdle,
     error: userError,
     refetch: refetchUser,
     user,
@@ -78,7 +77,7 @@ export const Profile = () => {
     daoid: TARGET_DAO.ADDRESS,
     daochain: TARGET_DAO.CHAIN_ID,
   });
-  console.log('member', member);
+
   const isMobile = useBreakpoint(widthQuery.sm);
 
   const isLoadingAny =

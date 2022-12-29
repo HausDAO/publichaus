@@ -10,8 +10,11 @@ import { DelegateTable } from '../components/DelegateTable';
 import { TARGET_DAO } from '../targetDAO';
 import { StatusDisplay } from '../components/StatusDisplay';
 import { useDaoData } from '../hooks/useDaoData';
+import { useUserMember } from '../hooks/useUserMember';
+import { useDHConnect } from '@daohaus/connect';
 
 export const Delegates = () => {
+  const { address } = useDHConnect();
   const {
     isIdle: isRecordsIdle,
     isLoading: isLoadingRecords,
@@ -34,18 +37,33 @@ export const Delegates = () => {
     chainId: TARGET_DAO.CHAIN_ID,
   });
 
-  const { dao, isLoading: isLoadingDao } = useDaoData({
+  const {
+    dao,
+    isLoading: isLoadingDao,
+    error: daoError,
+  } = useDaoData({
     daoid: TARGET_DAO.ADDRESS,
     daochain: TARGET_DAO.CHAIN_ID,
   });
 
+  const {
+    isLoading: isLoadingUser,
+    error: userError,
+    user,
+  } = useUserMember({
+    daoId: TARGET_DAO.ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
+    memberAddress: address as string,
+  });
+
   const isLoadingAny =
+    isLoadingUser ||
     isLoadingMembers ||
     isLoadingRecords ||
     isRecordsIdle ||
     isMembersIdle ||
     isLoadingDao;
-  const isErrorAny = recordsError || membersError;
+  const isErrorAny = recordsError || membersError || userError;
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
@@ -108,13 +126,23 @@ export const Delegates = () => {
     return (
       <StatusDisplay
         status="Error"
-        description={recordsError?.message || membersError?.message}
+        description={
+          recordsError?.message ||
+          membersError?.message ||
+          userError?.message ||
+          daoError?.message
+        }
       />
     );
 
   return (
-    <SingleColumnLayout title="PublisHaus Delegates">
-      <DelegateTable registeredDelegates={registeredDelegates} dao={dao} />
+    <SingleColumnLayout title="Verified Delegates">
+      <DelegateTable
+        registeredDelegates={registeredDelegates}
+        dao={dao}
+        userAddress={user?.memberAddress}
+        userDelegateAddress={user?.delegatingTo}
+      />
     </SingleColumnLayout>
   );
 };

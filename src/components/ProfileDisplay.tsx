@@ -27,6 +27,7 @@ import {
 import { MemberProfileAvatar } from './MemberProfileAvatar';
 import { MolochV3Member, MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { useDaoData } from '../hooks/useDaoData';
+import { sharesDelegatedToMember } from '../utils/conversion';
 
 const AvatarLarge = styled(ProfileAvatar)`
   height: 12rem;
@@ -169,10 +170,10 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
               label="Delegated Shares"
               data={formatValueTo({
                 value: fromWei(
-                  (
-                    Number(membership.delegateShares) -
-                    Number(membership.shares)
-                  ).toString()
+                  sharesDelegatedToMember(
+                    membership.delegateShares,
+                    membership.shares
+                  )
                 ),
                 decimals: 2,
                 format: 'number',

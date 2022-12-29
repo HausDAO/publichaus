@@ -1,16 +1,8 @@
 import { useParams } from 'react-router-dom';
 import {
-  AddressDisplay,
   Button,
   Card,
-  DataIndicator,
-  DataMd,
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  Divider,
   ParMd,
-  ParSm,
   SingleColumnLayout,
   useBreakpoint,
   useToast,
@@ -21,15 +13,8 @@ import { useMember } from '../hooks/useMember';
 import { TARGET_DAO } from '../targetDAO';
 import styled from 'styled-components';
 import { useDaoData } from '../hooks/useDaoData';
-import { MolochV3Dao, DaoVault } from '@daohaus/moloch-v3-data';
-import { useCallback, useMemo } from 'react';
-import {
-  charLimit,
-  formatValueTo,
-  memberTokenBalanceShare,
-  memberUsdValueShare,
-  NETWORK_TOKEN_ETH_ADDRESS,
-} from '@daohaus/utils';
+import { useCallback } from 'react';
+
 import { useDHConnect } from '@daohaus/connect';
 import { Column } from 'react-table';
 import { ButtonRouterLink } from '../components/ButtonRouterLink';

@@ -66,10 +66,10 @@ export const Delegates = () => {
   const isErrorAny = recordsError || membersError || userError;
 
   const registeredDelegates = useMemo(() => {
+    console.log('members', members);
     if (!records?.length || !members?.length) return {};
     return records.reduce((acc, record) => {
       // If the record is not valid, skip it
-
       const { parsedContent, createdAt } = record;
       if (!isDelegateData(parsedContent)) {
         console.warn('Delegate data is not valid', parsedContent);

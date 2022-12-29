@@ -120,8 +120,7 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny || !Object.keys(registeredDelegates)?.length)
-    return <StatusDisplay title="Loading Delegates" spinner />;
+  if (isLoadingAny) return <StatusDisplay title="Loading Delegates" spinner />;
   if (isErrorAny)
     return (
       <StatusDisplay

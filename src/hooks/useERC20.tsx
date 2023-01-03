@@ -11,7 +11,7 @@ const fetchTokenData = async ({
   rpcs,
 }: {
   tokenAddress: string;
-  userAddress?: string;
+  userAddress?: string | null;
   chainId: ValidNetwork;
   rpcs?: Keychain;
 }) => {
@@ -51,14 +51,14 @@ const fetchTokenData = async ({
   }
 };
 
-export const useToken = ({
+export const useERC20 = ({
   tokenAddress,
   userAddress,
   chainId,
   rpcs,
 }: {
   tokenAddress: string;
-  userAddress?: string;
+  userAddress?: string | null;
   chainId: ValidNetwork;
   rpcs?: Keychain;
 }) => {

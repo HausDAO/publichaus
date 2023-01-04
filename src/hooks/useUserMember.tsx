@@ -37,6 +37,7 @@ const findUserMember = async ({
         id: `${daoId}-member-${memberAddress.toLowerCase()}`,
       }
     );
+
     return res?.data?.member;
   } catch (error) {
     console.error(error);
@@ -54,14 +55,20 @@ export const useUserMember = ({
 }: {
   chainId: ValidNetwork;
   daoId: string;
-  memberAddress: string;
+  memberAddress?: string | null;
   graphApiKeys?: Keychain;
 }) => {
   const { data, error, ...rest } = useQuery(
     [`MolochV3User/${memberAddress}`, { chainId, daoId, memberAddress }],
-    () => findUserMember({ chainId, daoId, memberAddress, graphApiKeys }),
+    () =>
+      findUserMember({
+        chainId,
+        daoId,
+        memberAddress: memberAddress as string,
+        graphApiKeys,
+      }),
     { enabled: !!chainId && !!daoId && !!memberAddress }
   );
 
-  return { user: data, error: error as Error, ...rest };
+  return { user: data, error: error as Error, ...rest, isMember: !!data };
 };

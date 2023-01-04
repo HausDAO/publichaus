@@ -70,4 +70,10 @@ export const TX: Record<string, TXLego> = {
     method: 'delegate',
     staticArgs: [],
   },
+  APPROVE_TOKEN: {
+    id: 'APPROVE_TOKEN',
+    contract: CONTRACT.TOKEN,
+    method: 'approve',
+    staticArgs: [],
+  },
 };

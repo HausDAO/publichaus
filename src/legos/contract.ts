@@ -16,9 +16,9 @@ export const CONTRACT: Record<string, ContractLego> = {
   },
   ERC_20: {
     type: 'static',
-    contractName: 'ERC20',
+    contractName: 'ERC_20',
     abi: LOCAL_ABI.ERC20,
-    targetAddress: '.tokenAddress',
+    targetAddress: TARGET_DAO.STAKE_TOKEN,
   },
   ERC_20_FUNDING: {
     type: 'static',

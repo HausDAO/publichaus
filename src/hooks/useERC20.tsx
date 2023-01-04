@@ -27,21 +27,22 @@ const fetchTokenData = async ({
   try {
     const decimals = await tokenContract.decimals();
     const name = await tokenContract.name();
-    const symbol = await tokenContract.symbol();
-    const totalSupply = await tokenContract.totalSupply();
+    // const symbol = await tokenContract.symbol();
+    // const totalSupply = await tokenContract.totalSupply();
 
     if (spenderAddress && userAddress) {
       const allowance = await tokenContract.allowance(
         userAddress,
         spenderAddress
       );
+
       const balance = await tokenContract.balanceOf(userAddress);
       return {
         decimals: decimals.toString() as string,
         name,
-        symbol,
+        // symbol,
         balance: balance.toString() as string,
-        totalSupply: totalSupply.toString() as string,
+        // totalSupply: totalSupply.toString() as string,
         allowance: allowance.toString() as string,
         isApproved: allowance.gt(0),
       };
@@ -52,17 +53,17 @@ const fetchTokenData = async ({
       return {
         decimals: decimals.toString() as string,
         name,
-        symbol,
+        // symbol,
         balance: balance.toString() as string,
-        totalSupply: totalSupply.toString() as string,
+        // totalSupply: totalSupply.toString() as string,
       };
     }
 
     return {
       decimals: decimals.toString() as string,
       name,
-      symbol,
-      totalSupply: totalSupply.toString() as string,
+      // symbol,
+      // totalSupply: totalSupply.toString() as string,
     };
   } catch (error: any) {
     console.error(error);
@@ -90,7 +91,14 @@ export const useERC20 = ({
       `tokenData-${tokenAddress}`,
       { tokenAddress, userAddress, chainId, spenderAddress },
     ],
-    () => fetchTokenData({ tokenAddress, userAddress, chainId, rpcs }),
+    () =>
+      fetchTokenData({
+        tokenAddress,
+        userAddress,
+        chainId,
+        rpcs,
+        spenderAddress,
+      }),
     {
       enabled: !!tokenAddress && !!chainId,
       cacheTime,

@@ -72,7 +72,7 @@ export const TX: Record<string, TXLego> = {
   },
   APPROVE_TOKEN: {
     id: 'APPROVE_TOKEN',
-    contract: CONTRACT.TOKEN,
+    contract: CONTRACT.ERC_20,
     method: 'approve',
     staticArgs: [],
   },

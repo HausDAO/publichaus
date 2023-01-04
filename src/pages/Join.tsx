@@ -5,10 +5,20 @@ import { RiScales3Line } from 'react-icons/ri';
 import { Button, H1, Input, ParMd, SingleColumnLayout } from '@daohaus/ui';
 import { useUserMember } from '../hooks/useUserMember';
 import { useState } from 'react';
+import { useTxBuilder } from '@daohaus/tx-builder';
+import { MaxUint256 } from '@ethersproject/constants';
+import { TX } from '../legos/tx';
+import { TXLego } from '@daohaus/utils';
 export const Join = () => {
   const { address } = useDHConnect();
+  const { fireTransaction } = useTxBuilder();
 
-  const { tokenData, isLoading: isTokenLoading } = useERC20({
+  const {
+    tokenData,
+    isLoading: isTokenLoading,
+    isRefetching,
+    refetch,
+  } = useERC20({
     tokenAddress: TARGET_DAO.STAKE_TOKEN,
     chainId: TARGET_DAO.CHAIN_ID,
     userAddress: address,
@@ -26,6 +36,25 @@ export const Join = () => {
     memberAddress: address,
   });
 
+  const [isLoadingTx, setIsLoadingTx] = useState(false);
+  console.log('balance', balance);
+  console.log('allowance', allowance);
+  const handleApprove = () => {
+    fireTransaction({
+      tx: {
+        ...TX.APPROVE_TOKEN,
+        staticArgs: [TARGET_DAO.SHAMAN_ADDRESS, MaxUint256],
+      } as TXLego,
+      lifeCycleFns: {
+        onTxSuccess() {
+          refetch();
+          setIsLoadingTx(false);
+          console.log('success');
+        },
+      },
+    });
+  };
+
   // const { shamanData, isLoading: isShamanLoading } = useOnboarder({
   //   shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
   //   chainId: TARGET_DAO.CHAIN_ID,
@@ -39,12 +68,28 @@ export const Join = () => {
       {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
       <RiScales3Line size="12rem" />
       <ParMd>Stake 1 {tokenData?.name} for 1 Public Haus share</ParMd>
-      {<StakeTokenSection isApproved={isApproved} />}
+      {
+        <StakeTokenSection
+          isApproved={isApproved}
+          handleApprove={handleApprove}
+          isLoading={isLoadingTx || isRefetching}
+        />
+      }
     </SingleColumnLayout>
   );
 };
 
-const StakeTokenSection = ({ isApproved }: { isApproved: boolean }) => {
+const ApprovalSection = () => {};
+
+const StakeTokenSection = ({
+  isApproved,
+  handleApprove,
+  isLoading,
+}: {
+  isLoading: boolean;
+  isApproved: boolean;
+  handleApprove: () => void;
+}) => {
   const [stkAmt, setStkAmt] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,14 +100,15 @@ const StakeTokenSection = ({ isApproved }: { isApproved: boolean }) => {
     console.log('stake', stkAmt);
   };
 
-  const handleApprove = () => {
-    console.log('approve');
-  };
-
   if (isApproved) {
     return (
       <>
-        <Input id="stkAmt" onChange={handleChange} />
+        <Input
+          id="stkAmt"
+          onChange={handleChange}
+          //@ts-ignore
+          value={stkAmt}
+        />
         <Button type="button" onClick={handleStake}>
           Stake
         </Button>

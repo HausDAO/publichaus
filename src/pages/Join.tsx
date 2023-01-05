@@ -17,7 +17,7 @@ export const Join = () => {
     tokenData,
     isLoading: isTokenLoading,
     isRefetching,
-    refetch,
+    // refetch,
   } = useERC20({
     tokenAddress: TARGET_DAO.STAKE_TOKEN,
     chainId: TARGET_DAO.CHAIN_ID,
@@ -47,7 +47,7 @@ export const Join = () => {
       } as TXLego,
       lifeCycleFns: {
         onTxSuccess() {
-          refetch();
+          // refetch();
           setIsLoadingTx(false);
           console.log('success');
         },
@@ -106,6 +106,7 @@ const StakeTokenSection = ({
         <Input
           id="stkAmt"
           onChange={handleChange}
+          number
           //@ts-ignore
           value={stkAmt}
         />

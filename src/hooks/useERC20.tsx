@@ -53,7 +53,7 @@ const fetchTokenData = async ({
         ? await tokenContract.allowance(userAddress, spenderAddress)
         : null;
 
-    return {
+    const data = {
       decimals,
       name,
       symbol,
@@ -62,6 +62,9 @@ const fetchTokenData = async ({
       allowance,
       isApproved: !!allowance && allowance?.gt(0),
     };
+
+    console.log('data', data);
+    return data;
   } catch (error: any) {
     console.error(error);
     throw new Error(error?.message as string);

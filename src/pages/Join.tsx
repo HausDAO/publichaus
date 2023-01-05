@@ -12,26 +12,24 @@ import { TXLego } from '@daohaus/utils';
 export const Join = () => {
   const { address } = useDHConnect();
   const { fireTransaction } = useTxBuilder();
-
+  const [isOptimisticApproved, setIsOptimisticApproved] = useState<
+    Record<string, boolean>
+  >({});
   const {
     tokenData,
     isLoading: isTokenLoading,
     isRefetching,
-    // refetch,
   } = useERC20({
     tokenAddress: TARGET_DAO.STAKE_TOKEN,
     chainId: TARGET_DAO.CHAIN_ID,
     userAddress: address,
     spenderAddress: TARGET_DAO.SHAMAN_ADDRESS,
     fetchShape: {
-      balanceOf: true,
       allowance: true,
-      name: true,
-      decimals: true,
     },
   });
 
-  const { balance, isApproved, allowance } = tokenData || {};
+  const { isApproved, name } = tokenData || {};
   const {
     user,
     isLoading: isUserLoading,
@@ -43,18 +41,22 @@ export const Join = () => {
   });
 
   const [isLoadingTx, setIsLoadingTx] = useState(false);
+  const userOptimisticApproved = address && isOptimisticApproved?.[address];
 
   const handleApprove = () => {
+    if (!address) return;
     fireTransaction({
       tx: {
         ...TX.APPROVE_TOKEN,
         staticArgs: [TARGET_DAO.SHAMAN_ADDRESS, MaxUint256],
       } as TXLego,
       lifeCycleFns: {
+        onRequestSign() {
+          setIsLoadingTx(true);
+        },
         onTxSuccess() {
-          // refetch();
           setIsLoadingTx(false);
-          console.log('success');
+          setIsOptimisticApproved({ [address]: true });
         },
       },
     });
@@ -66,16 +68,17 @@ export const Join = () => {
   // });
 
   if (isTokenLoading || isUserLoading) return <div>Loading...</div>;
-
   return (
     <SingleColumnLayout>
       <H1>Join Public Haus</H1>
       {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
       <RiScales3Line size="12rem" />
-      <ParMd>Stake 1 {tokenData?.name} for 1 Public Haus share</ParMd>
+      <ParMd>
+        Stake 1 {TARGET_DAO.STAKE_TOKEN_NAME} for 1 Public Haus share
+      </ParMd>
       {
         <StakeTokenSection
-          isApproved={isApproved}
+          isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
           isLoading={isLoadingTx || isRefetching}
         />

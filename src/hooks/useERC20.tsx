@@ -4,18 +4,29 @@ import { useQuery } from 'react-query';
 import { createContract } from '@daohaus/tx-builder';
 import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 
+type FetchShape = {
+  decimals?: boolean;
+  name?: boolean;
+  symbol?: boolean;
+  totalSupply?: boolean;
+  balanceOf?: boolean;
+  allowance?: boolean;
+};
+
 const fetchTokenData = async ({
   tokenAddress,
   userAddress,
   chainId,
   spenderAddress,
   rpcs,
+  fetchShape,
 }: {
   tokenAddress: string;
   userAddress?: string | null;
   chainId: ValidNetwork;
   rpcs?: Keychain;
   spenderAddress?: string | null;
+  fetchShape?: FetchShape;
 }) => {
   const tokenContract = createContract({
     address: tokenAddress,
@@ -25,46 +36,31 @@ const fetchTokenData = async ({
   });
 
   try {
-    const decimals = await tokenContract.decimals();
-    const name = await tokenContract.name();
-    const symbol = await tokenContract.symbol();
-    const totalSupply = await tokenContract.totalSupply();
-
-    if (spenderAddress && userAddress) {
-      const allowance = await tokenContract.allowance(
-        userAddress,
-        spenderAddress
-      );
-
-      const balance = await tokenContract.balanceOf(userAddress);
-
-      return {
-        decimals: decimals.toString() as string,
-        name,
-        symbol,
-        balance: balance.toString() as string,
-        totalSupply: totalSupply.toString() as string,
-        allowance: allowance.toString() as string,
-        isApproved: allowance.gt(0),
-      };
-    }
-
-    if (userAddress) {
-      const balance = await tokenContract.balanceOf(userAddress);
-      return {
-        decimals: decimals.toString() as string,
-        name,
-        symbol,
-        balance: balance.toString() as string,
-        totalSupply: totalSupply.toString() as string,
-      };
-    }
+    const decimals = fetchShape?.decimals
+      ? await tokenContract.decimals()
+      : null;
+    const name = fetchShape?.name ? await tokenContract.name() : null;
+    const symbol = fetchShape?.symbol ? await tokenContract.symbol() : null;
+    const totalSupply = fetchShape?.totalSupply
+      ? await tokenContract.totalSupply()
+      : null;
+    const balance =
+      fetchShape?.balanceOf && userAddress
+        ? await tokenContract.balanceOf(userAddress)
+        : null;
+    const allowance =
+      fetchShape?.allowance && userAddress && spenderAddress
+        ? await tokenContract.allowance(userAddress, spenderAddress)
+        : null;
 
     return {
-      decimals: decimals.toString() as string,
+      decimals,
       name,
       symbol,
-      totalSupply: totalSupply.toString() as string,
+      totalSupply,
+      balance,
+      allowance,
+      isApproved: !!allowance && allowance?.gt(0),
     };
   } catch (error: any) {
     console.error(error);
@@ -80,6 +76,14 @@ export const useERC20 = ({
   rpcs,
   cacheTime = 1000 * 60 * 20,
   staleTime = 1000 * 60 * 20,
+  fetchShape = {
+    decimals: true,
+    name: true,
+    symbol: true,
+    totalSupply: true,
+    balanceOf: true,
+    allowance: true,
+  },
 }: {
   tokenAddress: string;
   userAddress?: string | null;
@@ -88,6 +92,7 @@ export const useERC20 = ({
   rpcs?: Keychain;
   cacheTime?: number;
   staleTime?: number;
+  fetchShape?: FetchShape;
 }) => {
   const { data, error, ...rest } = useQuery(
     [
@@ -101,6 +106,7 @@ export const useERC20 = ({
         chainId,
         rpcs,
         spenderAddress,
+        fetchShape,
       }),
     {
       enabled: !!tokenAddress && !!chainId,

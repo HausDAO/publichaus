@@ -23,6 +23,12 @@ export const Join = () => {
     chainId: TARGET_DAO.CHAIN_ID,
     userAddress: address,
     spenderAddress: TARGET_DAO.SHAMAN_ADDRESS,
+    fetchShape: {
+      balanceOf: true,
+      allowance: true,
+      name: true,
+      decimals: true,
+    },
   });
 
   const { balance, isApproved, allowance } = tokenData || {};
@@ -37,8 +43,7 @@ export const Join = () => {
   });
 
   const [isLoadingTx, setIsLoadingTx] = useState(false);
-  console.log('balance', balance);
-  console.log('allowance', allowance);
+
   const handleApprove = () => {
     fireTransaction({
       tx: {

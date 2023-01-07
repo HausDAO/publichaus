@@ -2,19 +2,53 @@ import { useDHConnect } from '@daohaus/connect';
 import { useERC20 } from '../hooks/useERC20';
 import { TARGET_DAO } from '../targetDAO';
 import { RiScales3Line } from 'react-icons/ri';
-import { Button, H1, Input, ParMd, SingleColumnLayout } from '@daohaus/ui';
+import {
+  Button,
+  H1,
+  Input,
+  Label,
+  ParMd,
+  SingleColumnLayout,
+  useToast,
+} from '@daohaus/ui';
 import { useUserMember } from '../hooks/useUserMember';
 import { useState } from 'react';
 import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
-import { TXLego } from '@daohaus/utils';
+import { handleErrorMessage, toBaseUnits, TXLego } from '@daohaus/utils';
+import styled from 'styled-components';
+
+const StakeBox = styled.div`
+  width: 53rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  input {
+    margin-bottom: 2rem;
+  }
+  p {
+    margin-bottom: 2rem;
+  }
+  svg {
+    margin-bottom: 2rem;
+  }
+  h1 {
+    margin-bottom: 2rem;
+  }
+  label {
+    margin-bottom: 1rem;
+  }
+  .input-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
 export const Join = () => {
   const { address } = useDHConnect();
   const { fireTransaction } = useTxBuilder();
-  const [isOptimisticApproved, setIsOptimisticApproved] = useState<
-    Record<string, boolean>
-  >({});
   const {
     tokenData,
     isLoading: isTokenLoading,
@@ -29,7 +63,7 @@ export const Join = () => {
     },
   });
 
-  const { isApproved, name } = tokenData || {};
+  const { isApproved } = tokenData || {};
   const {
     user,
     isLoading: isUserLoading,
@@ -40,7 +74,11 @@ export const Join = () => {
     memberAddress: address,
   });
 
+  const [isOptimisticApproved, setIsOptimisticApproved] = useState<
+    Record<string, boolean>
+  >({});
   const [isLoadingTx, setIsLoadingTx] = useState(false);
+  const { successToast, errorToast } = useToast();
   const userOptimisticApproved = address && isOptimisticApproved?.[address];
 
   const handleApprove = () => {
@@ -57,32 +95,72 @@ export const Join = () => {
         onTxSuccess() {
           setIsLoadingTx(false);
           setIsOptimisticApproved({ [address]: true });
+          successToast({ title: 'Success', description: 'Approved' });
+          setIsLoadingTx(false);
+        },
+        onTxError(err) {
+          const errMsg = handleErrorMessage(err as any);
+          console.error(err);
+          errorToast({ title: 'Error', description: errMsg });
+          setIsLoadingTx(false);
         },
       },
     });
   };
 
-  // const { shamanData, isLoading: isShamanLoading } = useOnboarder({
-  //   shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
-  //   chainId: TARGET_DAO.CHAIN_ID,
-  // });
+  const handleStake = (wholeAmt: string) => {
+    if (!wholeAmt) {
+      errorToast({ title: 'Error', description: 'Please enter an amount' });
+      return;
+    }
+    const baseAmt = toBaseUnits(
+      wholeAmt,
+      TARGET_DAO.STAKE_TOKEN_DECIMALS
+    ).toString();
+
+    fireTransaction({
+      tx: {
+        ...TX.STAKE_TOKEN,
+        staticArgs: [baseAmt],
+      } as TXLego,
+      lifeCycleFns: {
+        onRequestSign() {
+          setIsLoadingTx(true);
+        },
+        onTxSuccess() {
+          setIsLoadingTx(false);
+          successToast({
+            title: 'Success',
+            description: 'Successfully Staked Tokens',
+          });
+          setIsLoadingTx(false);
+        },
+        onTxError(err) {
+          const errMsg = handleErrorMessage(err as any);
+          errorToast({ title: 'Error', description: errMsg });
+          setIsLoadingTx(false);
+        },
+      },
+    });
+  };
 
   if (isTokenLoading || isUserLoading) return <div>Loading...</div>;
   return (
     <SingleColumnLayout>
-      <H1>Join Public Haus</H1>
-      {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
-      <RiScales3Line size="12rem" />
-      <ParMd>
-        Stake 1 {TARGET_DAO.STAKE_TOKEN_NAME} for 1 Public Haus share
-      </ParMd>
-      {
+      <StakeBox>
+        <H1>Join Public Haus</H1>
+        <ParMd>
+          Stake 1 {TARGET_DAO.STAKE_TOKEN_NAME} for 1 Public Haus share
+        </ParMd>
+        <RiScales3Line size="12rem" />
+        {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
+          handleStake={handleStake}
           isLoading={isLoadingTx || isRefetching}
         />
-      }
+      </StakeBox>
     </SingleColumnLayout>
   );
 };
@@ -93,10 +171,12 @@ const StakeTokenSection = ({
   isApproved,
   handleApprove,
   isLoading,
+  handleStake,
 }: {
   isLoading: boolean;
   isApproved: boolean;
   handleApprove: () => void;
+  handleStake: (wholeAmt: string) => void;
 }) => {
   const [stkAmt, setStkAmt] = useState<string>('');
 
@@ -104,26 +184,45 @@ const StakeTokenSection = ({
     setStkAmt(e.target.value);
   };
 
-  const handleStake = () => {
-    console.log('stake', stkAmt);
+  const handleLocalStake = () => {
+    handleStake(stkAmt);
   };
 
-  if (isApproved) {
-    return (
-      <>
+  return (
+    <>
+      <div className="input-box">
+        <Label>Stake Amount</Label>
         <Input
           id="stkAmt"
           onChange={handleChange}
           number
           //@ts-ignore
           value={stkAmt}
+          disabled={!isApproved || isLoading}
+          full
+          placeholder={isApproved ? '0' : 'Approve first'}
         />
-        <Button type="button" onClick={handleStake}>
+      </div>
+      {isApproved ? (
+        <Button
+          type="button"
+          onClick={handleLocalStake}
+          fullWidth
+          disabled={isLoading}
+        >
           Stake
         </Button>
-      </>
-    );
-  } else {
-    return <Button onClick={handleApprove}>Approve</Button>;
-  }
+      ) : (
+        <Button
+          type="button"
+          onClick={handleApprove}
+          variant="outline"
+          fullWidth
+          disabled={isLoading}
+        >
+          Approve
+        </Button>
+      )}
+    </>
+  );
 };

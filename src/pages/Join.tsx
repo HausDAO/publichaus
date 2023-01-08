@@ -16,6 +16,7 @@ import {
   ParMd,
   ParSm,
   SingleColumnLayout,
+  Spinner,
   Theme,
   useToast,
   widthQuery,
@@ -89,7 +90,11 @@ const DataGrid = styled.div`
     }
   }
 `;
-
+const SpinnerBox = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 export const Join = () => {
   const { address } = useDHConnect();
   const { fireTransaction } = useTxBuilder();
@@ -211,7 +216,20 @@ export const Join = () => {
     });
   };
 
-  if (isLoadingAll) return <div>Loading...</div>;
+  if (isLoadingAll)
+    return (
+      <SingleColumnLayout>
+        <StakeBox>
+          <H2>Loading</H2>
+          <ParMd className="space">
+            Fetching Data from RPC. Load times may be longer than usual.{' '}
+          </ParMd>
+          <SpinnerBox>
+            <Spinner size="12rem" />
+          </SpinnerBox>
+        </StakeBox>
+      </SingleColumnLayout>
+    );
   return (
     <SingleColumnLayout>
       <StakeBox>
@@ -228,7 +246,6 @@ export const Join = () => {
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
-
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
@@ -243,7 +260,6 @@ export const Join = () => {
 const MembershipBox = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
   width: 100%;
   margin-bottom: 2rem;
 `;

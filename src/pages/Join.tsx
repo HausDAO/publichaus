@@ -22,6 +22,8 @@ import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
 import {
+  formatDateFromSeconds,
+  formatDistanceToNowFromSeconds,
   handleErrorMessage,
   isNumberish,
   nowInSeconds,
@@ -100,7 +102,6 @@ export const Join = () => {
     },
   });
   const { expiry } = shamanData || {};
-  console.log('expiry', expiry);
   const { isApproved } = tokenData || {};
   const {
     user,
@@ -119,7 +120,6 @@ export const Join = () => {
   const [isLoadingTx, setIsLoadingTx] = useState(false);
   const { successToast, errorToast } = useToast();
   const userOptimisticApproved = address && isOptimisticApproved?.[address];
-
   const isLoadingAll = isTokenLoading || isUserLoading || isShamanLoading;
 
   const handleApprove = () => {
@@ -198,11 +198,12 @@ export const Join = () => {
 
         <DataGrid>
           <DataIndicator
-            label="Stake Token"
+            label="Stake Token:"
             data={TARGET_DAO.STAKE_TOKEN_NAME}
             size="sm"
           />
-          <DataIndicator label="Stake Ratio" data="1:1" size="sm" />
+          <DataIndicator label="Stake Ratio:" data="1:1" size="sm" />
+          {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
@@ -287,6 +288,7 @@ const StakeTokenSection = ({
   );
 };
 
-const ExpiryIndicator = (expiry: { expiry: string }) => {
-  return <DataIndicator label="Time Left" data={'Expired'} size="sm" />;
+const ExpiryIndicator = ({ expiry }: { expiry: string }) => {
+  const expiryDate = formatDistanceToNowFromSeconds(expiry);
+  return <DataIndicator label="Expires:" data={expiryDate} size="sm" />;
 };

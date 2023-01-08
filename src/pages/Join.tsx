@@ -6,9 +6,11 @@ import {
   Button,
   dangerBtn,
   DataIndicator,
+  Divider,
   H1,
   Input,
   Label,
+  ParLg,
   ParMd,
   ParSm,
   SingleColumnLayout,
@@ -26,12 +28,14 @@ import {
   formatDistanceToNowFromSeconds,
   handleErrorMessage,
   isNumberish,
+  MolochV3Membership,
   nowInSeconds,
   toBaseUnits,
   TXLego,
 } from '@daohaus/utils';
 import styled, { useTheme } from 'styled-components';
 import { useOnboarder } from '../hooks/useOnboarder';
+import { Member } from '../utils/types';
 
 const StakeBox = styled.div`
   width: 53rem;
@@ -41,7 +45,7 @@ const StakeBox = styled.div`
   input {
     margin-bottom: 2rem;
   }
-  p {
+  .space {
     margin-bottom: 2rem;
   }
   svg {
@@ -59,7 +63,7 @@ const StakeBox = styled.div`
     width: 100%;
   }
   .err {
-    margin-top: -1rem;
+    margin-top: 1rem;
     color: ${({ theme }: { theme: Theme }) => theme.danger.step9};
   }
 `;
@@ -69,6 +73,7 @@ const DataGrid = styled.div`
   width: 100%;
   justify-content: space-between;
   padding: 2rem 0;
+  margin-bottom: 2rem;
   div {
     margin-right: 2rem;
     @media ${widthQuery.sm} {
@@ -190,12 +195,7 @@ export const Join = () => {
     <SingleColumnLayout>
       <StakeBox>
         <H1>Join Public Haus</H1>
-        {/* <ParMd>
-          Stake 1 {TARGET_DAO.STAKE_TOKEN_NAME} for 1 Public Haus share
-        </ParMd> */}
         <RiScales3Line size="12rem" />
-        {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
-
         <DataGrid>
           <DataIndicator
             label="Stake Token:"
@@ -205,6 +205,8 @@ export const Join = () => {
           <DataIndicator label="Stake Ratio:" data="1:1" size="sm" />
           {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
+        <MembershipSection user={user as Member | null} />
+
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
@@ -216,7 +218,30 @@ export const Join = () => {
   );
 };
 
-const ApprovalSection = () => {};
+const MembershipBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 2rem;
+`;
+
+const MembershipSection = ({ user }: { user?: Member | null }) => {
+  return (
+    <MembershipBox>
+      {user ? (
+        <ParLg>You are a member</ParLg>
+      ) : (
+        <>
+          <ParLg>You are not a member of this DAO</ParLg>
+          <ParMd className="space">
+            Stake {TARGET_DAO.STAKE_TOKEN_NAME} to Join
+          </ParMd>
+        </>
+      )}
+    </MembershipBox>
+  );
+};
 
 const StakeTokenSection = ({
   isApproved,
@@ -251,7 +276,9 @@ const StakeTokenSection = ({
   return (
     <>
       <div className="input-box">
-        <Label>Stake Amount</Label>
+        <Label>
+          <>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</>
+        </Label>
         <Input
           id="stkAmt"
           onChange={handleChange}
@@ -281,7 +308,7 @@ const StakeTokenSection = ({
           fullWidth
           disabled={isLoading}
         >
-          Approve
+          Approve {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>
       )}
     </>

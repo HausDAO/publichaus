@@ -25,9 +25,9 @@ export const Routes = () => {
         pathname={pathname}
         navLinks={[
           { label: 'Home', href: '/' },
-          { label: 'Join DAO', href: '/join' },
-          { label: 'Apply', href: '/apply' },
-          { label: 'Delegates', href: '/delegates' },
+          { label: 'Join', href: '/join' },
+          { label: 'Verify', href: '/apply' },
+          { label: 'Delegate', href: '/delegates' },
         ]}
       >
         <Router>

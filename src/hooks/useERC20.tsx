@@ -57,9 +57,9 @@ const fetchTokenData = async ({
       decimals,
       name,
       symbol,
-      totalSupply,
-      balance,
-      allowance,
+      totalSupply: totalSupply ? (totalSupply?.toString() as string) : null,
+      balance: balance ? (balance?.toString() as string) : null,
+      allowance: allowance ? (allowance?.toString() as string) : null,
       isApproved: !!allowance && allowance?.gt(0),
     };
 

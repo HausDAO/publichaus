@@ -8,8 +8,10 @@ import {
   DataIndicator,
   Divider,
   H1,
+  H2,
   Input,
   Label,
+  Link,
   ParLg,
   ParMd,
   ParSm,
@@ -19,37 +21,45 @@ import {
   widthQuery,
 } from '@daohaus/ui';
 import { useUserMember } from '../hooks/useUserMember';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
 import {
   formatDistanceToNowFromSeconds,
+  formatValueTo,
+  fromWei,
   handleErrorMessage,
   isNumberish,
   toBaseUnits,
+  toWholeUnits,
   TXLego,
 } from '@daohaus/utils';
 import styled from 'styled-components';
 import { useOnboarder } from '../hooks/useOnboarder';
-import { Member } from '../utils/types';
+import { DelegateData, Member } from '../utils/types';
+import { useRecords } from '../hooks/useRecord';
+import { isDelegateData } from '../utils/typeguards';
 
 const StakeBox = styled.div`
   width: 53rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+
   input {
     margin-bottom: 2rem;
   }
   .space {
     margin-bottom: 2rem;
   }
+  .small-space {
+    margin-bottom: 1rem;
+  }
   svg {
     margin-bottom: 2rem;
   }
-  h1 {
-    margin-bottom: 2rem;
+  h2 {
+    margin-bottom: 4rem;
   }
   label {
     margin-bottom: 1rem;
@@ -58,6 +68,7 @@ const StakeBox = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 2rem;
   }
   .err {
     margin-top: 1rem;
@@ -68,11 +79,11 @@ const DataGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   padding: 2rem 0;
   margin-bottom: 2rem;
   div {
-    margin-right: 2rem;
+    margin-right: 4rem;
     @media ${widthQuery.sm} {
       min-width: 100%;
     }
@@ -86,6 +97,7 @@ export const Join = () => {
     tokenData,
     isLoading: isTokenLoading,
     isRefetching,
+    refetch: refetchToken,
   } = useERC20({
     tokenAddress: TARGET_DAO.STAKE_TOKEN,
     chainId: TARGET_DAO.CHAIN_ID,
@@ -93,9 +105,9 @@ export const Join = () => {
     spenderAddress: TARGET_DAO.SHAMAN_ADDRESS,
     fetchShape: {
       allowance: true,
+      balanceOf: true,
     },
   });
-
   const { shamanData, isLoading: isShamanLoading } = useOnboarder({
     shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
@@ -103,8 +115,6 @@ export const Join = () => {
       expiry: true,
     },
   });
-  const { expiry } = shamanData || {};
-  const { isApproved } = tokenData || {};
   const {
     user,
     isLoading: isUserLoading,
@@ -114,6 +124,8 @@ export const Join = () => {
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: address,
   });
+  const { isApproved, balance } = tokenData || {};
+  const { expiry } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
     Record<string, boolean>
@@ -188,6 +200,7 @@ export const Join = () => {
             description: `Staked ${TARGET_DAO.STAKE_TOKEN_NAME} for DAO Shares`,
           });
           refetchUser();
+          refetchToken();
         },
         onPollError(err) {
           const errMsg = handleErrorMessage(err as any);
@@ -202,8 +215,8 @@ export const Join = () => {
   return (
     <SingleColumnLayout>
       <StakeBox>
-        <H1>Join Public Haus</H1>
-        <RiScales3Line size="12rem" />
+        <H2>Join Public Haus</H2>
+        <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_NAME} to Join</ParLg>
         <DataGrid>
           <DataIndicator
             label="Stake Token:"
@@ -213,8 +226,9 @@ export const Join = () => {
           <DataIndicator label="Stake Ratio:" data="1:1" size="sm" />
           {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
-        <MembershipSection user={user as Member | null} />
-
+        <Divider className="space" />
+        <MembershipSection user={user as Member | null} balance={balance} />
+        <Divider className="space" />
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
@@ -229,22 +243,93 @@ export const Join = () => {
 const MembershipBox = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
 `;
 
-const MembershipSection = ({ user }: { user?: Member | null }) => {
+const MembershipSection = ({
+  user,
+  balance,
+}: {
+  user?: Member | null;
+  balance?: string | null;
+}) => {
+  const { address } = useDHConnect();
+  const { records } = useRecords({
+    daoId: TARGET_DAO.ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
+    recordType: 'credential',
+  });
+
+  const userRecords = useMemo(() => {
+    if (!records?.length || !address) return [];
+    return records
+      .filter(
+        (record) =>
+          isDelegateData(record.parsedContent) &&
+          record?.parsedContent?.recipientAddress?.toLowerCase() ===
+            address?.toLowerCase()
+      )
+      .sort((a, b) => (Number(a?.createdAt) > Number(b?.createdAt) ? -1 : 1))
+      .map(
+        (record) =>
+          isDelegateData(record?.parsedContent) && {
+            ...record.parsedContent,
+            createdAt: record.createdAt,
+          }
+      ) as DelegateData[];
+  }, [records, address]);
+  const latestRecord = userRecords?.[0];
   return (
     <MembershipBox>
       {user ? (
         <ParLg>You are a member</ParLg>
       ) : (
+        <ParLg>You are not a member of this DAO</ParLg>
+      )}
+      <DataGrid>
+        <DataIndicator
+          size="sm"
+          label={`Your ${TARGET_DAO.STAKE_TOKEN_NAME} Balance`}
+          data={
+            balance != null
+              ? formatValueTo({
+                  value: fromWei(balance),
+                  format: 'numberShort',
+                })
+              : '--'
+          }
+        />
+        <DataIndicator
+          size="sm"
+          label={'DAO Shares'}
+          data={
+            user?.shares != null
+              ? formatValueTo({
+                  value: fromWei(user.shares),
+                  decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
+                  format: 'number',
+                })
+              : '--'
+          }
+        />
+      </DataGrid>
+      <Divider className="space" />
+      <ParLg className="space">Verification Status:</ParLg>
+      {latestRecord ? (
         <>
-          <ParLg>You are not a member of this DAO</ParLg>
-          <ParMd className="space">
-            Stake {TARGET_DAO.STAKE_TOKEN_NAME} to Join
+          <ParMd className="small-space">
+            The DAO has verified your identity
           </ParMd>
+          <Link href={`/profile/${address}`}>View your profile here</Link>
+        </>
+      ) : (
+        <>
+          <ParMd className="small-space">
+            You are not yet verified by the DAO.
+          </ParMd>
+          <Link href={`/apply`}>Verify your identity here</Link>
         </>
       )}
     </MembershipBox>

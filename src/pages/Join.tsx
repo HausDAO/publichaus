@@ -24,16 +24,13 @@ import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
 import {
-  formatDateFromSeconds,
   formatDistanceToNowFromSeconds,
   handleErrorMessage,
   isNumberish,
-  MolochV3Membership,
-  nowInSeconds,
   toBaseUnits,
   TXLego,
 } from '@daohaus/utils';
-import styled, { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import { useOnboarder } from '../hooks/useOnboarder';
 import { Member } from '../utils/types';
 
@@ -111,7 +108,6 @@ export const Join = () => {
   const {
     user,
     isLoading: isUserLoading,
-    isMember,
     refetch: refetchUser,
   } = useUserMember({
     daoId: TARGET_DAO.ADDRESS,
@@ -123,7 +119,7 @@ export const Join = () => {
     Record<string, boolean>
   >({});
   const [isLoadingTx, setIsLoadingTx] = useState(false);
-  const { successToast, errorToast } = useToast();
+  const { successToast, errorToast, defaultToast } = useToast();
   const userOptimisticApproved = address && isOptimisticApproved?.[address];
   const isLoadingAll = isTokenLoading || isUserLoading || isShamanLoading;
 
@@ -174,14 +170,26 @@ export const Join = () => {
           setIsLoadingTx(true);
         },
         onTxSuccess() {
-          setIsLoadingTx(false);
-          successToast({
+          defaultToast({
             title: 'Success',
-            description: 'Successfully Staked Tokens',
+            description: 'Transaction submitted: Syncing data on Subgraph',
           });
           refetchUser();
         },
         onTxError(err) {
+          const errMsg = handleErrorMessage(err as any);
+          errorToast({ title: 'Error', description: errMsg });
+          setIsLoadingTx(false);
+        },
+        onPollSuccess() {
+          setIsLoadingTx(false);
+          successToast({
+            title: 'Success',
+            description: `Staked ${TARGET_DAO.STAKE_TOKEN_NAME} for DAO Shares`,
+          });
+          refetchUser();
+        },
+        onPollError(err) {
           const errMsg = handleErrorMessage(err as any);
           errorToast({ title: 'Error', description: errMsg });
           setIsLoadingTx(false);
@@ -277,7 +285,10 @@ const StakeTokenSection = ({
     <>
       <div className="input-box">
         <Label>
-          <>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</>
+          <>
+            {isApproved ? 'Stake' : 'Approve'} {TARGET_DAO.STAKE_TOKEN_SYMBOL}{' '}
+            to Join
+          </>
         </Label>
         <Input
           id="stkAmt"

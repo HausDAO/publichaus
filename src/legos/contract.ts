@@ -2,6 +2,7 @@ import { LOCAL_ABI } from '@daohaus/abis';
 import { ContractLego, EthAddress } from '@daohaus/utils';
 import { CONTRACT_KEYCHAINS } from '@daohaus/keychain-utils';
 import { TARGET_DAO } from '../targetDAO';
+import OnboarderABI from '../abis/Onboarder.json';
 
 export const CONTRACT: Record<string, ContractLego> = {
   POSTER: {
@@ -16,9 +17,9 @@ export const CONTRACT: Record<string, ContractLego> = {
   },
   ERC_20: {
     type: 'static',
-    contractName: 'ERC20',
+    contractName: 'ERC_20',
     abi: LOCAL_ABI.ERC20,
-    targetAddress: '.tokenAddress',
+    targetAddress: TARGET_DAO.STAKE_TOKEN,
   },
   ERC_20_FUNDING: {
     type: 'static',
@@ -49,5 +50,11 @@ export const CONTRACT: Record<string, ContractLego> = {
     contractName: 'LOOT_ERC20',
     abi: LOCAL_ABI.LOOT,
     targetAddress: '.dao.sharesAddress',
+  },
+  ONBOARDER: {
+    type: 'static',
+    contractName: 'Onboarder',
+    abi: OnboarderABI,
+    targetAddress: TARGET_DAO.SHAMAN_ADDRESS,
   },
 };

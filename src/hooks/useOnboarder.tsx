@@ -4,14 +4,26 @@ import { createContract } from '@daohaus/tx-builder';
 import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import { useQuery } from 'react-query';
 
+type FetchShape = {
+  baal?: boolean;
+  expiry?: boolean;
+  token?: boolean;
+};
+
 const fetchOnboarder = async ({
   shamanAddress,
   chainId,
   rpcs,
+  fetchShape = {
+    baal: true,
+    expiry: true,
+    token: true,
+  },
 }: {
   shamanAddress: string;
   chainId: ValidNetwork;
   rpcs?: Keychain;
+  fetchShape?: FetchShape;
 }) => {
   const shamanContract = createContract({
     address: shamanAddress,
@@ -19,15 +31,15 @@ const fetchOnboarder = async ({
     chainId,
     rpcs,
   });
-  console.log('shamanContract', shamanContract);
+
   try {
-    const baal = await shamanContract.baal();
-    const expiery = await shamanContract.expiery();
-    const token = await shamanContract.token();
+    const baal = fetchShape?.baal ? await shamanContract.baal() : null;
+    const expiry = fetchShape?.expiry ? await shamanContract.expiery() : null;
+    const token = fetchShape?.token ? await shamanContract.token() : null;
 
     return {
       baal,
-      expiery: expiery.toString() as string,
+      expiry: expiry.toString() as string,
       token,
     };
   } catch (error: any) {
@@ -40,10 +52,16 @@ export const useOnboarder = ({
   shamanAddress,
   chainId,
   rpcs,
+  fetchShape = {
+    baal: true,
+    expiry: true,
+    token: true,
+  },
 }: {
   shamanAddress: string;
   chainId: ValidNetwork;
   rpcs?: Keychain;
+  fetchShape?: FetchShape;
 }) => {
   const { data, error, ...rest } = useQuery(
     'OnboarderShaman',
@@ -52,6 +70,7 @@ export const useOnboarder = ({
         shamanAddress,
         chainId,
         rpcs,
+        fetchShape,
       });
     },
     {

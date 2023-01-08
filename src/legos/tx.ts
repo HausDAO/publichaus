@@ -76,4 +76,10 @@ export const TX: Record<string, TXLego> = {
     method: 'approve',
     staticArgs: [],
   },
+  STAKE: {
+    id: 'STAKE_TOKEN',
+    contract: CONTRACT.ONBOARDER,
+    method: 'onboarder',
+    staticArgs: [],
+  },
 };

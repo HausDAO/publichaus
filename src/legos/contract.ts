@@ -2,6 +2,7 @@ import { LOCAL_ABI } from '@daohaus/abis';
 import { ContractLego, EthAddress } from '@daohaus/utils';
 import { CONTRACT_KEYCHAINS } from '@daohaus/keychain-utils';
 import { TARGET_DAO } from '../targetDAO';
+import OnboarderABI from '../abis/Onboarder.json';
 
 export const CONTRACT: Record<string, ContractLego> = {
   POSTER: {
@@ -49,5 +50,11 @@ export const CONTRACT: Record<string, ContractLego> = {
     contractName: 'LOOT_ERC20',
     abi: LOCAL_ABI.LOOT,
     targetAddress: '.dao.sharesAddress',
+  },
+  ONBOARDER: {
+    type: 'static',
+    contractName: 'Onboarder',
+    abi: OnboarderABI,
+    targetAddress: TARGET_DAO.SHAMAN_ADDRESS,
   },
 };

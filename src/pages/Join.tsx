@@ -4,20 +4,32 @@ import { TARGET_DAO } from '../targetDAO';
 import { RiScales3Line } from 'react-icons/ri';
 import {
   Button,
+  dangerBtn,
+  DataIndicator,
   H1,
   Input,
   Label,
   ParMd,
+  ParSm,
   SingleColumnLayout,
+  Theme,
   useToast,
+  widthQuery,
 } from '@daohaus/ui';
 import { useUserMember } from '../hooks/useUserMember';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
-import { handleErrorMessage, toBaseUnits, TXLego } from '@daohaus/utils';
-import styled from 'styled-components';
+import {
+  handleErrorMessage,
+  isNumberish,
+  nowInSeconds,
+  toBaseUnits,
+  TXLego,
+} from '@daohaus/utils';
+import styled, { useTheme } from 'styled-components';
+import { useOnboarder } from '../hooks/useOnboarder';
 
 const StakeBox = styled.div`
   width: 53rem;
@@ -44,6 +56,23 @@ const StakeBox = styled.div`
     flex-direction: column;
     width: 100%;
   }
+  .err {
+    margin-top: -1rem;
+    color: ${({ theme }: { theme: Theme }) => theme.danger.step9};
+  }
+`;
+const DataGrid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  padding: 2rem 0;
+  div {
+    margin-right: 2rem;
+    @media ${widthQuery.sm} {
+      min-width: 100%;
+    }
+  }
 `;
 
 export const Join = () => {
@@ -63,11 +92,21 @@ export const Join = () => {
     },
   });
 
+  const { shamanData, isLoading: isShamanLoading } = useOnboarder({
+    shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
+    fetchShape: {
+      expiry: true,
+    },
+  });
+  const { expiry } = shamanData || {};
+  console.log('expiry', expiry);
   const { isApproved } = tokenData || {};
   const {
     user,
     isLoading: isUserLoading,
     isMember,
+    refetch: refetchUser,
   } = useUserMember({
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
@@ -80,6 +119,8 @@ export const Join = () => {
   const [isLoadingTx, setIsLoadingTx] = useState(false);
   const { successToast, errorToast } = useToast();
   const userOptimisticApproved = address && isOptimisticApproved?.[address];
+
+  const isLoadingAll = isTokenLoading || isUserLoading || isShamanLoading;
 
   const handleApprove = () => {
     if (!address) return;
@@ -120,7 +161,7 @@ export const Join = () => {
 
     fireTransaction({
       tx: {
-        ...TX.STAKE_TOKEN,
+        ...TX.STAKE,
         staticArgs: [baseAmt],
       } as TXLego,
       lifeCycleFns: {
@@ -133,7 +174,7 @@ export const Join = () => {
             title: 'Success',
             description: 'Successfully Staked Tokens',
           });
-          setIsLoadingTx(false);
+          refetchUser();
         },
         onTxError(err) {
           const errMsg = handleErrorMessage(err as any);
@@ -144,16 +185,25 @@ export const Join = () => {
     });
   };
 
-  if (isTokenLoading || isUserLoading) return <div>Loading...</div>;
+  if (isLoadingAll) return <div>Loading...</div>;
   return (
     <SingleColumnLayout>
       <StakeBox>
         <H1>Join Public Haus</H1>
-        <ParMd>
+        {/* <ParMd>
           Stake 1 {TARGET_DAO.STAKE_TOKEN_NAME} for 1 Public Haus share
-        </ParMd>
+        </ParMd> */}
         <RiScales3Line size="12rem" />
         {!isMember && <ParMd>You are not yet a member of Public Haus</ParMd>}
+
+        <DataGrid>
+          <DataIndicator
+            label="Stake Token"
+            data={TARGET_DAO.STAKE_TOKEN_NAME}
+            size="sm"
+          />
+          <DataIndicator label="Stake Ratio" data="1:1" size="sm" />
+        </DataGrid>
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
@@ -179,6 +229,15 @@ const StakeTokenSection = ({
   handleStake: (wholeAmt: string) => void;
 }) => {
   const [stkAmt, setStkAmt] = useState<string>('');
+  const [valMsg, setValMsg] = useState<string | null>();
+
+  useEffect(() => {
+    if (isNumberish(stkAmt) || !stkAmt) {
+      setValMsg(null);
+    } else {
+      setValMsg('Please enter a valid number');
+    }
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStkAmt(e.target.value);
@@ -202,6 +261,7 @@ const StakeTokenSection = ({
           full
           placeholder={isApproved ? '0' : 'Approve first'}
         />
+        {valMsg && <ParSm className="err">{valMsg}</ParSm>}
       </div>
       {isApproved ? (
         <Button
@@ -225,4 +285,8 @@ const StakeTokenSection = ({
       )}
     </>
   );
+};
+
+const ExpiryIndicator = (expiry: { expiry: string }) => {
+  return <DataIndicator label="Time Left" data={'Expired'} size="sm" />;
 };

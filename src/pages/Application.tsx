@@ -20,7 +20,7 @@ export const Application = () => {
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: address,
   });
-  const [pageState, setPageState] = useState(PageState.Success);
+  const [pageState, setPageState] = useState(PageState.Idle);
 
   if (isLoading) {
     return (
@@ -39,8 +39,10 @@ export const Application = () => {
   if (!isMember) {
     return (
       <FormLayout title="Not a member">
-        <ParMd>You are not a member of this DAO.</ParMd>
-        <Link href="/join"> Please apply to join the DAO first.</Link>
+        <ParMd style={{ marginBottom: '1rem' }}>
+          You are not a member of this DAO.
+        </ParMd>
+        <Link href="/join"> Please join the DAO first.</Link>
       </FormLayout>
     );
   }

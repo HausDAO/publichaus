@@ -228,7 +228,7 @@ export const Join = () => {
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
-        <Divider className="space" />
+
         <StakeTokenSection
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
@@ -245,7 +245,7 @@ const MembershipBox = styled.div`
   flex-direction: column;
   /* align-items: center; */
   width: 100%;
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 `;
 
 const MembershipSection = ({
@@ -315,21 +315,30 @@ const MembershipSection = ({
           }
         />
       </DataGrid>
-      <Divider className="space" />
-      <ParLg className="space">Verification Status:</ParLg>
-      {latestRecord ? (
+      <Divider className={user ? 'space' : ''} />
+      {user && (
         <>
-          <ParMd className="small-space">
-            The DAO has verified your identity
-          </ParMd>
-          <Link href={`/profile/${address}`}>View your profile here</Link>
-        </>
-      ) : (
-        <>
-          <ParMd className="small-space">
-            You are not yet verified by the DAO.
-          </ParMd>
-          <Link href={`/apply`}>Verify your identity here</Link>
+          <ParLg className="space">Verification Status:</ParLg>
+          {latestRecord ? (
+            <>
+              <ParMd className="small-space">
+                The DAO has verified your identity
+              </ParMd>
+              <Link href={`/profile/${address}`} className="space">
+                View your profile here
+              </Link>
+            </>
+          ) : (
+            <>
+              <ParMd className="small-space">
+                You are not yet verified by the DAO.
+              </ParMd>
+              <Link href={`/apply`} className="space">
+                Verify your identity here
+              </Link>
+            </>
+          )}
+          <Divider className="space" />
         </>
       )}
     </MembershipBox>

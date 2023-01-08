@@ -1,46 +1,34 @@
 import { useDHConnect } from '@daohaus/connect';
 import { useERC20 } from '../hooks/useERC20';
 import { TARGET_DAO } from '../targetDAO';
-import { RiScales3Line } from 'react-icons/ri';
 import {
-  Button,
-  dangerBtn,
   DataIndicator,
   Divider,
-  H1,
   H2,
-  Input,
-  Label,
-  Link,
   ParLg,
   ParMd,
-  ParSm,
   SingleColumnLayout,
   Spinner,
   Theme,
   useToast,
-  widthQuery,
 } from '@daohaus/ui';
 import { useUserMember } from '../hooks/useUserMember';
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useTxBuilder } from '@daohaus/tx-builder';
 import { MaxUint256 } from '@ethersproject/constants';
 import { TX } from '../legos/tx';
 import {
   formatDistanceToNowFromSeconds,
-  formatValueTo,
-  fromWei,
   handleErrorMessage,
-  isNumberish,
   toBaseUnits,
-  toWholeUnits,
   TXLego,
 } from '@daohaus/utils';
 import styled from 'styled-components';
 import { useOnboarder } from '../hooks/useOnboarder';
-import { DelegateData, Member } from '../utils/types';
-import { useRecords } from '../hooks/useRecord';
-import { isDelegateData } from '../utils/typeguards';
+import { Member } from '../utils/types';
+import { StakeTokenSection } from '../components/StakeTokenSection';
+import { DataGrid } from '../components/DataGrid';
+import { MembershipSection } from '../components/MembershipSection';
 
 const StakeBox = styled.div`
   width: 53rem;
@@ -76,20 +64,7 @@ const StakeBox = styled.div`
     color: ${({ theme }: { theme: Theme }) => theme.danger.step9};
   }
 `;
-const DataGrid = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  /* justify-content: space-between; */
-  padding: 2rem 0;
-  margin-bottom: 2rem;
-  div {
-    margin-right: 4rem;
-    @media ${widthQuery.sm} {
-      min-width: 100%;
-    }
-  }
-`;
+
 const SpinnerBox = styled.div`
   display: flex;
   justify-content: center;
@@ -254,185 +229,6 @@ export const Join = () => {
         />
       </StakeBox>
     </SingleColumnLayout>
-  );
-};
-
-const MembershipBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 2rem;
-`;
-
-const MembershipSection = ({
-  user,
-  balance,
-}: {
-  user?: Member | null;
-  balance?: string | null;
-}) => {
-  const { address } = useDHConnect();
-  const { records } = useRecords({
-    daoId: TARGET_DAO.ADDRESS,
-    chainId: TARGET_DAO.CHAIN_ID,
-    recordType: 'credential',
-  });
-
-  const userRecords = useMemo(() => {
-    if (!records?.length || !address) return [];
-    return records
-      .filter(
-        (record) =>
-          isDelegateData(record.parsedContent) &&
-          record?.parsedContent?.recipientAddress?.toLowerCase() ===
-            address?.toLowerCase()
-      )
-      .sort((a, b) => (Number(a?.createdAt) > Number(b?.createdAt) ? -1 : 1))
-      .map(
-        (record) =>
-          isDelegateData(record?.parsedContent) && {
-            ...record.parsedContent,
-            createdAt: record.createdAt,
-          }
-      ) as DelegateData[];
-  }, [records, address]);
-  const latestRecord = userRecords?.[0];
-  return (
-    <MembershipBox>
-      {user ? (
-        <ParLg>You are a member</ParLg>
-      ) : (
-        <ParLg>You are not a member of this DAO</ParLg>
-      )}
-      <DataGrid>
-        <DataIndicator
-          size="sm"
-          label={`Your ${TARGET_DAO.STAKE_TOKEN_NAME} Balance`}
-          data={
-            balance != null
-              ? formatValueTo({
-                  value: fromWei(balance),
-                  format: 'numberShort',
-                })
-              : '--'
-          }
-        />
-        <DataIndicator
-          size="sm"
-          label={'DAO Shares'}
-          data={
-            user?.shares != null
-              ? formatValueTo({
-                  value: fromWei(user.shares),
-                  decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
-                  format: 'number',
-                })
-              : '--'
-          }
-        />
-      </DataGrid>
-      <Divider className={user ? 'space' : ''} />
-      {user && (
-        <>
-          <ParLg className="space">Verification Status:</ParLg>
-          {latestRecord ? (
-            <>
-              <ParMd className="small-space">
-                The DAO has verified your identity
-              </ParMd>
-              <Link href={`/profile/${address}`} className="space">
-                View your profile here
-              </Link>
-            </>
-          ) : (
-            <>
-              <ParMd className="small-space">
-                You are not yet verified by the DAO.
-              </ParMd>
-              <Link href={`/apply`} className="space">
-                Verify your identity here
-              </Link>
-            </>
-          )}
-          <Divider className="space" />
-        </>
-      )}
-    </MembershipBox>
-  );
-};
-
-const StakeTokenSection = ({
-  isApproved,
-  handleApprove,
-  isLoading,
-  handleStake,
-}: {
-  isLoading: boolean;
-  isApproved: boolean;
-  handleApprove: () => void;
-  handleStake: (wholeAmt: string) => void;
-}) => {
-  const [stkAmt, setStkAmt] = useState<string>('');
-  const [valMsg, setValMsg] = useState<string | null>();
-
-  useEffect(() => {
-    if (isNumberish(stkAmt) || !stkAmt) {
-      setValMsg(null);
-    } else {
-      setValMsg('Please enter a valid number');
-    }
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStkAmt(e.target.value);
-  };
-
-  const handleLocalStake = () => {
-    handleStake(stkAmt);
-  };
-
-  return (
-    <>
-      <div className="input-box">
-        <Label>
-          <>
-            {isApproved ? 'Stake' : 'Approve'} {TARGET_DAO.STAKE_TOKEN_SYMBOL}{' '}
-            to Join
-          </>
-        </Label>
-        <Input
-          id="stkAmt"
-          onChange={handleChange}
-          number
-          //@ts-ignore
-          value={stkAmt}
-          disabled={!isApproved || isLoading}
-          full
-          placeholder={isApproved ? '0' : 'Approve first'}
-        />
-        {valMsg && <ParSm className="err">{valMsg}</ParSm>}
-      </div>
-      {isApproved ? (
-        <Button
-          type="button"
-          onClick={handleLocalStake}
-          fullWidth
-          disabled={isLoading}
-        >
-          Stake
-        </Button>
-      ) : (
-        <Button
-          type="button"
-          onClick={handleApprove}
-          variant="outline"
-          fullWidth
-          disabled={isLoading}
-        >
-          Approve {TARGET_DAO.STAKE_TOKEN_SYMBOL}
-        </Button>
-      )}
-    </>
   );
 };
 

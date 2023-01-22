@@ -14,38 +14,8 @@ enum PageState {
 }
 
 export const Application = () => {
-  const { address } = useDHConnect();
-  const { isMember, isLoading, error } = useUserMember({
-    daoId: TARGET_DAO.ADDRESS,
-    chainId: TARGET_DAO.CHAIN_ID,
-    memberAddress: address,
-  });
   const [pageState, setPageState] = useState(PageState.Idle);
 
-  if (isLoading) {
-    return (
-      <FormLayout title="Loading">
-        <Spinner size="12rem" />
-      </FormLayout>
-    );
-  }
-  if (error) {
-    return (
-      <FormLayout title="Error">
-        <ParMd>{error.message}</ParMd>
-      </FormLayout>
-    );
-  }
-  if (!isMember) {
-    return (
-      <FormLayout title="Not a member">
-        <ParMd style={{ marginBottom: '1rem' }}>
-          You are not a member of this DAO.
-        </ParMd>
-        <Link href="/join"> Please join the DAO first.</Link>
-      </FormLayout>
-    );
-  }
   if (pageState === PageState.Success) {
     return (
       <FormLayout title="Success!">

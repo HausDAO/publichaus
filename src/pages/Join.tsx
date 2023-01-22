@@ -222,6 +222,7 @@ export const Join = () => {
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
         <StakeTokenSection
+          balance={balance}
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
           handleStake={handleStake}

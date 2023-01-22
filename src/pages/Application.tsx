@@ -1,8 +1,6 @@
-import { useDHConnect } from '@daohaus/connect';
 import { FormBuilder } from '@daohaus/form-builder';
-import { FormLayout, Link, ParMd, Spinner } from '@daohaus/ui';
+import { FormLayout, Link, ParMd } from '@daohaus/ui';
 import { useState } from 'react';
-import { useUserMember } from '../hooks/useUserMember';
 
 import { FORM } from '../legos/forms';
 import { TARGET_DAO } from '../targetDAO';

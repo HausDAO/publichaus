@@ -1,16 +1,18 @@
 import { TARGET_DAO } from '../targetDAO';
 import { Button, Input, Label, ParSm } from '@daohaus/ui';
 import { useEffect, useState } from 'react';
-import { isNumberish } from '@daohaus/utils';
+import { isNumberish, toBaseUnits } from '@daohaus/utils';
 
 export const StakeTokenSection = ({
   isApproved,
   handleApprove,
   isLoading,
   handleStake,
+  balance,
 }: {
   isLoading: boolean;
   isApproved: boolean;
+  balance?: string | null;
   handleApprove: () => void;
   handleStake: (wholeAmt: string) => void;
 }) => {
@@ -18,10 +20,19 @@ export const StakeTokenSection = ({
   const [valMsg, setValMsg] = useState<string | null>();
 
   useEffect(() => {
-    if (isNumberish(stkAmt) || !stkAmt) {
+    if (!stkAmt) {
       setValMsg(null);
-    } else {
+    } else if (!isNumberish(stkAmt)) {
       setValMsg('Please enter a valid number');
+    } else if (!balance) {
+      setValMsg(`You do not have a ${TARGET_DAO.STAKE_TOKEN_SYMBOL} balance`);
+    } else if (
+      Number(balance) <
+      Number(toBaseUnits(stkAmt, TARGET_DAO.STAKE_TOKEN_DECIMALS))
+    ) {
+      setValMsg(`Insufficient ${TARGET_DAO.STAKE_TOKEN_SYMBOL} balance`);
+    } else {
+      setValMsg(null);
     }
   });
 
@@ -48,7 +59,7 @@ export const StakeTokenSection = ({
           number
           //@ts-ignore
           value={stkAmt}
-          disabled={!isApproved || isLoading}
+          disabled={!isApproved || isLoading || !balance}
           full
           placeholder={isApproved ? '0' : 'Approve first'}
         />
@@ -61,7 +72,7 @@ export const StakeTokenSection = ({
           fullWidth
           disabled={isLoading}
         >
-          Stake
+          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>
       ) : (
         <Button

@@ -31,7 +31,7 @@ import { DataGrid } from '../components/DataGrid';
 import { MembershipSection } from '../components/MembershipSection';
 
 const StakeBox = styled.div`
-  width: 53rem;
+  max-width: 70rem;
   display: flex;
   flex-direction: column;
 
@@ -216,12 +216,17 @@ export const Join = () => {
             data={TARGET_DAO.STAKE_TOKEN_NAME}
             size="sm"
           />
-          <DataIndicator label="Stake Ratio:" data="1:1" size="sm" />
+          <DataIndicator
+            label="Stake Ratio:"
+            data={`1 Haus: 10 PHaus`}
+            size="sm"
+          />
           {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
         <StakeTokenSection
+          balance={balance}
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
           handleStake={handleStake}

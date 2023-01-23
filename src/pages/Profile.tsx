@@ -25,8 +25,10 @@ import { CredentialDisplay } from '../components/CredentialDisplay';
 import { StatusDisplay } from '../components/StatusDisplay';
 import { useUserMember } from '../hooks/useUserMember';
 import { DelegationActions } from '../components/DelegationActions';
+import { useQueryClient } from 'react-query';
 
 export const Profile = () => {
+  const client = useQueryClient();
   const { memberAddress } = useParams();
   const { successToast } = useToast();
   const { address } = useDHConnect();
@@ -84,6 +86,7 @@ export const Profile = () => {
   const onDelegateSuccess = useCallback(() => {
     refetchMember?.();
     refetchUser?.();
+    client?.clear();
   }, []);
 
   if (isLoadingAny) {

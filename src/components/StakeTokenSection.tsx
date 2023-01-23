@@ -1,27 +1,40 @@
 import { TARGET_DAO } from '../targetDAO';
-import { Button, Input, Label, ParSm } from '@daohaus/ui';
+import { Button, Checkbox, Input, Label, ParSm } from '@daohaus/ui';
 import { useEffect, useState } from 'react';
-import { isNumberish } from '@daohaus/utils';
+import { isNumberish, toBaseUnits } from '@daohaus/utils';
+import styled from 'styled-components';
 
 export const StakeTokenSection = ({
   isApproved,
   handleApprove,
   isLoading,
   handleStake,
+  balance,
 }: {
   isLoading: boolean;
   isApproved: boolean;
+  balance?: string | null;
   handleApprove: () => void;
   handleStake: (wholeAmt: string) => void;
 }) => {
   const [stkAmt, setStkAmt] = useState<string>('');
   const [valMsg, setValMsg] = useState<string | null>();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isNumberish(stkAmt) || !stkAmt) {
+    if (!stkAmt) {
       setValMsg(null);
-    } else {
+    } else if (!isNumberish(stkAmt)) {
       setValMsg('Please enter a valid number');
+    } else if (!balance) {
+      setValMsg(`You do not have a ${TARGET_DAO.STAKE_TOKEN_SYMBOL} balance`);
+    } else if (
+      Number(balance) <
+      Number(toBaseUnits(stkAmt, TARGET_DAO.STAKE_TOKEN_DECIMALS))
+    ) {
+      setValMsg(`Insufficient ${TARGET_DAO.STAKE_TOKEN_SYMBOL} balance`);
+    } else {
+      setValMsg(null);
     }
   });
 
@@ -31,6 +44,9 @@ export const StakeTokenSection = ({
 
   const handleLocalStake = () => {
     handleStake(stkAmt);
+  };
+  const toggleChecked = () => {
+    setIsChecked(!isChecked);
   };
 
   return (
@@ -54,14 +70,24 @@ export const StakeTokenSection = ({
         />
         {valMsg && <ParSm className="err">{valMsg}</ParSm>}
       </div>
+      <CheckArea>
+        <Checkbox
+          onCheckedChange={toggleChecked}
+          checked={isChecked}
+          defaultChecked={false}
+          title="I have read the DAOhaus Manifesto"
+          className="checkbox"
+        />
+      </CheckArea>
+
       {isApproved ? (
         <Button
           type="button"
           onClick={handleLocalStake}
           fullWidth
-          disabled={isLoading}
+          disabled={isLoading || !isChecked || !!valMsg}
         >
-          Stake
+          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>
       ) : (
         <Button
@@ -77,3 +103,11 @@ export const StakeTokenSection = ({
     </>
   );
 };
+const CheckArea = styled.div`
+  button {
+    transform: translateY(-1rem);
+  }
+  svg {
+    transform: translateY(1rem);
+  }
+`;

@@ -46,6 +46,7 @@ export const Application = () => {
       </FormLayout>
     );
   }
+
   if (pageState === PageState.Success) {
     return (
       <FormLayout title="Success!">

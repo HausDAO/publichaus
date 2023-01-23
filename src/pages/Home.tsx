@@ -1,12 +1,4 @@
-import {
-  Bold,
-  Divider,
-  H2,
-  Link,
-  ParLg,
-  ParMd,
-  SingleColumnLayout,
-} from '@daohaus/ui';
+import { Bold, H2, Link, ParLg, ParMd, SingleColumnLayout } from '@daohaus/ui';
 import styled from 'styled-components';
 import { HausAnimated } from '../components/HausAnimated';
 import { TARGET_DAO } from '../targetDAO';
@@ -20,7 +12,7 @@ const CenterBox = styled.div`
   .space {
     margin-bottom: 2rem;
   }
-  width: 60rem;
+  max-width: 60rem;
 `;
 
 export const Home = () => {
@@ -29,17 +21,6 @@ export const Home = () => {
       <H2>PublicHaus Onboarder</H2>
       <HausAnimated />
       <CenterBox>
-        <ParLg>Welcome to the PublicHaus Onboarder</ParLg>
-        <ParMd>
-          This is a simple interface to help onboard the DAOhaus community to
-          the PublicHaus DAO, so they can easily participate in protocol
-          governance.
-        </ParMd>
-        <ParMd>
-          Please follow the steps below to join the DAO, get verified, or
-          delegate shares to a verified delegate
-        </ParMd>
-        <Divider className="space" />
         <ParLg>How to Participate</ParLg>
         <ParMd>
           <Bold>Step 1:</Bold> Read the DAOhaus{' '}

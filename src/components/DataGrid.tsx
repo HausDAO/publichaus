@@ -7,8 +7,8 @@ export const DataGrid = styled.div`
   width: 100%;
   /* justify-content: space-between; */
   padding: 2rem 0;
-  margin-bottom: 2rem;
   div {
+    margin-bottom: 2rem;
     margin-right: 4rem;
     @media ${widthQuery.sm} {
       min-width: 100%;

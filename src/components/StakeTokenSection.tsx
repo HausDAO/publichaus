@@ -1,7 +1,8 @@
 import { TARGET_DAO } from '../targetDAO';
-import { Button, Input, Label, ParSm } from '@daohaus/ui';
+import { Button, Checkbox, Input, Label, ParSm } from '@daohaus/ui';
 import { useEffect, useState } from 'react';
 import { isNumberish, toBaseUnits } from '@daohaus/utils';
+import styled from 'styled-components';
 
 export const StakeTokenSection = ({
   isApproved,
@@ -18,6 +19,7 @@ export const StakeTokenSection = ({
 }) => {
   const [stkAmt, setStkAmt] = useState<string>('');
   const [valMsg, setValMsg] = useState<string | null>();
+  const [isChecked, setIsChecked] = useState<boolean>(false);
 
   useEffect(() => {
     if (!stkAmt) {
@@ -43,6 +45,9 @@ export const StakeTokenSection = ({
   const handleLocalStake = () => {
     handleStake(stkAmt);
   };
+  const toggleChecked = () => {
+    setIsChecked(!isChecked);
+  };
 
   return (
     <>
@@ -59,18 +64,28 @@ export const StakeTokenSection = ({
           number
           //@ts-ignore
           value={stkAmt}
-          disabled={!isApproved || isLoading || !balance}
+          disabled={!isApproved || isLoading}
           full
           placeholder={isApproved ? '0' : 'Approve first'}
         />
         {valMsg && <ParSm className="err">{valMsg}</ParSm>}
       </div>
+      <CheckArea>
+        <Checkbox
+          onCheckedChange={toggleChecked}
+          checked={isChecked}
+          defaultChecked={false}
+          title="I have read the DAOhaus Manifesto"
+          className="checkbox"
+        />
+      </CheckArea>
+
       {isApproved ? (
         <Button
           type="button"
           onClick={handleLocalStake}
           fullWidth
-          disabled={isLoading}
+          disabled={isLoading || !isChecked || !!valMsg}
         >
           Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>
@@ -88,3 +103,11 @@ export const StakeTokenSection = ({
     </>
   );
 };
+const CheckArea = styled.div`
+  button {
+    transform: translateY(-1rem);
+  }
+  svg {
+    transform: translateY(1rem);
+  }
+`;

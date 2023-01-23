@@ -32,6 +32,7 @@ import { MembershipSection } from '../components/MembershipSection';
 
 const StakeBox = styled.div`
   max-width: 70rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
 

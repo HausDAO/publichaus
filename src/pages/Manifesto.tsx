@@ -1,5 +1,4 @@
 import { Bold, H2, ParMd, SingleColumnLayout } from '@daohaus/ui';
-import React from 'react';
 import styled from 'styled-components';
 import { MANIFESTO } from '../targetDAO';
 

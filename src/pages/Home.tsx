@@ -12,7 +12,7 @@ const CenterBox = styled.div`
   .space {
     margin-bottom: 2rem;
   }
-  width: 60rem;
+  max-width: 60rem;
 `;
 
 export const Home = () => {

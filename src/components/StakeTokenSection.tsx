@@ -70,15 +70,17 @@ export const StakeTokenSection = ({
         />
         {valMsg && <ParSm className="err">{valMsg}</ParSm>}
       </div>
-      <CheckArea>
-        <Checkbox
-          onCheckedChange={toggleChecked}
-          checked={isChecked}
-          defaultChecked={false}
-          title="I have read the DAOhaus Manifesto"
-          className="checkbox"
-        />
-      </CheckArea>
+      {isApproved && (
+        <CheckArea>
+          <Checkbox
+            onCheckedChange={toggleChecked}
+            checked={isChecked}
+            defaultChecked={false}
+            title="I have read the DAOhaus Manifesto"
+            className="checkbox"
+          />
+        </CheckArea>
+      )}
 
       {isApproved ? (
         <Button

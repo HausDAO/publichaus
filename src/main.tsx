@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom/client';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { HashRouter } from 'react-router-dom';
 import { Routes } from './Routes';
+import { TARGET_DAO } from './targetDAO';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,7 +21,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <HausThemeProvider>
-        <DHConnectProvider>
+        <DHConnectProvider daoChainId={TARGET_DAO.CHAIN_ID}>
           <QueryClientProvider client={queryClient}>
             <Routes />
           </QueryClientProvider>

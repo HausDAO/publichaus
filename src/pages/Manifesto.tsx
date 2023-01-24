@@ -19,7 +19,7 @@ export const Manifesto = () => {
         <H2>{MANIFESTO.title}</H2>
         {MANIFESTO.sections.map((section) => {
           return (
-            <ParMd>
+            <ParMd key={section.bold}>
               <Bold>{section.bold}</Bold> {section.text}
             </ParMd>
           );

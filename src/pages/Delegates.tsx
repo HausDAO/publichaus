@@ -147,6 +147,7 @@ export const Delegates = () => {
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
           linkType="external"
+          style={{ marginBottom: '2rem' }}
         >
           See all Members
         </Link>

@@ -8,6 +8,7 @@ type FetchShape = {
   baal?: boolean;
   expiry?: boolean;
   token?: boolean;
+  multiplier?: boolean;
 };
 
 const fetchOnboarder = async ({
@@ -36,10 +37,12 @@ const fetchOnboarder = async ({
     const baal = fetchShape?.baal ? await shamanContract.baal() : null;
     const expiry = fetchShape?.expiry ? await shamanContract.expiery() : null;
     const token = fetchShape?.token ? await shamanContract.token() : null;
+    const multiplier = fetchShape?.multiplier ? await shamanContract.multiplier() : null;
 
     return {
       baal,
       expiry: expiry.toString() as string,
+      multiplier: multiplier.toString() as string,
       token,
     };
   } catch (error: any) {

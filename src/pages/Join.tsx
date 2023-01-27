@@ -94,6 +94,7 @@ export const Join = () => {
     chainId: TARGET_DAO.CHAIN_ID,
     fetchShape: {
       expiry: true,
+      multiplier: true
     },
   });
   const {
@@ -106,7 +107,7 @@ export const Join = () => {
     memberAddress: address,
   });
   const { isApproved, balance } = tokenData || {};
-  const { expiry } = shamanData || {};
+  const { expiry, multiplier } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
     Record<string, boolean>
@@ -217,7 +218,7 @@ export const Join = () => {
             data={TARGET_DAO.STAKE_TOKEN_NAME}
             size="sm"
           />
-          <DataIndicator label="Stake Ratio:" data={`1:1`} size="sm" />
+          <DataIndicator label="Stake Ratio:" data={`1: ${multiplier}`} size="sm" />
           {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <Divider className="space" />

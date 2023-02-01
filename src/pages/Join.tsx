@@ -217,7 +217,7 @@ export const Join = () => {
             data={TARGET_DAO.STAKE_TOKEN_NAME}
             size="sm"
           />
-          <DataIndicator label="Stake Ratio:" data={`1:1`} size="sm" />
+          <DataIndicator label="Stake Ratio:" data={`1:0`} size="sm" />
           {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <Divider className="space" />

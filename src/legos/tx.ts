@@ -23,7 +23,7 @@ export const TX: Record<string, TXLego> = {
     JSONDetails: {
       type: 'JSONDetails',
       jsonSchema: {
-        title: `.formValues.title`,
+        title: `.formValues.championName`,
         description: `.formValues.description`,
         contentURI: `.formValues.link`,
         contentURIType: { type: 'static', value: 'url' },
@@ -55,8 +55,8 @@ export const TX: Record<string, TXLego> = {
                 value:
                   'Verified Delegate of Public Haus. The DAO has verified that this member is a registered delegate of Public Haus.',
               },
-              longDescription: `.formValues.delegateDescription`,
-              link: `.formValues.delegateLink`,
+              longDescription: `.formValues.description`,
+              link: `.formValues.link`,
             },
           },
           { type: 'static', value: POSTER_TAGS.daoDatabaseProposal },

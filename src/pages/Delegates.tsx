@@ -12,7 +12,6 @@ import { StatusDisplay } from '../components/StatusDisplay';
 import { useDaoData } from '../hooks/useDaoData';
 import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
-import { ButtonRouterLink } from '../components/ButtonRouterLink';
 import styled from 'styled-components';
 
 const ButtonRow = styled.div`
@@ -75,6 +74,7 @@ export const Delegates = () => {
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
+
     return records.reduce((acc, record) => {
       // If the record is not valid, skip it
       const { parsedContent, createdAt } = record;
@@ -82,7 +82,7 @@ export const Delegates = () => {
         console.warn('Delegate data is not valid', parsedContent);
         return acc;
       }
-      const delegateAddress = parsedContent.recipientAddress;
+      const delegateAddress = parsedContent.recipientAddress.toLowerCase();
 
       // If the delegate is already in the accumulator, add the record to the array
 

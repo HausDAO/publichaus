@@ -3,6 +3,7 @@ import { FormBuilder } from '@daohaus/form-builder';
 import { FormLayout, Link, ParMd, Spinner } from '@daohaus/ui';
 import { useState } from 'react';
 import { useUserMember } from '../hooks/useUserMember';
+import { CustomFields } from '../legos/config';
 
 import { FORM } from '../legos/forms';
 import { TARGET_DAO } from '../targetDAO';
@@ -74,6 +75,7 @@ export const Application = () => {
       <FormBuilder
         form={FORM.VERIFY_DELEGATE}
         targetNetwork={TARGET_DAO.CHAIN_ID}
+        customFields={CustomFields}
         onSuccess={() => setPageState(PageState.Success)}
         onError={() => setPageState(PageState.Error)}
       />

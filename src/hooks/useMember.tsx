@@ -3,8 +3,7 @@ import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import { useQuery } from 'react-query';
 import { fetchProfile } from '../utils/cacheProfile';
 import { MolochV3Member } from '@daohaus/moloch-v3-data';
-import { AccountProfile, handleErrorMessage } from '@daohaus/utils';
-import { MemberWithProfile } from '../utils/types';
+import { handleErrorMessage } from '@daohaus/utils';
 const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
 const fetchMember = async ({

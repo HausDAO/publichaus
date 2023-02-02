@@ -8,6 +8,7 @@ import { TXBuilder } from '@daohaus/tx-builder';
 import { TARGET_DAO } from './targetDAO';
 import { Join } from './pages/Join';
 import { Manifesto } from './pages/Manifesto';
+import { Unstake } from './pages/Unstake';
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -39,6 +40,7 @@ export const Routes = () => {
           <Route path="/delegates" element={<Delegates />} />
           <Route path="/join" element={<Join />} />
           <Route path="/profile/:memberAddress" element={<Profile />} />
+          <Route path="/unstake" element={<Unstake />} />
         </Router>
       </DHLayout>
     </TXBuilder>

@@ -127,7 +127,7 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny) return <StatusDisplay title="Loading Delegates" spinner />;
+  if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
   if (isErrorAny)
     return (
       <StatusDisplay
@@ -142,7 +142,7 @@ export const Delegates = () => {
     );
 
   return (
-    <SingleColumnLayout title="Verified Delegates">
+    <SingleColumnLayout title="Verified Champions">
       <ButtonRow>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}

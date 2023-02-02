@@ -10,7 +10,6 @@ export const isDelegateData = (
     parsedContent.daoId &&
     parsedContent.description &&
     parsedContent.link != null &&
-    parsedContent.longDescription &&
     parsedContent.recipientAddress &&
     parsedContent.table
   );

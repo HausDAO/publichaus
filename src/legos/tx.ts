@@ -55,8 +55,8 @@ export const TX: Record<string, TXLego> = {
                 value:
                   'Verified Delegate of Public Haus. The DAO has verified that this member is a registered delegate of Public Haus.',
               },
-              longDescription: `.formValues.delegateDescription`,
-              link: `.formValues.delegateLink`,
+              longDescription: `.formValues.description`,
+              link: `.formValues.link`,
             },
           },
           { type: 'static', value: POSTER_TAGS.daoDatabaseProposal },

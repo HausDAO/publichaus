@@ -19,7 +19,8 @@ export const StakeTokenSection = ({
 }) => {
   const [stkAmt, setStkAmt] = useState<string>('');
   const [valMsg, setValMsg] = useState<string | null>();
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isManifestoChecked, setIsManifestoChecked] = useState<boolean>(false);
+  const [isDocsChecked, setIsDocsChecked] = useState<boolean>(false);
 
   useEffect(() => {
     if (!stkAmt) {
@@ -45,8 +46,11 @@ export const StakeTokenSection = ({
   const handleLocalStake = () => {
     handleStake(stkAmt);
   };
-  const toggleChecked = () => {
-    setIsChecked(!isChecked);
+  const toggleManifestoChecked = () => {
+    setIsManifestoChecked(!isManifestoChecked);
+  };
+  const toggleDocsChecked = () => {
+    setIsDocsChecked(!isDocsChecked);
   };
 
   return (
@@ -73,10 +77,17 @@ export const StakeTokenSection = ({
       {isApproved && (
         <CheckArea>
           <Checkbox
-            onCheckedChange={toggleChecked}
-            checked={isChecked}
+            onCheckedChange={toggleManifestoChecked}
+            checked={isManifestoChecked}
             defaultChecked={false}
             title="I have read the DAOhaus Manifesto"
+            className="checkbox"
+          />
+          <Checkbox
+            onCheckedChange={toggleDocsChecked}
+            checked={isDocsChecked}
+            defaultChecked={false}
+            title="I have read the PublicHAUS Docs"
             className="checkbox"
           />
         </CheckArea>
@@ -87,7 +98,7 @@ export const StakeTokenSection = ({
           type="button"
           onClick={handleLocalStake}
           fullWidth
-          disabled={isLoading || !isChecked || !!valMsg}
+          disabled={isLoading || !isManifestoChecked || !isDocsChecked || !!valMsg}
         >
           Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>

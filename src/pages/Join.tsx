@@ -89,13 +89,13 @@ export const Join = () => {
       balanceOf: true,
     },
   });
-  const { shamanData, isLoading: isShamanLoading } = useOnboarder({
-    shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
-    chainId: TARGET_DAO.CHAIN_ID,
-    fetchShape: {
-      expiry: true,
-    },
-  });
+  // const { shamanData, isLoading: isShamanLoading } = useOnboarder({
+  //   shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
+  //   chainId: TARGET_DAO.CHAIN_ID,
+  //   fetchShape: {
+  //     expiry: true,
+  //   },
+  // });
   const {
     user,
     isLoading: isUserLoading,
@@ -106,7 +106,7 @@ export const Join = () => {
     memberAddress: address,
   });
   const { isApproved, balance } = tokenData || {};
-  const { expiry } = shamanData || {};
+  // const { expiry } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
     Record<string, boolean>
@@ -114,7 +114,7 @@ export const Join = () => {
   const [isLoadingTx, setIsLoadingTx] = useState(false);
   const { successToast, errorToast, defaultToast } = useToast();
   const userOptimisticApproved = address && isOptimisticApproved?.[address];
-  const isLoadingAll = isTokenLoading || isUserLoading || isShamanLoading;
+  const isLoadingAll = isTokenLoading || isUserLoading;
 
   const handleApprove = () => {
     if (!address) return;
@@ -178,7 +178,7 @@ export const Join = () => {
           setIsLoadingTx(false);
           successToast({
             title: 'Success',
-            description: `Staked ${TARGET_DAO.STAKE_TOKEN_NAME} for DAO Shares`,
+            description: `Staked ${TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO Shares`,
           });
           refetchUser();
           refetchToken();
@@ -210,15 +210,14 @@ export const Join = () => {
     <SingleColumnLayout>
       <StakeBox>
         <H2>Join Public Haus</H2>
-        <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_NAME} to Join</ParLg>
+        <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</ParLg>
         <DataGrid>
           <DataIndicator
             label="Stake Token:"
-            data={TARGET_DAO.STAKE_TOKEN_NAME}
+            data={TARGET_DAO.STAKE_TOKEN_SYMBOL}
             size="sm"
           />
           <DataIndicator label="Stake Ratio:" data={`1:10`} size="sm" />
-          {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />

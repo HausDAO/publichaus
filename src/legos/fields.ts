@@ -1,4 +1,3 @@
-import { FieldLego } from '@daohaus/form-builder';
 import { CustomFieldLego } from './config';
 
 export const FIELD: Record<string, CustomFieldLego> = {
@@ -11,14 +10,14 @@ export const FIELD: Record<string, CustomFieldLego> = {
   DESCRIPTION: {
     id: 'description',
     type: 'textarea',
-    label: 'Description',
+    label: 'Platform Description',
     placeholder: 'Enter description',
-    helperText: 'Enter a brief description of your platform',
+    helperText: 'Enter a brief description of your platform.',
   },
   LINK: {
     id: 'link',
     type: 'input',
-    label: 'Link',
+    label: 'Full platoform link',
     placeholder: 'http://',
     expectType: 'url',
     helperText: 'Please provide a detailed link to your Championship platform',

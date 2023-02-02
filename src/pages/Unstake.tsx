@@ -31,7 +31,7 @@ export const Unstake = () => {
       <H2>Unstake shares</H2>
       <CenterBox>
         <ParLg>Native UI coming soon but for now this is how to unstake.</ParLg>
-        <ParMd>Go to your member profile on the DAO and ragequit.</ParMd>
+        <ParMd>Go to your member profile on the DAO admin portal and ragequit.</ParMd>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members/${address}`}
           linkType="external"
@@ -39,6 +39,13 @@ export const Unstake = () => {
         >
           Profile
         </Link>
+        <ParMd>When you unstake you burn your Shares/Loot in the DAO{" "}
+            and receive your fair share of the staking treasury.{" "} 
+            You can unstake a potion or the full amount. If you have{" "} 
+            no Shares or Loot in the DAO you are no longer a member. {" "}
+            This process is called ragequit and can be found in the 3 vertical{" "}
+            dot menu on your admin profile.
+            </ParMd>
       </CenterBox>
     </SingleColumnLayout>
   );

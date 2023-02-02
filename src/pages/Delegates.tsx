@@ -12,7 +12,6 @@ import { StatusDisplay } from '../components/StatusDisplay';
 import { useDaoData } from '../hooks/useDaoData';
 import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
-import { ButtonRouterLink } from '../components/ButtonRouterLink';
 import styled from 'styled-components';
 
 const ButtonRow = styled.div`

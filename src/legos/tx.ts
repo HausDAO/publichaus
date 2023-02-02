@@ -23,7 +23,7 @@ export const TX: Record<string, TXLego> = {
     JSONDetails: {
       type: 'JSONDetails',
       jsonSchema: {
-        title: `.formValues.title`,
+        title: `.formValues.championName`,
         description: `.formValues.description`,
         contentURI: `.formValues.link`,
         contentURIType: { type: 'static', value: 'url' },

@@ -1,13 +1,20 @@
-import { useDHConnect } from '@daohaus/connect';
-import { TARGET_DAO } from '../targetDAO';
-import { DataIndicator, Divider, Link, ParLg, ParMd } from '@daohaus/ui';
-import { useMemo } from 'react';
-import { formatValueTo, fromWei } from '@daohaus/utils';
-import styled from 'styled-components';
-import { DelegateData, Member } from '../utils/types';
-import { useRecords } from '../hooks/useRecord';
-import { isDelegateData } from '../utils/typeguards';
-import { DataGrid } from './DataGrid';
+import { useDHConnect } from "@daohaus/connect";
+import { TARGET_DAO } from "../targetDAO";
+import {
+  DataIndicator,
+  Divider,
+  Link,
+  ParLg,
+  ParMd,
+  Button,
+} from "@daohaus/ui";
+import { useMemo } from "react";
+import { formatValueTo, fromWei } from "@daohaus/utils";
+import styled from "styled-components";
+import { DelegateData, Member } from "../utils/types";
+import { useRecords } from "../hooks/useRecord";
+import { isDelegateData } from "../utils/typeguards";
+import { DataGrid } from "./DataGrid";
 
 const MembershipBox = styled.div`
   display: flex;
@@ -27,7 +34,7 @@ export const MembershipSection = ({
   const { records } = useRecords({
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
-    recordType: 'credential',
+    recordType: "credential",
   });
 
   const userRecords = useMemo(() => {
@@ -52,38 +59,41 @@ export const MembershipSection = ({
   return (
     <MembershipBox>
       {user ? (
-        <ParLg>You are a member</ParLg>
+        <ParLg>
+          You are a member{" "}
+          <Link href="/unstake">unstake</Link>
+        </ParLg>
       ) : (
         <ParLg>You are not a member of this DAO</ParLg>
       )}
       <DataGrid>
         <DataIndicator
           size="sm"
-          label={`Your ${TARGET_DAO.STAKE_TOKEN_NAME} Balance`}
+          label={`Your ${TARGET_DAO.STAKE_TOKEN_SYMBOL} Balance`}
           data={
             balance != null
               ? formatValueTo({
                   value: fromWei(balance),
-                  format: 'numberShort',
+                  format: "numberShort",
                 })
-              : '--'
+              : "--"
           }
         />
         <DataIndicator
           size="sm"
-          label={'DAO Shares'}
+          label={"DAO Shares"}
           data={
             user?.shares != null
               ? formatValueTo({
                   value: fromWei(user.shares),
                   decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
-                  format: 'number',
+                  format: "number",
                 })
-              : '--'
+              : "--"
           }
         />
       </DataGrid>
-      <Divider className={user ? 'space' : ''} />
+      <Divider className={user ? "space" : ""} />
       {user && (
         <>
           <ParLg className="space">Verification Status:</ParLg>

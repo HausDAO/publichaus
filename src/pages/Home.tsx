@@ -35,30 +35,29 @@ export const Home = () => {
           <Link href="/manifesto">Manifesto</Link> and make sure that you align
           with the values. Read the{" "}
           <Link
-          href={`https://publichaus.club`}
-          linkType="external"
-          style={{ marginBottom: '2rem' }}
-        >
-          PublicHAUS docs
-        </Link>{" "}
-           and make sure you understand what this is all about.
+            href={`https://publichaus.club`}
+            linkType="external"
+            style={{ marginBottom: "2rem" }}
+          >
+            PublicHAUS docs
+          </Link>{" "}
+          and make sure you understand what this is all about.
         </ParMd>
         <ParMd>
           <H3>Step 2: STAKE</H3> Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO
-          shares. {" "}
-          <Link href="/join">here</Link>
+          shares. <Link href="/join">here</Link>
         </ParMd>
         <ParMd>
           <H3>Step 3: DELEGATE</H3>
-          Delegate your shares to a DAO Champion <Bold>OR</Bold>{" "}
-          apply to be a Champion yourself. You can{" "}
-          read Champion platforms on their profile page.{" "}
-          <Link href="/delegates">here</Link>
+          Delegate your shares to a DAO Champion <Bold>OR</Bold> apply to be a
+          Champion yourself. You can read Champion platforms on their profile
+          page. <Link href="/delegates">here</Link>
         </ParMd>
         <ParMd>
-          * Championship requires a DAO vote to ensure you are a real person, and
-          you are aligned with the DAOhaus mission. If you are ready for this
-          resposibility create a DAO proposal <Link href="/apply">here</Link>.
+          * Championship requires a DAO vote to ensure you are a real person,
+          and you are aligned with the DAOhaus mission. If you are ready for
+          this resposibility create a DAO proposal{" "}
+          <Link href="/apply">here</Link>.
         </ParMd>
       </CenterBox>
     </SingleColumnLayout>

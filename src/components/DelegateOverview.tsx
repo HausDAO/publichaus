@@ -80,7 +80,7 @@ export const DelegateOverview = ({
               memberAddress={userDelegateData}
             />
           ) : (
-            '--'
+            'SELF'
           )}
         </DataIndicatorContainer>
       </DataGrid>

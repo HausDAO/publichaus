@@ -10,16 +10,17 @@ export const FIELD: Record<string, CustomFieldLego> = {
   DESCRIPTION: {
     id: 'description',
     type: 'textarea',
-    label: 'Platform Description',
+    label: 'Brief Platform Description',
     placeholder: 'Enter description',
-    helperText: 'Enter a brief description of your platform.',
+    helperText:
+      'A succinct discription of your platform that gets across your purpose at a glance',
   },
   LINK: {
     id: 'link',
     type: 'input',
-    label: 'Full platoform link',
+    label: 'Full Platform Link',
     placeholder: 'http://',
     expectType: 'url',
-    helperText: 'Please provide a detailed link to your Championship platform',
+    helperText: 'Please provide a link to your detailed Championship platform',
   },
 };

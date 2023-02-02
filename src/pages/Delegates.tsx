@@ -74,17 +74,7 @@ export const Delegates = () => {
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
-    console.log('members', members);
-    console.log('records', records);
 
-    // console.log(
-    //   "Spencer's Record",
-    //   records.find(
-    //     (record) =>
-    //       record.parsedContent.recipientAddress.toLowerCase() ===
-    //       '0x15c6ac4cf1b5e49c44332fb0a1043ccab19db80a'
-    //   )
-    // );
     return records.reduce((acc, record) => {
       // If the record is not valid, skip it
       const { parsedContent, createdAt } = record;
@@ -109,9 +99,6 @@ export const Delegates = () => {
         };
       }
 
-      if (delegateAddress === '0x15c6ac4cf1b5e49c44332fb0a1043ccab19db80a') {
-        console.log('Spencer Record', record);
-      }
       // If the delegate is not in the accumulator, add the delegate and the record
 
       const delegateMemberData = members.find(

@@ -160,7 +160,7 @@ export const Delegates = () => {
       />
       <ButtonRow>
         <Link
-          href={`\delegate`}
+          href={`/delegate`}
           style={{ marginBottom: '2rem' }}
         >
           Enter an account not on this list

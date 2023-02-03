@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link, SingleColumnLayout } from '@daohaus/ui';
+import { Link, ParSm, SingleColumnLayout } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
@@ -127,22 +127,22 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
-  if (isErrorAny)
-    return (
-      <StatusDisplay
-        status="Error"
-        description={
-          recordsError?.message ||
-          membersError?.message ||
-          userError?.message ||
-          daoError?.message
-        }
-      />
-    );
+  // if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
+  // if (isErrorAny)
+  //   return (
+  //     <StatusDisplay
+  //       status="Error"
+  //       description={
+  //         recordsError?.message ||
+  //         membersError?.message ||
+  //         userError?.message ||
+  //         daoError?.message
+  //       }
+  //     />
+  //   );
 
   return (
-    <SingleColumnLayout title="Verified Champions">
+    <SingleColumnLayout title="Verified Champions" description="This is a list of currated delegates (Champions) that have been selected by the DAO.">
       <ButtonRow>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
@@ -158,6 +158,14 @@ export const Delegates = () => {
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       />
+      <ButtonRow>
+        <Link
+          href={`\delegate`}
+          style={{ marginBottom: '2rem' }}
+        >
+          Enter an account not on this list
+        </Link>
+      </ButtonRow>
     </SingleColumnLayout>
   );
 };

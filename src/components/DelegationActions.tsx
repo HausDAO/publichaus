@@ -100,7 +100,7 @@ export const DelegationActions = ({
       <DelegationBox>
         <ParMd className="spacer">You are not delegating shares</ParMd>
         <ButtonRouterLink to="/delegates" color="secondary" fullWidth>
-          Choose a Delegate
+          Choose a Champion
         </ButtonRouterLink>
       </DelegationBox>
     );

@@ -127,19 +127,19 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  // if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
-  // if (isErrorAny)
-  //   return (
-  //     <StatusDisplay
-  //       status="Error"
-  //       description={
-  //         recordsError?.message ||
-  //         membersError?.message ||
-  //         userError?.message ||
-  //         daoError?.message
-  //       }
-  //     />
-  //   );
+  if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
+  if (isErrorAny)
+    return (
+      <StatusDisplay
+        status="Error"
+        description={
+          recordsError?.message ||
+          membersError?.message ||
+          userError?.message ||
+          daoError?.message
+        }
+      />
+    );
 
   return (
     <SingleColumnLayout title="Verified Champions" description="This is a list of currated delegates (Champions) that have been selected by the DAO.">

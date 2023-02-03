@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   Card,
@@ -5,40 +6,27 @@ import {
   ParMd,
   SingleColumnLayout,
   useBreakpoint,
-  useToast,
   widthQuery,
 } from "@daohaus/ui";
 import { BsArrowLeft } from "react-icons/bs";
-import { useMember } from "../hooks/useMember";
 import { TARGET_DAO } from "../targetDAO";
 import styled from "styled-components";
+import { useMember } from "../hooks/useMember";
 import { useDaoData } from "../hooks/useDaoData";
-import { useCallback, useState } from "react";
+import { useUserMember } from "../hooks/useUserMember";
 
 import { useDHConnect } from "@daohaus/connect";
 
 import { ButtonRouterLink } from "../components/ButtonRouterLink";
 
 import { StatusDisplay } from "../components/StatusDisplay";
-import { useUserMember } from "../hooks/useUserMember";
 import { DelegationActions } from "../components/DelegationActions";
 import { useQueryClient } from "react-query";
 
 export const DelegateTo = () => {
   const client = useQueryClient();
-  const { memberAddress } = useParams();
   const { address } = useDHConnect();
-  const {
-    isLoading: isLoadingMember,
-    isIdle: isMemberIdle,
-    error: memberError,
-    refetch: refetchMember,
-    member,
-  } = useMember({
-    daoId: TARGET_DAO.ADDRESS,
-    chainId: TARGET_DAO.CHAIN_ID,
-    memberAddress: memberAddress as string,
-  });
+
 
   const {
     isLoading: isLoadingUser,
@@ -66,11 +54,9 @@ export const DelegateTo = () => {
   const isLoadingAny =
     isDaoIdle ||
     isLoadingDao ||
-    isLoadingUser ||
-    isMemberIdle ||
-    isLoadingMember;
+    isLoadingUser;
 
-  const isErrorAny = daoError || memberError || userError;
+  const isErrorAny = daoError || userError;
 
   const [delegateAcct, setDelegateAcct] = useState("");
 
@@ -79,7 +65,6 @@ export const DelegateTo = () => {
   };
 
   const onDelegateSuccess = useCallback(() => {
-    refetchMember?.();
     refetchUser?.();
     client?.clear();
   }, []);
@@ -94,48 +79,45 @@ export const DelegateTo = () => {
         title="Error"
         status="Error:"
         description={
-          memberError?.message || daoError?.message || userError?.message
+          daoError?.message || userError?.message
         }
       />
     );
   }
 
   return (
-    <SingleColumnLayout title="Delegate To">
-      {member && (
-        <>
-          <ButtonsContainer>
-            <ButtonRouterLink
-              to={`/delegates`}
-              IconLeft={StyledArrowLeft}
-              color="secondary"
-              linkType="no-icon-external"
-              variant="outline"
-              fullWidth={isMobile}
-            >
-              CHAMPIONS
-            </ButtonRouterLink>
-          </ButtonsContainer>
+    <SingleColumnLayout>
+      <ButtonsContainer>
+        <ButtonRouterLink
+          to={`/delegates`}
+          IconLeft={StyledArrowLeft}
+          color="secondary"
+          linkType="no-icon-external"
+          variant="outline"
+          fullWidth={isMobile}
+        >
+          BACK TO CHAMPIONS
+        </ButtonRouterLink>
+      </ButtonsContainer>
 
-          <Input
-            id="delegateAcct"
-            onChange={handleChange}
-            number
-            //@ts-ignore
-            value={delegateAcct}
-            full
-            placeholder={"0x..."}
-          />
+      {!!user && (<Input
+        id="delegateAcct"
+        onChange={handleChange}
+        number
+        //@ts-ignore
+        value={delegateAcct}
+        full
+        placeholder={"0x..."}
+        fullWidth={isMobile}
+      />)}
 
-          <DelegationActions
-            userAddress={address}
-            userDelegatingTo={user?.delegatingTo}
-            memberAddress={delegateAcct}
-            isUserMember={!!user}
-            onSuccess={onDelegateSuccess}
-          />
-        </>
-      )}
+      <DelegationActions
+        userAddress={address}
+        userDelegatingTo={user?.delegatingTo}
+        memberAddress={delegateAcct}
+        isUserMember={!!user}
+        onSuccess={onDelegateSuccess}
+      />
     </SingleColumnLayout>
   );
 };

@@ -40,7 +40,7 @@ export const V2DAO = ({
           <ParMd>Loot: {v2DAOData?.loot}</ParMd>
 
           <Link
-            href={`https://app.daohaus.club/dao/0x64/${daoAddress}`}
+            href={`https://app.daohaus.club/dao/0x1/${daoAddress}`}
             linkType="external"
           >
             V2 DAO Interface

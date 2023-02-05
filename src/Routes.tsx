@@ -33,6 +33,7 @@ export const Routes = () => {
           { label: 'Join', href: '/join' },
           { label: 'Verify', href: '/apply' },
           { label: 'Delegate', href: '/delegates' },
+          { label: 'Claims', href: '/claim' },
         ]}
       >
         <Router>

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import hausBlockAnimated from '../assets/hausBlockAnimated.svg';
+import hausBlockAnimated from '../assets/hypnotoad.gif';
 
 const ImageContainer = styled.div`
   display: flex;

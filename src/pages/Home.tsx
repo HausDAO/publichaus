@@ -26,7 +26,7 @@ const CenterBox = styled.div`
 export const Home = () => {
   return (
     <SingleColumnLayout>
-      <H2>PublicHaus Onboarder</H2>
+      <H2>FROG Onboarder</H2>
       <HausAnimated />
       <CenterBox>
         <ParLg>How to Participate</ParLg>
@@ -36,11 +36,11 @@ export const Home = () => {
           <Link href="/manifesto">Manifesto</Link> and make sure that you align
           with the values. Read the{" "}
           <Link
-            href={`https://publichaus.club`}
+            href={`https://en.wikipedia.org/wiki/Frog`}
             linkType="external"
             style={{ marginBottom: "2rem" }}
           >
-            PublicHAUS docs
+            Frog docs
           </Link>{" "}
           and make sure you understand what this is all about.
         </ParMd>

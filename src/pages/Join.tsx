@@ -7,6 +7,7 @@ import {
   H2,
   ParLg,
   ParMd,
+  ParSm,
   SingleColumnLayout,
   Spinner,
   Theme,
@@ -156,7 +157,7 @@ export const Join = () => {
     fireTransaction({
       tx: {
         ...TX.STAKE,
-        staticArgs: [baseAmt],
+        staticArgs: [baseAmt, 0],
       } as TXLego,
       lifeCycleFns: {
         onRequestSign() {
@@ -209,8 +210,9 @@ export const Join = () => {
   return (
     <SingleColumnLayout>
       <StakeBox>
-        <H2>Join Public Haus</H2>
+        <H2>Join Frog</H2>
         <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</ParLg>
+        <ParSm>You can get up to 100 shares all further stake is represented as LOOT</ParSm>
         <DataGrid>
           <DataIndicator
             label="Stake Token:"
@@ -218,6 +220,11 @@ export const Join = () => {
             size="sm"
           />
           <DataIndicator label="Stake Ratio:" data={`1:10`} size="sm" />
+          <DataIndicator
+            label="Stake Shares Cap:"
+            data={'100'}
+            size="sm"
+          />
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />

@@ -92,6 +92,19 @@ export const MembershipSection = ({
               : "--"
           }
         />
+        <DataIndicator
+          size="sm"
+          label={"DAO Loot"}
+          data={
+            user?.loot != null
+              ? formatValueTo({
+                  value: fromWei(user.loot),
+                  decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
+                  format: "number",
+                })
+              : "--"
+          }
+        />
       </DataGrid>
       <Divider className={user ? "space" : ""} />
       {user && (

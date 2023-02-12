@@ -1,11 +1,21 @@
-import React, { ReactNode } from 'react';
-import { RegisteredMembers } from '../utils/types';
+import React, { ReactNode, useMemo } from 'react';
+import { RegisteredMember, RegisteredMembers } from '../utils/types';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { SingleColumnLayout, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
 import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
+
+const handleSearch = (term: string, delegates: RegisteredMembers) => {
+  return Object.values(delegates).filter((delegate) => {
+    return (
+      delegate?.profile?.name?.toLowerCase().includes(term.toLowerCase()) ||
+      delegate?.profile?.ens?.toLowerCase().includes(term.toLowerCase()) ||
+      delegate.memberAddress.toLowerCase().includes(term.toLowerCase())
+    );
+  });
+};
 
 export const DelegateCards = ({
   registeredDelegates,
@@ -18,9 +28,28 @@ export const DelegateCards = ({
   userAddress?: string;
   userDelegateAddress?: string;
 }) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+  const [sort, setSort] = React.useState<'shares' | 'delegateShares'>('shares');
+
+  const processedDelegates = useMemo(() => {
+    if (searchTerm) {
+      return handleSearch(searchTerm, registeredDelegates);
+    }
+
+    return Object.values(registeredDelegates).sort((a, b) => {
+      if (sort === 'shares') {
+        return Number(b.shares) > Number(a.shares) ? 1 : -1;
+      }
+      if (sort === 'delegateShares') {
+        return Number(b.delegateShares) > Number(a.delegateShares) ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [registeredDelegates]);
+
   return (
     <ListControl>
-      {Object.values(registeredDelegates).map((delegate) => (
+      {Object.values(processedDelegates).map((delegate) => (
         <DelegateCard delegate={delegate} />
       ))}
     </ListControl>

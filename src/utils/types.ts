@@ -14,6 +14,8 @@ export type DelegateData = {
   createdAt?: string;
 };
 export type Member = ListMembersQuery['members'][0];
-export type RegisteredMember = Member & { records: DelegateData[] };
+export type RegisteredMember = Member & { records: DelegateData[] } & {
+  profile: AccountProfile;
+};
 export type RegisteredMembers = Record<string, RegisteredMember>;
 export type MemberWithProfile = MolochV3Member & { profile: AccountProfile };

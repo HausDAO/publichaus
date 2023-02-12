@@ -61,7 +61,7 @@ const DelegateCardBox = styled(Card)`
 `;
 
 export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
-  const { profile } = useMemberProfile({ address: delegate.memberAddress });
+  const { profile } = delegate;
 
   const readableShares = formatValueTo({
     value: fromWei(delegate.shares),

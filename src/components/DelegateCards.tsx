@@ -1,11 +1,13 @@
 import React, { ReactNode, useMemo } from 'react';
 import { RegisteredMember, RegisteredMembers } from '../utils/types';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { SingleColumnLayout, widthQuery } from '@daohaus/ui';
+import { Input, SingleColumnLayout, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
 import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
+import { ReactSetter, votingPowerPercentage } from '@daohaus/utils';
+import { BiSearch } from 'react-icons/bi';
 
 const handleSearch = (term: string, delegates: RegisteredMembers) => {
   return Object.values(delegates).filter((delegate) => {
@@ -16,6 +18,8 @@ const handleSearch = (term: string, delegates: RegisteredMembers) => {
     );
   });
 };
+
+type Sortable = 'shares' | 'delegateShares';
 
 export const DelegateCards = ({
   registeredDelegates,
@@ -29,7 +33,7 @@ export const DelegateCards = ({
   userDelegateAddress?: string;
 }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [sort, setSort] = React.useState<'shares' | 'delegateShares'>('shares');
+  const [sort, setSort] = React.useState<Sortable>('delegateShares');
 
   const processedDelegates = useMemo(() => {
     if (searchTerm) {
@@ -37,20 +41,25 @@ export const DelegateCards = ({
     }
 
     return Object.values(registeredDelegates).sort((a, b) => {
-      if (sort === 'shares') {
-        return Number(b.shares) > Number(a.shares) ? 1 : -1;
-      }
       if (sort === 'delegateShares') {
         return Number(b.delegateShares) > Number(a.delegateShares) ? 1 : -1;
       }
+      if (sort === 'shares') {
+        return Number(b.shares) > Number(a.shares) ? 1 : -1;
+      }
       return 0;
     });
-  }, [registeredDelegates]);
+  }, [registeredDelegates, searchTerm, sort]);
 
   return (
-    <ListControl>
+    <ListControl
+      searchTerm={searchTerm}
+      setSearchTerm={setSearchTerm}
+      sort={sort}
+      setSort={setSort}
+    >
       {Object.values(processedDelegates).map((delegate) => (
-        <DelegateCard delegate={delegate} />
+        <DelegateCard delegate={delegate} key={delegate.memberAddress} />
       ))}
     </ListControl>
   );
@@ -79,21 +88,43 @@ const CardBox = styled.div`
   }
 `;
 
-const ListControl = ({ children }: { children: ReactNode }) => {
+const ListControl = ({
+  children,
+  searchTerm,
+  setSearchTerm,
+  sort,
+  setSort,
+}: {
+  children: ReactNode;
+  searchTerm: string;
+  setSearchTerm: ReactSetter<string>;
+  sort: Sortable;
+  setSort: ReactSetter<Sortable>;
+}) => {
   return (
     <CardBox>
       <ControlBarBox>
-        <SearchInput
-          searchTerm=""
-          setSearchTerm={() => null}
-          noun={{ singular: 'Delegate', plural: 'Delegates' }}
-          totalItems={0}
+        <Input
+          icon={BiSearch}
+          id="table-search"
+          placeholder={'Search'}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
         <SortDropdown
           id="delegates-sort"
           label="Sort By"
-          options={[]}
-          onChange={() => null}
+          value={sort}
+          options={[
+            {
+              name: 'VotePower',
+              value: 'delegateShares',
+            },
+            {
+              name: 'Shares',
+              value: 'shares',
+            },
+          ]}
+          onChange={(e: any) => setSort(e.target.value)}
         />
       </ControlBarBox>
       <div className="inner-card-box">{children}</div>

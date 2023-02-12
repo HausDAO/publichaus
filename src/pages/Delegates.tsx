@@ -13,6 +13,7 @@ import { useDaoData } from '../hooks/useDaoData';
 import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
 import styled from 'styled-components';
+import { DelegateCards } from '../components/DelegateCards';
 
 const ButtonRow = styled.div`
   display: flex;
@@ -152,12 +153,19 @@ export const Delegates = () => {
           See all Members
         </Link>
       </ButtonRow>
-      <DelegateTable
+      <DelegateCards
         registeredDelegates={registeredDelegates}
         dao={dao}
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       />
+
+      {/* <DelegateTable
+        registeredDelegates={registeredDelegates}
+        dao={dao}
+        userAddress={user?.memberAddress}
+        userDelegateAddress={user?.delegatingTo}
+      /> */}
     </SingleColumnLayout>
   );
 };

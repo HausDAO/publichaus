@@ -5,6 +5,7 @@ import { SingleColumnLayout, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
 import SearchInput from './SearchInput';
 import { SortDropdown } from './SortDropdown';
+import { DelegateCard } from './DelegateCard';
 
 export const DelegateCards = ({
   registeredDelegates,
@@ -17,7 +18,13 @@ export const DelegateCards = ({
   userAddress?: string;
   userDelegateAddress?: string;
 }) => {
-  return <ListControl>Test</ListControl>;
+  return (
+    <ListControl>
+      {Object.values(registeredDelegates).map((delegate) => (
+        <DelegateCard delegate={delegate} />
+      ))}
+    </ListControl>
+  );
 };
 
 const ControlBarBox = styled.div`

@@ -31,8 +31,6 @@ const ControlBarBox = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 3rem;
-  flex-wrap: wrap;
-  gap: 1.6rem;
   .list-toggle {
     margin-right: auto;
   }
@@ -41,9 +39,20 @@ const ControlBarBox = styled.div`
   }
 `;
 
+const CardBox = styled.div`
+  margin-top: 3rem;
+  max-width: 122rem;
+  .inner-card-box {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+`;
+
 const ListControl = ({ children }: { children: ReactNode }) => {
   return (
-    <SingleColumnLayout>
+    <CardBox>
       <ControlBarBox>
         <SearchInput
           searchTerm=""
@@ -58,7 +67,7 @@ const ListControl = ({ children }: { children: ReactNode }) => {
           onChange={() => null}
         />
       </ControlBarBox>
-      {children}
-    </SingleColumnLayout>
+      <div className="inner-card-box">{children}</div>
+    </CardBox>
   );
 };

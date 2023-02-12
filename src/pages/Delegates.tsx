@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Link, SingleColumnLayout } from '@daohaus/ui';
+import { H2, Link, SingleColumnLayout } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
@@ -19,6 +19,13 @@ const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-start;
   width: 100%;
+`;
+
+const ExpandedLayout = styled.div`
+  h2 {
+    margin-bottom: 2rem;
+    margin-top: 3.6rem;
+  }
 `;
 
 export const Delegates = () => {
@@ -143,7 +150,8 @@ export const Delegates = () => {
     );
 
   return (
-    <SingleColumnLayout title="Verified Delegates">
+    <ExpandedLayout>
+      <H2>Verified Delegates</H2>
       <ButtonRow>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
@@ -166,6 +174,6 @@ export const Delegates = () => {
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       /> */}
-    </SingleColumnLayout>
+    </ExpandedLayout>
   );
 };

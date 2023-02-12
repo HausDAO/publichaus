@@ -15,9 +15,10 @@ import {
   formatValueTo,
   fromWei,
   handlePluralNoun,
-  sharesDelegatedToMember,
   truncateAddress,
 } from '@daohaus/utils';
+import { sharesDelegatedToMember } from '../utils/conversion';
+
 import React from 'react';
 import styled from 'styled-components';
 import { useMemberProfile } from '../hooks/useMemberProfile';
@@ -28,7 +29,7 @@ const DelegateCardBox = styled(Card)`
   width: 100%;
   max-width: 28rem;
   min-width: 24rem;
-  margin-bottom: 2rem;
+
   .top-box {
     display: flex;
     /* justify-content: space-between; */
@@ -54,7 +55,7 @@ const DelegateCardBox = styled(Card)`
     height: 6rem;
     border-radius: ${border.radius};
     padding: 1rem;
-    background: ${(props) => props.theme.secondary.step5};
+    background: ${(props) => props.theme.secondary.step3};
     margin-bottom: 2rem;
   }
 `;
@@ -67,14 +68,13 @@ export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
     decimals: 2,
     format: 'number',
   });
+  const delegatedShares = sharesDelegatedToMember(
+    delegate.delegateShares,
+    delegate.shares
+  );
 
   const readableDelShares = formatValueTo({
-    value: fromWei(
-      sharesDelegatedToMember(
-        delegate.delegateShares,
-        delegate.shares
-      ).toString()
-    ),
+    value: fromWei(delegatedShares),
     decimals: 2,
     format: 'number',
   });
@@ -90,7 +90,7 @@ export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
           image={profile?.image}
         />
         <ParLg>
-          {charLimit(profile?.name || profile?.ens, 13) ||
+          {charLimit(profile?.name || profile?.ens, 10) ||
             truncateAddress(delegate?.memberAddress)}
         </ParLg>
       </div>
@@ -129,6 +129,7 @@ export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
         to={`/profile/${delegate.memberAddress}`}
         fullWidth
         size="sm"
+        color="secondary"
       >
         See Delegate
       </ButtonRouterLink>

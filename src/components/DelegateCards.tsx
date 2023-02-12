@@ -1,12 +1,11 @@
 import React, { ReactNode, useMemo } from 'react';
-import { RegisteredMember, RegisteredMembers } from '../utils/types';
+import { RegisteredMembers } from '../utils/types';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { Input, SingleColumnLayout, widthQuery } from '@daohaus/ui';
+import { Input, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
-import SearchInput from './SearchInput';
 import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
-import { ReactSetter, votingPowerPercentage } from '@daohaus/utils';
+import { ReactSetter } from '@daohaus/utils';
 import { BiSearch } from 'react-icons/bi';
 
 const handleSearch = (term: string, delegates: RegisteredMembers) => {
@@ -28,7 +27,7 @@ export const DelegateCards = ({
   userDelegateAddress,
 }: {
   registeredDelegates: RegisteredMembers;
-  dao?: MolochV3Dao;
+  dao: MolochV3Dao;
   userAddress?: string;
   userDelegateAddress?: string;
 }) => {
@@ -59,7 +58,11 @@ export const DelegateCards = ({
       setSort={setSort}
     >
       {Object.values(processedDelegates).map((delegate) => (
-        <DelegateCard delegate={delegate} key={delegate.memberAddress} />
+        <DelegateCard
+          delegate={delegate}
+          key={delegate.memberAddress}
+          dao={dao}
+        />
       ))}
     </ListControl>
   );
@@ -116,7 +119,7 @@ const ListControl = ({
           value={sort}
           options={[
             {
-              name: 'VotePower',
+              name: 'Voting Power',
               value: 'delegateShares',
             },
             {

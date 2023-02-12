@@ -16,10 +16,12 @@ import {
   fromWei,
   handlePluralNoun,
   truncateAddress,
+  votingPowerPercentage,
 } from '@daohaus/utils';
+import { MolochV3Dao } from '@daohaus/moloch-v3-data';
+
 import { sharesDelegatedToMember } from '../utils/conversion';
 
-import React from 'react';
 import styled from 'styled-components';
 import { useMemberProfile } from '../hooks/useMemberProfile';
 import { RegisteredMember } from '../utils/types';
@@ -60,7 +62,13 @@ const DelegateCardBox = styled(Card)`
   }
 `;
 
-export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
+export const DelegateCard = ({
+  delegate,
+  dao,
+}: {
+  delegate: RegisteredMember;
+  dao: MolochV3Dao;
+}) => {
   const { profile } = delegate;
 
   const readableShares = formatValueTo({
@@ -78,6 +86,11 @@ export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
     decimals: 2,
     format: 'number',
   });
+
+  const votingPower = votingPowerPercentage(
+    dao.totalShares,
+    delegate.delegateShares
+  );
 
   const recentPlatform = delegate.records[0]?.longDescription;
 
@@ -103,6 +116,9 @@ export const DelegateCard = ({ delegate }: { delegate: RegisteredMember }) => {
         )}
       </ParSm>
       <div className="stats-box">
+        <ParMd>
+          <Bold>{votingPower}%</Bold> Voting Power
+        </ParMd>
         <ParMd>
           <Bold>{readableShares}</Bold>{' '}
           {handlePluralNoun(

@@ -14,6 +14,7 @@ import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
 import styled from 'styled-components';
 import { DelegateCards } from '../components/DelegateCards';
+import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 
 const ButtonRow = styled.div`
   display: flex;
@@ -78,7 +79,7 @@ export const Delegates = () => {
     isRecordsIdle ||
     isMembersIdle ||
     isLoadingDao;
-  const isErrorAny = recordsError || membersError || userError;
+  const isErrorAny = recordsError || membersError || userError || daoError;
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
@@ -163,7 +164,7 @@ export const Delegates = () => {
       </ButtonRow>
       <DelegateCards
         registeredDelegates={registeredDelegates}
-        dao={dao}
+        dao={dao as MolochV3Dao}
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       />

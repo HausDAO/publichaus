@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { H2, Link, ParSm, SingleColumnLayout } from '@daohaus/ui';
+import { H2, Link, ParMd, ParSm, SingleColumnLayout } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
@@ -18,8 +18,25 @@ import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 
 const DataRow = styled.div`
   display: flex;
-  justify-content: space-between;
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  .p-box {
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .link-box {
+    padding-bottom: 0.3rem;
+    height: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    a {
+      /* margin-bottom: 1rem; */
+    }
+  }
 `;
 
 const ExpandedLayout = styled.div`
@@ -156,17 +173,24 @@ export const Delegates = () => {
     <ExpandedLayout>
       <H2>Hall of Champions</H2>
       <DataRow>
-        <Link
-          href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
-          linkType="external"
-          style={{ marginBottom: '2rem' }}
-        >
-          See all Members
-        </Link>
-        <Link href={`/delegate`} style={{ marginBottom: '2rem' }}>
-          Delegate to a non-Champion
-        </Link>
+        <div className="p-box">
+          <ParMd>Champions: {Object.keys(registeredDelegates).length}</ParMd>
+          <ParMd>You are delegating to: </ParMd>
+        </div>
+        <div className="link-box">
+          <Link
+            href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
+            linkType="external"
+            style={{ marginBottom: '2rem' }}
+          >
+            See all Members
+          </Link>
+          <Link href={`/delegate`} style={{ marginBottom: '2rem' }}>
+            Delegate to a non-Champion
+          </Link>
+        </div>
       </DataRow>
+      <DataRow></DataRow>
       <DelegateList
         registeredDelegates={registeredDelegates}
         dao={dao as MolochV3Dao}

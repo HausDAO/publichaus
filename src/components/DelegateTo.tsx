@@ -1,5 +1,5 @@
-import { useCallback, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import {
   Card,
   Input,
@@ -7,26 +7,25 @@ import {
   SingleColumnLayout,
   useBreakpoint,
   widthQuery,
-} from "@daohaus/ui";
-import { BsArrowLeft } from "react-icons/bs";
-import { TARGET_DAO } from "../targetDAO";
-import styled from "styled-components";
-import { useMember } from "../hooks/useMember";
-import { useDaoData } from "../hooks/useDaoData";
-import { useUserMember } from "../hooks/useUserMember";
+} from '@daohaus/ui';
+import { BsArrowLeft } from 'react-icons/bs';
+import { TARGET_DAO } from '../targetDAO';
+import styled from 'styled-components';
+import { useMember } from '../hooks/useMember';
+import { useDaoData } from '../hooks/useDaoData';
+import { useUserMember } from '../hooks/useUserMember';
 
-import { useDHConnect } from "@daohaus/connect";
+import { useDHConnect } from '@daohaus/connect';
 
-import { ButtonRouterLink } from "../components/ButtonRouterLink";
+import { ButtonRouterLink } from '../components/ButtonRouterLink';
 
-import { StatusDisplay } from "../components/StatusDisplay";
-import { DelegationActions } from "../components/DelegationActions";
-import { useQueryClient } from "react-query";
+import { StatusDisplay } from '../components/StatusDisplay';
+import { DelegationActions } from '../components/DelegationActions';
+import { useQueryClient } from 'react-query';
 
 export const DelegateTo = () => {
   const client = useQueryClient();
   const { address } = useDHConnect();
-
 
   const {
     isLoading: isLoadingUser,
@@ -51,14 +50,11 @@ export const DelegateTo = () => {
 
   const isMobile = useBreakpoint(widthQuery.sm);
 
-  const isLoadingAny =
-    isDaoIdle ||
-    isLoadingDao ||
-    isLoadingUser;
+  const isLoadingAny = isDaoIdle || isLoadingDao || isLoadingUser;
 
   const isErrorAny = daoError || userError;
 
-  const [delegateAcct, setDelegateAcct] = useState("");
+  const [delegateAcct, setDelegateAcct] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDelegateAcct(e.target.value);
@@ -78,9 +74,7 @@ export const DelegateTo = () => {
       <StatusDisplay
         title="Error"
         status="Error:"
-        description={
-          daoError?.message || userError?.message
-        }
+        description={daoError?.message || userError?.message}
       />
     );
   }
@@ -100,16 +94,17 @@ export const DelegateTo = () => {
         </ButtonRouterLink>
       </ButtonsContainer>
 
-      {!!user && (<Input
-        id="delegateAcct"
-        onChange={handleChange}
-        number
-        //@ts-ignore
-        value={delegateAcct}
-        full
-        placeholder={"0x..."}
-        fullWidth={isMobile}
-      />)}
+      {!!user && (
+        <Input
+          id="delegateAcct"
+          onChange={handleChange}
+          number
+          //@ts-ignore
+          value={delegateAcct}
+          placeholder={'0x...'}
+          full={isMobile}
+        />
+      )}
 
       <DelegationActions
         userAddress={address}

@@ -7,8 +7,9 @@ import {
   Member_Filter,
 } from '@daohaus/moloch-v3-data';
 import { Paging, Ordering } from '@daohaus/data-fetch-utils';
-import { Member } from '../utils/types';
+import { Member, MemberWithProfile } from '../utils/types';
 import { handleErrorMessage } from '@daohaus/utils';
+import { fetchProfile } from '../utils/cacheProfile';
 
 const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
 
@@ -33,7 +34,14 @@ const fetchMembers = async ({
       paging,
       ordering,
     });
-    return data;
+    const withProfiles = await Promise.all(
+      data.items.map(async (member) => {
+        const profile = await fetchProfile(member.memberAddress);
+        return { ...member, profile };
+      })
+    );
+
+    return withProfiles;
   } catch (error) {
     console.error(error);
     throw new Error(
@@ -73,7 +81,7 @@ export const useMembers = ({
   );
 
   return {
-    members: data?.items as Member[],
+    members: data as MemberWithProfile[],
     error: error as Error,
     ...rest,
   };

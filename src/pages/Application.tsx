@@ -76,8 +76,17 @@ export const Application = () => {
         form={FORM.VERIFY_DELEGATE}
         targetNetwork={TARGET_DAO.CHAIN_ID}
         customFields={CustomFields}
-        onSuccess={() => setPageState(PageState.Success)}
-        onError={() => setPageState(PageState.Error)}
+        lifeCycleFns={{
+          onPollSuccess() {
+            setPageState(PageState.Success);
+          },
+          onTxError() {
+            setPageState(PageState.Error);
+          },
+          onPollError() {
+            setPageState(PageState.Error);
+          },
+        }}
       />
     );
   }

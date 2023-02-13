@@ -3,14 +3,14 @@ import React from "react";
 import { useV2DAO } from "../hooks/useV2DAO";
 import { TARGET_DAO } from "../targetDAO";
 
-export const V2DAO = ({
+export const V2DAOClaim = ({
   address,
   daoAddress,
-  daoName,
+  label,
 }: {
   address: string;
   daoAddress: string;
-  daoName: string;
+  label: string;
 }) => {
   const { v2DAOData, isLoading: isV2DAOLoading } = useV2DAO({
     daoAddress: daoAddress,
@@ -21,7 +21,7 @@ export const V2DAO = ({
     return (
       <SingleColumnLayout>
         <Spinner size="12rem" />
-        <ParMd>Checking {daoName}...</ParMd>
+        <ParMd>Checking {label}...</ParMd>
       </SingleColumnLayout>
     );
   }
@@ -31,10 +31,10 @@ export const V2DAO = ({
       v2DAOData?.loot &&
       (parseInt(v2DAOData.shares) > 0 || parseInt(v2DAOData.loot) > 0) ? (
         <>
-          <H3>{daoName}</H3>
+          <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
           <ParMd>
-            Go to your profile in the V2 interface and ragequit to claim
+            Go to your profile in the V2 interface and ragequit to withdraw
           </ParMd>
           <ParMd>Shares: {v2DAOData?.shares}</ParMd>
           <ParMd>Loot: {v2DAOData?.loot}</ParMd>
@@ -48,7 +48,7 @@ export const V2DAO = ({
         </>
       ) : (
         <ParMd>
-          You are not a member of {daoName} and have no unclaimed tokens
+          You are not a member of {label} and have no unclaimed tokens
         </ParMd>
       )}
     </>

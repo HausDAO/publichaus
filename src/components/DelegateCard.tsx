@@ -1,8 +1,6 @@
 import {
-  Avatar,
   Bold,
   border,
-  Button,
   Card,
   Italic,
   ParLg,
@@ -23,7 +21,6 @@ import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { sharesDelegatedToMember } from '../utils/conversion';
 
 import styled from 'styled-components';
-import { useMemberProfile } from '../hooks/useMemberProfile';
 import { RegisteredMember } from '../utils/types';
 import { ButtonRouterLink } from './ButtonRouterLink';
 

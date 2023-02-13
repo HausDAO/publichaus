@@ -1,19 +1,11 @@
 import { useMemo } from 'react';
-import {
-  H2,
-  Link,
-  ParMd,
-  ParSm,
-  SingleColumnLayout,
-  widthQuery,
-} from '@daohaus/ui';
+import { H2, Link, ParMd, widthQuery } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
 import { isDelegateData } from '../utils/typeguards';
 import { RegisteredMembers } from '../utils/types';
-import { DelegateTable } from '../components/DelegateTable';
 import { TARGET_DAO } from '../targetDAO';
 import { StatusDisplay } from '../components/StatusDisplay';
 import { useDaoData } from '../hooks/useDaoData';
@@ -206,15 +198,15 @@ export const Delegates = () => {
 
           <div className="delegating-to">
             <ParMd>You are delegating to: </ParMd>{' '}
-            {/* {user?.delegatingTo ? ( */}
-            <MemberProfileAvatar
-              daochain={TARGET_DAO.CHAIN_ID}
-              daoid={TARGET_DAO.ADDRESS}
-              memberAddress={'0xd26a3f686d43f2a62ba9eae2ff77e9f516d945b9'}
-            />
-            {/* ) : (
+            {user?.delegatingTo ? (
+              <MemberProfileAvatar
+                daochain={TARGET_DAO.CHAIN_ID}
+                daoid={TARGET_DAO.ADDRESS}
+                memberAddress={user?.delegatingTo}
+              />
+            ) : (
               <ParMd>--</ParMd>
-            )} */}
+            )}
           </div>
         </div>
         <div className="link-box">

@@ -44,15 +44,13 @@ const DelegateCardBox = styled(Card)`
   .stats-box {
     display: flex;
     flex-direction: column;
-    /* margin-bottom: 2.4rem; */
+
     p {
       margin-bottom: 0.6rem;
     }
     margin-bottom: 2rem;
   }
-  .platform {
-    margin-bottom: 1rem;
-  }
+
   .description {
     height: 6rem;
     border-radius: ${border.radius};
@@ -107,7 +105,7 @@ export const DelegateCard = ({
             truncateAddress(delegate?.memberAddress)}
         </ParLg>
       </div>
-      <ParSm className="platform">Platform:</ParSm>
+
       <ParSm className="description">
         {recentPlatform ? (
           `"${charLimit(recentPlatform, 42)}"`
@@ -147,7 +145,7 @@ export const DelegateCard = ({
         size="sm"
         color="secondary"
       >
-        See Delegate
+        See Champion
       </ButtonRouterLink>
     </DelegateCardBox>
   );

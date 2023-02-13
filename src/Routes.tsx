@@ -10,10 +10,18 @@ import { Join } from './pages/Join';
 import { Manifesto } from './pages/Manifesto';
 import { Unstake } from './pages/Unstake';
 import { Delegate } from './pages/Delegate';
+import { useDaoData } from './hooks/useDaoData';
+import { HeaderAvatar } from './components/HeaderAvatar';
 
 export const Routes = () => {
   const { pathname } = useLocation();
+
   const { address, provider } = useDHConnect();
+  const { dao } = useDaoData({
+    daoid: TARGET_DAO.ADDRESS,
+    daochain: TARGET_DAO.CHAIN_ID,
+  });
+
   return (
     <TXBuilder
       provider={provider}
@@ -33,6 +41,16 @@ export const Routes = () => {
           { label: 'Become a Champion', href: '/apply' },
           { label: 'See Champions', href: '/delegates' },
         ]}
+        leftNav={
+          dao?.name &&
+          dao?.id && (
+            <HeaderAvatar
+              name={dao.name}
+              address={dao.id}
+              imgUrl={dao?.avatarImg}
+            />
+          )
+        }
       >
         <Router>
           <Route path="/" element={<Home />} />

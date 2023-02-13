@@ -1,4 +1,10 @@
-import { Label, Select, SelectProps, widthQuery } from '@daohaus/ui';
+import {
+  Label,
+  Select,
+  SelectProps,
+  useBreakpoint,
+  widthQuery,
+} from '@daohaus/ui';
 import styled from 'styled-components';
 
 // SENDTO UI LIBRARY
@@ -29,6 +35,7 @@ export const SortDropdown = ({
   options,
   ...props
 }: SortDropdownProps) => {
+  const isMobile = useBreakpoint(widthQuery.sm);
   return (
     <SelectBox>
       <Label id="sort-select">{label}</Label>
@@ -38,7 +45,7 @@ export const SortDropdown = ({
           name: option.name,
           value: option.value,
         }))}
-        full
+        full={isMobile}
         {...props}
       />
     </SelectBox>

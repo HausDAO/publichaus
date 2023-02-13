@@ -1,5 +1,12 @@
 import { useMemo } from 'react';
-import { H2, Link, ParMd, ParSm, SingleColumnLayout } from '@daohaus/ui';
+import {
+  H2,
+  Link,
+  ParMd,
+  ParSm,
+  SingleColumnLayout,
+  widthQuery,
+} from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
@@ -42,8 +49,20 @@ const DataRow = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    a {
-      /* margin-bottom: 1rem; */
+  }
+
+  @media ${widthQuery.sm} {
+    /* flex-direction: column; */
+    /* justify-content: flex-start; */
+    /* width: fit-content; */
+
+    flex-wrap: wrap;
+    .delegating-to {
+      flex-wrap: wrap;
+    }
+    .p-box {
+      margin-bottom: 2rem;
+      height: fit-content;
     }
   }
 `;
@@ -187,15 +206,15 @@ export const Delegates = () => {
 
           <div className="delegating-to">
             <ParMd>You are delegating to: </ParMd>{' '}
-            {user?.delegatingTo ? (
-              <MemberProfileAvatar
-                daochain={TARGET_DAO.CHAIN_ID}
-                daoid={TARGET_DAO.ADDRESS}
-                memberAddress={'0xd26a3f686d43f2a62ba9eae2ff77e9f516d945b9'}
-              />
-            ) : (
+            {/* {user?.delegatingTo ? ( */}
+            <MemberProfileAvatar
+              daochain={TARGET_DAO.CHAIN_ID}
+              daoid={TARGET_DAO.ADDRESS}
+              memberAddress={'0xd26a3f686d43f2a62ba9eae2ff77e9f516d945b9'}
+            />
+            {/* ) : (
               <ParMd>--</ParMd>
-            )}
+            )} */}
           </div>
         </div>
         <div className="link-box">
@@ -211,7 +230,7 @@ export const Delegates = () => {
           </Link>
         </div>
       </DataRow>
-      <DataRow></DataRow>
+
       <DelegateList
         registeredDelegates={registeredDelegates}
         dao={dao as MolochV3Dao}

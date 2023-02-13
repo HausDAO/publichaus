@@ -1,7 +1,7 @@
 import React, { ReactNode, useMemo } from 'react';
 import { RegisteredMembers } from '../utils/types';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { Button, Input, widthQuery } from '@daohaus/ui';
+import { Button, Input, useBreakpoint, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
 import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
@@ -33,7 +33,10 @@ export const DelegateList = ({
 }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [sort, setSort] = React.useState<Sortable>('delegateShares');
-  const [isCards, setIsCards] = React.useState(false);
+  const [isCards, setIsCards] = React.useState(true);
+
+  const isMobile = useBreakpoint(widthQuery.sm);
+
   const processedDelegates = useMemo(() => {
     if (searchTerm) {
       return handleSearch(searchTerm, registeredDelegates);
@@ -58,15 +61,19 @@ export const DelegateList = ({
           id="table-search"
           placeholder={'Search Address or Name'}
           onChange={(e) => setSearchTerm(e.target.value)}
+          full={isMobile}
         />
-        <Button
-          color="secondary"
-          onClick={() => setIsCards(!isCards)}
-          IconLeft={isCards ? RiListCheck : RiGridFill}
-        >
-          {' '}
-          {isCards ? 'List' : 'Cards'}
-        </Button>
+        {isMobile || (
+          <Button
+            color="secondary"
+            onClick={() => setIsCards(!isCards)}
+            IconLeft={isCards ? RiListCheck : RiGridFill}
+            fullWidth={isMobile}
+          >
+            {' '}
+            {isCards ? 'List' : 'Cards'}
+          </Button>
+        )}
         <SortDropdown
           id="delegates-sort"
           label="Sort By"
@@ -85,7 +92,7 @@ export const DelegateList = ({
         />
       </ControlBarBox>
       <div className="data-display-box">
-        {isCards ? (
+        {isCards || isMobile ? (
           Object.values(processedDelegates).map((delegate) => (
             <DelegateCard
               delegate={delegate}
@@ -108,12 +115,19 @@ const ControlBarBox = styled.div`
   .list-toggle {
     margin-right: auto;
   }
-  @media ${widthQuery.sm} {
-    flex-direction: column;
-  }
   button {
     width: 12rem;
     margin-left: 2rem;
+  }
+  @media ${widthQuery.sm} {
+    flex-direction: column;
+    button {
+      margin-left: 0;
+      margin-bottom: 2rem;
+    }
+    input {
+      margin-bottom: 2rem;
+    }
   }
 `;
 

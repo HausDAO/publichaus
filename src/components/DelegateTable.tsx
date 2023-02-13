@@ -50,7 +50,7 @@ export const DelegateTable = ({
     if (!dao) return [];
     return [
       {
-        Header: 'Delegate',
+        Header: 'Champion',
         accessor: 'memberAddress',
         Cell: ({ value }) => {
           return (

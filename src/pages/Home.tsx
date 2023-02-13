@@ -30,8 +30,9 @@ export const Home = () => {
       <HausAnimated />
       <CenterBox>
         <ParLg>How to Participate</ParLg>
+        <H3>Step 1: READ</H3> 
         <ParMd>
-          <H3>Step 1: READ</H3> Read the DAOhaus{" "}
+          Read the DAOhaus{" "}
           <Link href="/manifesto">Manifesto</Link> and make sure that you align
           with the values. Read the{" "}
           <Link
@@ -43,12 +44,14 @@ export const Home = () => {
           </Link>{" "}
           and make sure you understand what this is all about.
         </ParMd>
-        <ParMd>
-          <H3>Step 2: STAKE</H3> Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO
+
+          <H3>Step 2: STAKE</H3> 
+          <ParMd>
+          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO
           shares. <Link href="/join">here</Link>
-        </ParMd>
-        <ParMd>
+          </ParMd>
           <H3>Step 3: DELEGATE</H3>
+        <ParMd>
           Delegate your shares to a DAO Champion <Bold>OR</Bold> apply to be a
           Champion yourself. You can read Champion platforms on their profile
           page. <Link href="/delegates">here</Link>

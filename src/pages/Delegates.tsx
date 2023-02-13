@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { H2, Link, SingleColumnLayout } from '@daohaus/ui';
+import { H2, Link, ParSm, SingleColumnLayout } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
@@ -16,9 +16,9 @@ import styled from 'styled-components';
 import { DelegateList } from '../components/DelegateList';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 
-const ButtonRow = styled.div`
+const DataRow = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   width: 100%;
 `;
 
@@ -138,7 +138,7 @@ export const Delegates = () => {
     }, {} as RegisteredMembers);
   }, [members, records]);
 
-  if (isLoadingAny) return <StatusDisplay title="Loading Delegates" spinner />;
+  if (isLoadingAny) return <StatusDisplay title="Loading Champions" spinner />;
   if (isErrorAny)
     return (
       <StatusDisplay
@@ -155,7 +155,7 @@ export const Delegates = () => {
   return (
     <ExpandedLayout>
       <H2>Hall of Champions</H2>
-      <ButtonRow>
+      <DataRow>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
           linkType="external"
@@ -163,7 +163,10 @@ export const Delegates = () => {
         >
           See all Members
         </Link>
-      </ButtonRow>
+        <Link href={`/delegate`} style={{ marginBottom: '2rem' }}>
+          Delegate to a non-Champion
+        </Link>
+      </DataRow>
       <DelegateList
         registeredDelegates={registeredDelegates}
         dao={dao as MolochV3Dao}

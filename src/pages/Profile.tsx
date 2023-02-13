@@ -118,7 +118,7 @@ export const Profile = () => {
               variant="outline"
               fullWidth={isMobile}
             >
-              DELEGATES
+              CHAMPIONS
             </ButtonRouterLink>
             <Button
               IconLeft={BsShareFill}

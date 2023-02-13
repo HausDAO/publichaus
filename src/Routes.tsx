@@ -9,6 +9,7 @@ import { TARGET_DAO } from './targetDAO';
 import { Join } from './pages/Join';
 import { Manifesto } from './pages/Manifesto';
 import { Unstake } from './pages/Unstake';
+import { Delegate } from './pages/Delegate';
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -41,6 +42,7 @@ export const Routes = () => {
           <Route path="/join" element={<Join />} />
           <Route path="/profile/:memberAddress" element={<Profile />} />
           <Route path="/unstake" element={<Unstake />} />
+          <Route path="/delegate" element={<Delegate />} />
         </Router>
       </DHLayout>
     </TXBuilder>

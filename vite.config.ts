@@ -5,7 +5,6 @@ export default ({ mode }) => {
   Object.assign(process.env, loadEnv(mode, process.cwd()));
 
   return defineConfig({
-    onAfterBuild: () => {},
     plugins: [react()],
     define: {
       'process.env': {

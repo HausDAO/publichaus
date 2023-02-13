@@ -13,7 +13,7 @@ import { useDaoData } from '../hooks/useDaoData';
 import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
 import styled from 'styled-components';
-import { DelegateCards } from '../components/DelegateCards';
+import { DelegateList } from '../components/DelegateList';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 
 const ButtonRow = styled.div`
@@ -164,19 +164,12 @@ export const Delegates = () => {
           See all Members
         </Link>
       </ButtonRow>
-      <DelegateCards
+      <DelegateList
         registeredDelegates={registeredDelegates}
         dao={dao as MolochV3Dao}
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       />
-
-      {/* <DelegateTable
-        registeredDelegates={registeredDelegates}
-        dao={dao}
-        userAddress={user?.memberAddress}
-        userDelegateAddress={user?.delegatingTo}
-      /> */}
     </ExpandedLayout>
   );
 };

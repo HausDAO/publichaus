@@ -7,6 +7,7 @@ import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
 import { ReactSetter } from '@daohaus/utils';
 import { BiSearch } from 'react-icons/bi';
+import { DelegateTable } from './DelegateTable';
 
 const handleSearch = (term: string, delegates: RegisteredMembers) => {
   return Object.values(delegates).filter((delegate) => {
@@ -20,7 +21,7 @@ const handleSearch = (term: string, delegates: RegisteredMembers) => {
 
 type Sortable = 'shares' | 'delegateShares';
 
-export const DelegateCards = ({
+export const DelegateList = ({
   registeredDelegates,
   dao,
   userAddress,
@@ -33,7 +34,7 @@ export const DelegateCards = ({
 }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [sort, setSort] = React.useState<Sortable>('delegateShares');
-
+  const [isCards, setIsCards] = React.useState(false);
   const processedDelegates = useMemo(() => {
     if (searchTerm) {
       return handleSearch(searchTerm, registeredDelegates);
@@ -51,61 +52,7 @@ export const DelegateCards = ({
   }, [registeredDelegates, searchTerm, sort]);
 
   return (
-    <ListControl
-      searchTerm={searchTerm}
-      setSearchTerm={setSearchTerm}
-      sort={sort}
-      setSort={setSort}
-    >
-      {Object.values(processedDelegates).map((delegate) => (
-        <DelegateCard
-          delegate={delegate}
-          key={delegate.memberAddress}
-          dao={dao}
-        />
-      ))}
-    </ListControl>
-  );
-};
-
-const ControlBarBox = styled.div`
-  display: flex;
-  width: 100%;
-  margin-bottom: 3rem;
-  .list-toggle {
-    margin-right: auto;
-  }
-  @media ${widthQuery.sm} {
-    flex-direction: column;
-  }
-`;
-
-const CardBox = styled.div`
-  margin-top: 3rem;
-  max-width: 122rem;
-  .inner-card-box {
-    display: flex;
-    gap: 3rem;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-`;
-
-const ListControl = ({
-  children,
-
-  setSearchTerm,
-  sort,
-  setSort,
-}: {
-  children: ReactNode;
-  searchTerm: string;
-  setSearchTerm: ReactSetter<string>;
-  sort: Sortable;
-  setSort: ReactSetter<Sortable>;
-}) => {
-  return (
-    <CardBox>
+    <InnerBox>
       <ControlBarBox>
         <Input
           icon={BiSearch}
@@ -130,7 +77,42 @@ const ListControl = ({
           onChange={(e: any) => setSort(e.target.value)}
         />
       </ControlBarBox>
-      <div className="inner-card-box">{children}</div>
-    </CardBox>
+      <div className="data-display-box">
+        {isCards ? (
+          Object.values(processedDelegates).map((delegate) => (
+            <DelegateCard
+              delegate={delegate}
+              key={delegate.memberAddress}
+              dao={dao}
+            />
+          ))
+        ) : (
+          <DelegateTable registeredDelegates={processedDelegates} dao={dao} />
+        )}
+      </div>
+    </InnerBox>
   );
 };
+
+const ControlBarBox = styled.div`
+  display: flex;
+  width: 100%;
+  margin-bottom: 3rem;
+  .list-toggle {
+    margin-right: auto;
+  }
+  @media ${widthQuery.sm} {
+    flex-direction: column;
+  }
+`;
+
+const InnerBox = styled.div`
+  margin-top: 3rem;
+  max-width: 122rem;
+  .data-display-box {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+`;

@@ -41,11 +41,9 @@ const DelegateContainer = styled(Card)`
 
 export const DelegateTable = ({
   registeredDelegates,
-  userAddress,
-  userDelegateAddress,
   dao,
 }: {
-  registeredDelegates: RegisteredMembers;
+  registeredDelegates: RegisteredMember[];
   dao?: MolochV3Dao;
   userAddress?: string;
   userDelegateAddress?: string;
@@ -129,13 +127,8 @@ export const DelegateTable = ({
 
   return (
     <DelegateContainer>
-      <DelegateOverview
-        registeredDelegates={registeredDelegates}
-        userAddress={userAddress}
-        userDelegateAddress={userDelegateAddress}
-      />
       <DaoTable<RegisteredMember>
-        tableData={Object.values(registeredDelegates)}
+        tableData={registeredDelegates}
         columns={columns}
         sortableColumns={[]}
       />

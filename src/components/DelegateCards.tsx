@@ -93,7 +93,7 @@ const CardBox = styled.div`
 
 const ListControl = ({
   children,
-  searchTerm,
+
   setSearchTerm,
   sort,
   setSort,
@@ -110,7 +110,7 @@ const ListControl = ({
         <Input
           icon={BiSearch}
           id="table-search"
-          placeholder={'Search'}
+          placeholder={'Search Address or Name'}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <SortDropdown

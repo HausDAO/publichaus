@@ -28,9 +28,9 @@ export const Routes = () => {
         navLinks={[
           { label: 'Home', href: '/' },
           { label: 'Manifesto', href: '/manifesto' },
-          { label: 'Join', href: '/join' },
-          { label: 'Verify', href: '/apply' },
-          { label: 'Delegate', href: '/delegates' },
+          { label: 'Stake', href: '/join' },
+          { label: 'Become a Champion', href: '/apply' },
+          { label: 'See Champions', href: '/delegates' },
         ]}
       >
         <Router>

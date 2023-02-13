@@ -23,6 +23,8 @@ const ButtonRow = styled.div`
 `;
 
 const ExpandedLayout = styled.div`
+  width: 100%;
+  max-width: 122rem;
   h2 {
     margin-bottom: 2rem;
     margin-top: 3.6rem;
@@ -152,7 +154,7 @@ export const Delegates = () => {
 
   return (
     <ExpandedLayout>
-      <H2>Verified Delegates</H2>
+      <H2>Hall of Champions</H2>
       <ButtonRow>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}

@@ -15,21 +15,30 @@ import { useDHConnect } from '@daohaus/connect';
 import styled from 'styled-components';
 import { DelegateList } from '../components/DelegateList';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
+import { MemberProfileAvatar } from '../components/MemberProfileAvatar';
 
 const DataRow = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
   justify-content: space-between;
+
+  .delegating-to {
+    display: flex;
+    align-items: center;
+    p {
+      margin-right: 1rem;
+    }
+  }
   .p-box {
-    height: 5rem;
+    height: 6rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
   .link-box {
     padding-bottom: 0.3rem;
-    height: 5rem;
+    height: 6rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -175,7 +184,19 @@ export const Delegates = () => {
       <DataRow>
         <div className="p-box">
           <ParMd>Champions: {Object.keys(registeredDelegates).length}</ParMd>
-          <ParMd>You are delegating to: </ParMd>
+
+          <div className="delegating-to">
+            <ParMd>You are delegating to: </ParMd>{' '}
+            {user?.delegatingTo ? (
+              <MemberProfileAvatar
+                daochain={TARGET_DAO.CHAIN_ID}
+                daoid={TARGET_DAO.ADDRESS}
+                memberAddress={'0xd26a3f686d43f2a62ba9eae2ff77e9f516d945b9'}
+              />
+            ) : (
+              <ParMd>--</ParMd>
+            )}
+          </div>
         </div>
         <div className="link-box">
           <Link

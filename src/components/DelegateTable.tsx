@@ -3,13 +3,11 @@ import { formatValueTo, fromWei, votingPowerPercentage } from '@daohaus/utils';
 import { useMemo } from 'react';
 import { Column } from 'react-table';
 import styled from 'styled-components';
-import { useDaoData } from '../hooks/useDaoData';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { TARGET_DAO } from '../targetDAO';
 
-import { RegisteredMembers, RegisteredMember } from '../utils/types';
+import { RegisteredMember } from '../utils/types';
 import { DaoTable } from './DaoTable';
-import { DelegateOverview } from './DelegateOverview';
 import { MemberProfileAvatar } from './MemberProfileAvatar';
 import { sharesDelegatedToMember } from '../utils/conversion';
 
@@ -41,11 +39,9 @@ const DelegateContainer = styled(Card)`
 
 export const DelegateTable = ({
   registeredDelegates,
-  userAddress,
-  userDelegateAddress,
   dao,
 }: {
-  registeredDelegates: RegisteredMembers;
+  registeredDelegates: RegisteredMember[];
   dao?: MolochV3Dao;
   userAddress?: string;
   userDelegateAddress?: string;
@@ -129,13 +125,8 @@ export const DelegateTable = ({
 
   return (
     <DelegateContainer>
-      <DelegateOverview
-        registeredDelegates={registeredDelegates}
-        userAddress={userAddress}
-        userDelegateAddress={userDelegateAddress}
-      />
       <DaoTable<RegisteredMember>
-        tableData={Object.values(registeredDelegates)}
+        tableData={registeredDelegates}
         columns={columns}
         sortableColumns={[]}
       />

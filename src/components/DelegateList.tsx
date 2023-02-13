@@ -1,11 +1,12 @@
 import React, { ReactNode, useMemo } from 'react';
 import { RegisteredMembers } from '../utils/types';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { Input, widthQuery } from '@daohaus/ui';
+import { Button, Input, widthQuery } from '@daohaus/ui';
 import styled from 'styled-components';
 import { SortDropdown } from './SortDropdown';
 import { DelegateCard } from './DelegateCard';
-import { ReactSetter } from '@daohaus/utils';
+import { RiGridFill, RiListCheck } from 'react-icons/ri/index.js';
+
 import { BiSearch } from 'react-icons/bi';
 import { DelegateTable } from './DelegateTable';
 
@@ -24,8 +25,6 @@ type Sortable = 'shares' | 'delegateShares';
 export const DelegateList = ({
   registeredDelegates,
   dao,
-  userAddress,
-  userDelegateAddress,
 }: {
   registeredDelegates: RegisteredMembers;
   dao: MolochV3Dao;
@@ -60,6 +59,14 @@ export const DelegateList = ({
           placeholder={'Search Address or Name'}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <Button
+          color="secondary"
+          onClick={() => setIsCards(!isCards)}
+          IconLeft={isCards ? RiListCheck : RiGridFill}
+        >
+          {' '}
+          {isCards ? 'List' : 'Cards'}
+        </Button>
         <SortDropdown
           id="delegates-sort"
           label="Sort By"
@@ -103,6 +110,10 @@ const ControlBarBox = styled.div`
   }
   @media ${widthQuery.sm} {
     flex-direction: column;
+  }
+  button {
+    width: 12rem;
+    margin-left: 2rem;
   }
 `;
 

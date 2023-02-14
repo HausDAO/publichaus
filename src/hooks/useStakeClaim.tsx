@@ -6,6 +6,7 @@ import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
 
 type FetchShape = {
     claim: string;
+    expiery:  string;
 };
 
 const fetchStakeClaimData = async ({
@@ -35,9 +36,15 @@ const fetchStakeClaimData = async ({
       fetchShape?.claim && userAddress
         ? await stakeClaimContract.claimOf(userAddress)
         : null;
+
+    const claimData = 
+        fetchShape?.expiery
+          ? await stakeClaimContract.expiery()
+          : null;
     
     const data = {
       claim: memberData ? (memberData.claim?.toString() as string) : null,
+      expiery: claimData ? (claimData.expiery?.toString() as string) : null,
     };
 
     return data;
@@ -54,6 +61,7 @@ export const useStakeClaim = ({
     rpcs,
     fetchShape = {
       claim: "0",
+      expiery: "0",
     },
   }: {
     contractAddress: string;

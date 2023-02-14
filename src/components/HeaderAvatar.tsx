@@ -1,4 +1,4 @@
-import { H4, ProfileAvatar } from '@daohaus/ui';
+import { H4, Link, ProfileAvatar } from '@daohaus/ui';
 import styled from 'styled-components';
 
 const DaoNavContainer = styled.div`
@@ -22,6 +22,9 @@ export const HeaderAvatar = ({ name, imgUrl, address }: HAvatar) => {
     <DaoNavContainer>
       <DaoProfileAvatar image={imgUrl} address={address} />
       <H4>{name}</H4>
+      <Link href='/claim' >
+        claims
+      </Link>
     </DaoNavContainer>
   );
 };

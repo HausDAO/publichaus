@@ -32,9 +32,12 @@ export const V2DAOClaim = ({
       (parseInt(v2DAOData.shares) > 0 || parseInt(v2DAOData.loot) > 0) ? (
         <>
           <H3>{label}</H3>
-          <ParMd>You have unclaimed tokens that can be claimed</ParMd>
+          <ParMd>Looks like you have unclaimed HAUS that can be claimed</ParMd>
           <ParMd>
-            Go to your profile in the V2 interface and ragequit to withdraw
+            Go to your profile in the V2 interface and ragequit to withdraw.
+          </ParMd>
+          <ParMd>
+            Then you can come back to this app and stake.
           </ParMd>
           <ParMd>Shares: {v2DAOData?.shares}</ParMd>
           <ParMd>Loot: {v2DAOData?.loot}</ParMd>

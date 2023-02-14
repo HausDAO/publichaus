@@ -1,22 +1,79 @@
-import { Button, H3, Link, ParMd, SingleColumnLayout, Spinner } from "@daohaus/ui";
-import React from "react";
+import { useTxBuilder } from "@daohaus/tx-builder";
+import {
+  Button,
+  H3,
+  ParMd,
+  SingleColumnLayout,
+  Spinner,
+  useToast,
+} from "@daohaus/ui";
+import { handleErrorMessage, TXLego } from "@daohaus/utils";
+import React, { useState } from "react";
 import { useStakeClaim } from "../hooks/useStakeClaim";
+import { TX } from "../legos/tx";
 import { TARGET_DAO } from "../targetDAO";
 
 export const StakeClaim = ({
-  address,
+  memberAddress,
   contractAddress,
   label,
 }: {
-  address: string;
+  memberAddress: string;
   contractAddress: string;
   label: string;
 }) => {
-  const { StakeClaimData, isLoading: isStakeClaimLoading, isError } = useStakeClaim({
+  const { fireTransaction } = useTxBuilder();
+  const [isLoadingTx, setIsLoadingTx] = useState(false);
+  const { successToast, errorToast, defaultToast } = useToast();
+
+  const {
+    StakeClaimData,
+    isLoading: isStakeClaimLoading,
+    isError,
+  } = useStakeClaim({
     contractAddress: contractAddress,
-    userAddress: address || "",
+    userAddress: memberAddress || "",
     chainId: TARGET_DAO.CHAIN_ID,
   });
+
+  const handleStakeClaim = () => {
+    fireTransaction({
+      tx: {
+        ...TX.STAKECLAIM,
+        staticArgs: [],
+      } as TXLego,
+      callerState: { contractAddress },
+      lifeCycleFns: {
+        onRequestSign() {
+          setIsLoadingTx(true);
+        },
+        onTxSuccess() {
+          defaultToast({
+            title: "Success",
+            description: "Transaction submitted: Syncing data on Subgraph",
+          });
+        },
+        onTxError(err) {
+          const errMsg = handleErrorMessage(err as any);
+          errorToast({ title: "Error", description: errMsg });
+          setIsLoadingTx(false);
+        },
+        onPollSuccess() {
+          setIsLoadingTx(false);
+          successToast({
+            title: "Success",
+            description: `Staked for DAO Shares`,
+          });
+        },
+        onPollError(err) {
+          const errMsg = handleErrorMessage(err as any);
+          errorToast({ title: "Error", description: errMsg });
+          setIsLoadingTx(false);
+        },
+      },
+    });
+  };
+
   if (isStakeClaimLoading) {
     return (
       <SingleColumnLayout>
@@ -32,20 +89,31 @@ export const StakeClaim = ({
       </SingleColumnLayout>
     );
   }
+  if (
+    StakeClaimData?.expiery &&
+    parseInt(StakeClaimData.expiery) > Math.floor(Date.now() / 1000)
+  ) {
+    return (
+      <SingleColumnLayout>
+        <ParMd>{label}: Expired...</ParMd>
+      </SingleColumnLayout>
+    );
+  }
   return (
     <>
-      {StakeClaimData?.claim &&
-      (parseInt(StakeClaimData.claim) > 0) ? (
-        <>
+      {StakeClaimData?.claim && parseInt(StakeClaimData.claim) > 0 ? (
+        <SingleColumnLayout>
           <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
           <ParMd>Claim: {StakeClaimData?.claim}</ParMd>
-          <Button>Stake Claim</Button>
-        </>
+          <Button type="button" onClick={handleStakeClaim}>
+            Stake Claim
+          </Button>
+        </SingleColumnLayout>
       ) : (
-        <ParMd>
-          {label} has no unclaimed tokens for you
-        </ParMd>
+        <SingleColumnLayout>
+          <ParMd>{label}: currently not eligible</ParMd>
+        </SingleColumnLayout>
       )}
     </>
   );

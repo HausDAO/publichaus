@@ -12,6 +12,7 @@ import { Unstake } from './pages/Unstake';
 import { Delegate } from './pages/Delegate';
 import { useDaoData } from './hooks/useDaoData';
 import { HeaderAvatar } from './components/HeaderAvatar';
+import { About } from './pages/About';
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -38,8 +39,9 @@ export const Routes = () => {
           { label: 'Home', href: '/' },
           { label: 'Manifesto', href: '/manifesto' },
           { label: 'Stake', href: '/join' },
+          { label: 'Delegate', href: '/delegates' },
           { label: 'Become a Champion', href: '/apply' },
-          { label: 'See Champions', href: '/delegates' },
+          { label: 'Next', href: '/about' },
         ]}
         leftNav={
           dao?.name &&
@@ -61,6 +63,7 @@ export const Routes = () => {
           <Route path="/profile/:memberAddress" element={<Profile />} />
           <Route path="/unstake" element={<Unstake />} />
           <Route path="/delegate" element={<Delegate />} />
+          <Route path="/about" element={<About />} />
         </Router>
       </DHLayout>
     </TXBuilder>

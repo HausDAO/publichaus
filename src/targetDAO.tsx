@@ -142,3 +142,11 @@ export const MANIFESTO = {
     },
   ],
 };
+
+
+export const ABOUTLINKS = {
+  discord: 'https://discord.gg/daohaus',
+  twitter: 'https://twitter.com/nowdaoit',
+  github: 'https://github.com/HausDAO/',
+  githubOnboarder: 'https://github.com/HausDAO/publichaus',
+}

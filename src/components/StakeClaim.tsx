@@ -7,7 +7,7 @@ import {
   Spinner,
   useToast,
 } from "@daohaus/ui";
-import { handleErrorMessage, TXLego } from "@daohaus/utils";
+import { handleErrorMessage, toWholeUnits, TXLego } from "@daohaus/utils";
 import React, { useState } from "react";
 import { useStakeClaim } from "../hooks/useStakeClaim";
 import { TX } from "../legos/tx";
@@ -91,7 +91,17 @@ export const StakeClaim = ({
   }
   if (
     StakeClaimData?.expiery &&
-    parseInt(StakeClaimData.expiery) > Math.floor(Date.now() / 1000)
+    parseInt(StakeClaimData.expiery) == 0
+  ) {
+    return (
+      <SingleColumnLayout>
+        <ParMd>{label}: Not Active...</ParMd>
+      </SingleColumnLayout>
+    );
+  }
+  if (
+    StakeClaimData?.expiery &&
+    parseInt(StakeClaimData.expiery) < Math.floor(Date.now() / 1000)
   ) {
     return (
       <SingleColumnLayout>
@@ -105,7 +115,7 @@ export const StakeClaim = ({
         <SingleColumnLayout>
           <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
-          <ParMd>Claim: {StakeClaimData?.claim}</ParMd>
+          <ParMd>Claim: {toWholeUnits(StakeClaimData?.claim)}</ParMd>
           <Button type="button" onClick={handleStakeClaim}>
             Stake Claim
           </Button>

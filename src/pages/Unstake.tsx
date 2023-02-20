@@ -33,7 +33,7 @@ export const Unstake = () => {
         <ParLg>Native UI coming soon but for now this is how to unstake.</ParLg>
         <ParMd>Go to your member profile on the DAO admin portal and ragequit.</ParMd>
         <Link
-          href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members/${address}`}
+          href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members/ragequit`}
           linkType="external"
         >
           Profile

@@ -26,29 +26,35 @@ export const Claim = () => {
 
       <StakeClaim
         memberAddress={address}
-        contractAddress={"0x35453fBb522E53725c18FcB9901088d3D14009d5"}
-        label={"Retro #0"}
+        contractAddress={"0x6b5bA5A9dDb3EdA7435C55CBc6c354B1381bf178"}
+        label={"Champion Rewards"}
+        key={"champion-rewards"}
       />
 
       <StakeClaim
         memberAddress={address}
         contractAddress={"0x35453fBb522E53725c18FcB9901088d3D14009d5"}
-        label={"Champion Rewards"}
+        label={"Retro #0"}
+        key={"retro#0"}
       />
 
       <StakeClaim
         memberAddress={address}
         contractAddress={"0x35453fBb522E53725c18FcB9901088d3D14009d5"}
         label={"Uberhaus member distro"}
+        key={"uberhaus-member-distro"}
       />
 
       <StakeClaim
         memberAddress={address}
         contractAddress={"0x35453fBb522E53725c18FcB9901088d3D14009d5"}
         label={"v3 integration and referal distro"}
+        key={"v3-integration-and-referal-distro"}
       />
 
-      <ParMd style={{marginTop: '5em'}}><strong>Check back soon for more special claim events</strong></ParMd>
+      <ParMd style={{ marginTop: "5em" }}>
+        <strong>Check back soon for more special claim events</strong>
+      </ParMd>
     </SingleColumnLayout>
   );
 };

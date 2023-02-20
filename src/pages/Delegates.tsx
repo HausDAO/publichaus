@@ -123,6 +123,8 @@ export const Delegates = () => {
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
 
+    // console.log(records)
+
     return records.reduce((acc, record) => {
       // If the record is not valid, skip it
       const { parsedContent, createdAt } = record;

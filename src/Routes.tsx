@@ -10,9 +10,13 @@ import { Join } from './pages/Join';
 import { Manifesto } from './pages/Manifesto';
 import { Unstake } from './pages/Unstake';
 import { Delegate } from './pages/Delegate';
+import { Claim } from './pages/Claim';
 import { useDaoData } from './hooks/useDaoData';
 import { HeaderAvatar } from './components/HeaderAvatar';
+import { HeaderClaim } from './components/HeaderClaim';
+import { Button } from '@daohaus/ui';
 import { About } from './pages/About';
+
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -53,6 +57,7 @@ export const Routes = () => {
             />
           )
         }
+        
       >
         <Router>
           <Route path="/" element={<Home />} />
@@ -63,6 +68,7 @@ export const Routes = () => {
           <Route path="/profile/:memberAddress" element={<Profile />} />
           <Route path="/unstake" element={<Unstake />} />
           <Route path="/delegate" element={<Delegate />} />
+          <Route path="/claim" element={<Claim />} />
           <Route path="/about" element={<About />} />
         </Router>
       </DHLayout>

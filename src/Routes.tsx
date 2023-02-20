@@ -13,8 +13,6 @@ import { Delegate } from './pages/Delegate';
 import { Claim } from './pages/Claim';
 import { useDaoData } from './hooks/useDaoData';
 import { HeaderAvatar } from './components/HeaderAvatar';
-import { HeaderClaim } from './components/HeaderClaim';
-import { Button } from '@daohaus/ui';
 import { About } from './pages/About';
 
 

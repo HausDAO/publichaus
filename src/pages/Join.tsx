@@ -2,6 +2,8 @@ import { useDHConnect } from '@daohaus/connect';
 import { useERC20 } from '../hooks/useERC20';
 import { TARGET_DAO } from '../targetDAO';
 import {
+  Banner,
+  Card,
   DataIndicator,
   Divider,
   H2,
@@ -221,13 +223,20 @@ export const Join = () => {
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
-        <StakeTokenSection
+        {TARGET_DAO.STAKE_PAUSED ? (
+          <Card className="space">
+              <ParMd>
+                Staking is currently paused. Please check back later.
+              </ParMd>
+          </Card>
+
+        ):(<StakeTokenSection
           balance={balance}
           isApproved={isApproved || userOptimisticApproved}
           handleApprove={handleApprove}
           handleStake={handleStake}
           isLoading={isLoadingTx || isRefetching}
-        />
+        />)}
       </StakeBox>
     </SingleColumnLayout>
   );

@@ -14,6 +14,7 @@ import { Claim } from './pages/Claim';
 import { useDaoData } from './hooks/useDaoData';
 import { HeaderAvatar } from './components/HeaderAvatar';
 import { About } from './pages/About';
+import { Banner } from '@daohaus/ui';
 
 
 export const Routes = () => {

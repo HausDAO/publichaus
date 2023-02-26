@@ -33,7 +33,7 @@ export const Claim = () => {
 
       <StakeClaim
         memberAddress={address}
-        contractAddress={"0x35453fBb522E53725c18FcB9901088d3D14009d5"}
+        contractAddress={"0x204454Fda20F57a67E034662388c3fe3C66287fa"}
         label={"Retro #0"}
         key={"retro#0"}
       />

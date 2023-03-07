@@ -1,3 +1,4 @@
+import { useDHConnect } from "@daohaus/connect";
 import { useTxBuilder } from "@daohaus/tx-builder";
 import {
   Button,
@@ -7,19 +8,21 @@ import {
   Spinner,
   useToast,
 } from "@daohaus/ui";
-import { handleErrorMessage, toWholeUnits, TXLego } from "@daohaus/utils";
+import { formatDistanceToNowFromSeconds, handleErrorMessage, toWholeUnits, TXLego } from "@daohaus/utils";
 import React, { useState } from "react";
 import { useStakeClaim } from "../hooks/useStakeClaim";
 import { TX } from "../legos/tx";
 import { TARGET_DAO } from "../targetDAO";
 
 export const StakeClaim = ({
-  memberAddress,
+  address,
   contractAddress,
+  chainId,
   label,
 }: {
-  memberAddress: string;
+  address: string;
   contractAddress: string;
+  chainId: string | null | undefined;
   label: string;
 }) => {
   const { fireTransaction } = useTxBuilder();
@@ -32,7 +35,7 @@ export const StakeClaim = ({
     isError,
   } = useStakeClaim({
     contractAddress: contractAddress,
-    userAddress: memberAddress || "",
+    userAddress: address || "",
     chainId: TARGET_DAO.CHAIN_ID,
   });
 
@@ -116,7 +119,8 @@ export const StakeClaim = ({
           <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
           <ParMd>Claim: {toWholeUnits(StakeClaimData?.claim)}</ParMd>
-          <Button type="button" onClick={handleStakeClaim}>
+          {StakeClaimData?.expiery && <ParMd>Expires: {formatDistanceToNowFromSeconds(StakeClaimData.expiery)}</ParMd>}
+          <Button type="button" onClick={handleStakeClaim} disabled={chainId != TARGET_DAO.CHAIN_ID}>
             Stake Claim
           </Button>
         </SingleColumnLayout>

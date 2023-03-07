@@ -91,13 +91,13 @@ export const Join = () => {
       balanceOf: true,
     },
   });
-  // const { shamanData, isLoading: isShamanLoading } = useOnboarder({
-  //   shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
-  //   chainId: TARGET_DAO.CHAIN_ID,
-  //   fetchShape: {
-  //     expiry: true,
-  //   },
-  // });
+  const { shamanData, isLoading: isShamanLoading } = useOnboarder({
+    shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
+    chainId: TARGET_DAO.CHAIN_ID,
+    fetchShape: {
+      expiry: true,
+    },
+  });
   const {
     user,
     isLoading: isUserLoading,
@@ -108,7 +108,7 @@ export const Join = () => {
     memberAddress: address,
   });
   const { isApproved, balance } = tokenData || {};
-  // const { expiry } = shamanData || {};
+  const { expiry } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
     Record<string, boolean>
@@ -220,6 +220,7 @@ export const Join = () => {
             size="sm"
           />
           <DataIndicator label="Stake Ratio:" data={`1:10`} size="sm" />
+          {expiry && <ExpiryIndicator expiry={expiry} />}
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
@@ -244,5 +245,5 @@ export const Join = () => {
 
 const ExpiryIndicator = ({ expiry }: { expiry: string }) => {
   const expiryDate = formatDistanceToNowFromSeconds(expiry);
-  return <DataIndicator label="Expires:" data={expiryDate} size="sm" />;
+  return <DataIndicator label="Open Staking Expires:" data={expiryDate} size="sm" />;
 };

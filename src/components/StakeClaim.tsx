@@ -118,7 +118,8 @@ export const StakeClaim = ({
         <SingleColumnLayout>
           <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
-          <ParMd>Claim: {toWholeUnits(StakeClaimData?.claim)}</ParMd>
+          <ParMd>Will automatically be staked in Publichaus</ParMd>
+          <ParMd>Claim: {toWholeUnits((parseInt(StakeClaimData?.claim) * 10).toString())} PUB</ParMd>
           {StakeClaimData?.expiery && <ParMd>Expires: {formatDistanceToNowFromSeconds(StakeClaimData.expiery)}</ParMd>}
           <Button type="button" onClick={handleStakeClaim} disabled={chainId != TARGET_DAO.CHAIN_ID}>
             Stake Claim

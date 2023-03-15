@@ -10,10 +10,22 @@ import { Join } from './pages/Join';
 import { Manifesto } from './pages/Manifesto';
 import { Unstake } from './pages/Unstake';
 import { Delegate } from './pages/Delegate';
+import { Claim } from './pages/Claim';
+import { useDaoData } from './hooks/useDaoData';
+import { HeaderAvatar } from './components/HeaderAvatar';
+import { About } from './pages/About';
+import { Banner } from '@daohaus/ui';
+
 
 export const Routes = () => {
   const { pathname } = useLocation();
+
   const { address, provider } = useDHConnect();
+  const { dao } = useDaoData({
+    daoid: TARGET_DAO.ADDRESS,
+    daochain: TARGET_DAO.CHAIN_ID,
+  });
+
   return (
     <TXBuilder
       provider={provider}
@@ -29,10 +41,22 @@ export const Routes = () => {
         navLinks={[
           { label: 'Home', href: '/' },
           { label: 'Manifesto', href: '/manifesto' },
-          { label: 'Join', href: '/join' },
-          { label: 'Verify', href: '/apply' },
+          { label: 'Stake', href: '/join' },
           { label: 'Delegate', href: '/delegates' },
+          { label: 'Become a Champion', href: '/apply' },
+          { label: 'Next', href: '/about' },
         ]}
+        leftNav={
+          dao?.name &&
+          dao?.id && (
+            <HeaderAvatar
+              name={dao.name}
+              address={dao.id}
+              imgUrl={dao?.avatarImg}
+            />
+          )
+        }
+        
       >
         <Router>
           <Route path="/" element={<Home />} />
@@ -43,6 +67,8 @@ export const Routes = () => {
           <Route path="/profile/:memberAddress" element={<Profile />} />
           <Route path="/unstake" element={<Unstake />} />
           <Route path="/delegate" element={<Delegate />} />
+          <Route path="/claim" element={<Claim />} />
+          <Route path="/about" element={<About />} />
         </Router>
       </DHLayout>
     </TXBuilder>

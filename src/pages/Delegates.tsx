@@ -1,23 +1,71 @@
 import { useMemo } from 'react';
-import { Link, ParSm, SingleColumnLayout } from '@daohaus/ui';
+import { H2, Link, ParMd, widthQuery } from '@daohaus/ui';
 
 import { useMembers } from '../hooks/useMembers';
 import { useRecords } from '../hooks/useRecord';
 import { DELEGATE_TABLE_REF } from '../legos/tx';
 import { isDelegateData } from '../utils/typeguards';
 import { RegisteredMembers } from '../utils/types';
-import { DelegateTable } from '../components/DelegateTable';
 import { TARGET_DAO } from '../targetDAO';
 import { StatusDisplay } from '../components/StatusDisplay';
 import { useDaoData } from '../hooks/useDaoData';
 import { useUserMember } from '../hooks/useUserMember';
 import { useDHConnect } from '@daohaus/connect';
 import styled from 'styled-components';
+import { DelegateList } from '../components/DelegateList';
+import { MolochV3Dao } from '@daohaus/moloch-v3-data';
+import { MemberProfileAvatar } from '../components/MemberProfileAvatar';
 
-const ButtonRow = styled.div`
+const DataRow = styled.div`
   display: flex;
-  justify-content: flex-start;
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
+
+  .delegating-to {
+    display: flex;
+    align-items: center;
+    p {
+      margin-right: 1rem;
+    }
+  }
+  .p-box {
+    height: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .link-box {
+    padding-bottom: 0.3rem;
+    height: 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  @media ${widthQuery.sm} {
+    /* flex-direction: column; */
+    /* justify-content: flex-start; */
+    /* width: fit-content; */
+
+    flex-wrap: wrap;
+    .delegating-to {
+      flex-wrap: wrap;
+    }
+    .p-box {
+      margin-bottom: 2rem;
+      height: fit-content;
+    }
+  }
+`;
+
+const ExpandedLayout = styled.div`
+  width: 100%;
+  max-width: 122rem;
+  h2 {
+    margin-bottom: 2rem;
+    margin-top: 3.6rem;
+  }
 `;
 
 export const Delegates = () => {
@@ -70,10 +118,12 @@ export const Delegates = () => {
     isRecordsIdle ||
     isMembersIdle ||
     isLoadingDao;
-  const isErrorAny = recordsError || membersError || userError;
+  const isErrorAny = recordsError || membersError || userError || daoError;
 
   const registeredDelegates = useMemo(() => {
     if (!records?.length || !members?.length) return {};
+
+    // console.log(records)
 
     return records.reduce((acc, record) => {
       // If the record is not valid, skip it
@@ -142,30 +192,45 @@ export const Delegates = () => {
     );
 
   return (
-    <SingleColumnLayout title="Verified Champions" description="This is a list of currated delegates (Champions) that have been selected by the DAO.">
-      <ButtonRow>
-        <Link
-          href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
-          linkType="external"
-          style={{ marginBottom: '2rem' }}
-        >
-          See all Members
-        </Link>
-      </ButtonRow>
-      <DelegateTable
+    <ExpandedLayout>
+      <H2>Hall of Champions</H2>
+      <DataRow>
+        <div className="p-box">
+          <ParMd>Champions: {Object.keys(registeredDelegates).length}</ParMd>
+
+          <div className="delegating-to">
+            <ParMd>You are delegating to: </ParMd>{' '}
+            {user?.delegatingTo ? (
+              <MemberProfileAvatar
+                daochain={TARGET_DAO.CHAIN_ID}
+                daoid={TARGET_DAO.ADDRESS}
+                memberAddress={user?.delegatingTo}
+              />
+            ) : (
+              <ParMd>--</ParMd>
+            )}
+          </div>
+        </div>
+        <div className="link-box">
+          <Link
+            href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
+            linkType="external"
+            style={{ marginBottom: '2rem' }}
+          >
+            See all Members
+          </Link>
+          <Link href={`/delegate`} style={{ marginBottom: '2rem' }}>
+            Delegate to a non-Champion
+          </Link>
+        </div>
+      </DataRow>
+
+      <DelegateList
         registeredDelegates={registeredDelegates}
-        dao={dao}
+        dao={dao as MolochV3Dao}
         userAddress={user?.memberAddress}
         userDelegateAddress={user?.delegatingTo}
       />
-      <ButtonRow>
-        <Link
-          href={`/delegate`}
-          style={{ marginBottom: '2rem' }}
-        >
-          Enter an account not on this list
-        </Link>
-      </ButtonRow>
-    </SingleColumnLayout>
+    </ExpandedLayout>
   );
 };

@@ -82,4 +82,10 @@ export const TX: Record<string, TXLego> = {
     method: 'onboarder',
     staticArgs: [],
   },
+  STAKECLAIM: {
+    id: 'STAKE_CLAIM',
+    contract: CONTRACT.STAKECLAIM,
+    method: 'claim',
+    staticArgs: [],
+  },
 };

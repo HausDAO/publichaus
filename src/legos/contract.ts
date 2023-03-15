@@ -3,6 +3,7 @@ import { ContractLego, EthAddress } from '@daohaus/utils';
 import { CONTRACT_KEYCHAINS } from '@daohaus/keychain-utils';
 import { TARGET_DAO } from '../targetDAO';
 import OnboarderABI from '../abis/Onboarder.json';
+import StakeClaimABI from '../abis/StakeClaim.json';
 
 export const CONTRACT: Record<string, ContractLego> = {
   POSTER: {
@@ -56,5 +57,11 @@ export const CONTRACT: Record<string, ContractLego> = {
     contractName: 'Onboarder',
     abi: OnboarderABI,
     targetAddress: TARGET_DAO.SHAMAN_ADDRESS,
+  },
+  STAKECLAIM: {
+    type: 'static',
+    contractName: 'StakeClaim',
+    abi: StakeClaimABI, 
+    targetAddress: ".contractAddress",
   },
 };

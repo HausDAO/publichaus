@@ -12,6 +12,8 @@ export const TARGET_DAO: {
   STAKE_TOKEN_NAME: string;
   STAKE_TOKEN_SYMBOL: string;
   STAKE_TOKEN_DECIMALS: number;
+  STAKE_PAUSED: boolean;
+  STAKE_NEXT_START: number;
 } = {
   ADDRESS: '0xb3515130d594a83571f37861c0e9d8de1c1ae893',
   SAFE_ADDRESS: '0x5fb1557dae297dc508eea1bb613307dd76531cb9',
@@ -23,6 +25,9 @@ export const TARGET_DAO: {
   STAKE_TOKEN_SYMBOL: 'WEENUS',
   STAKE_TOKEN_DECIMALS: 18,
   SHAMAN_ADDRESS: '0xbeC36d44523DF7E8062E8A5a29C9433e91633Fdd',
+  STAKE_PAUSED: false,
+  STAKE_NEXT_START: 1677513600,
+
 };
 
 // export const TARGET_DAO: {
@@ -56,3 +61,11 @@ export const MANIFESTO = {
     },
   ],
 };
+
+
+export const ABOUTLINKS = {
+  discord: 'https://discord.gg/daohaus',
+  twitter: 'https://twitter.com/nowdaoit',
+  github: 'https://github.com/HausDAO/',
+  githubOnboarder: 'https://github.com/HausDAO/publichaus',
+}

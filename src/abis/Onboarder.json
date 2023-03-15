@@ -33,12 +33,6 @@
         "internalType": "address",
         "name": "baal",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "lootToCuts",
-        "type": "uint256"
       }
     ],
     "name": "ObReceived",
@@ -94,13 +88,6 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "name": "claimedShares",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "cuts",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
@@ -124,9 +111,7 @@
       },
       { "internalType": "uint256", "name": "_expiery", "type": "uint256" },
       { "internalType": "uint256", "name": "_cap", "type": "uint256" },
-      { "internalType": "uint256", "name": "_multiplier", "type": "uint256" },
-      { "internalType": "address[]", "name": "_cuts", "type": "address[]" },
-      { "internalType": "uint256[]", "name": "_amounts", "type": "uint256[]" }
+      { "internalType": "uint256", "name": "_multiplier", "type": "uint256" }
     ],
     "name": "init",
     "outputs": [],
@@ -142,8 +127,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "_value", "type": "uint256" },
-      { "internalType": "uint256", "name": "_tribute", "type": "uint256" }
+      { "internalType": "uint256", "name": "_value", "type": "uint256" }
     ],
     "name": "onboarder",
     "outputs": [],

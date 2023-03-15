@@ -157,7 +157,7 @@ export const Join = () => {
     fireTransaction({
       tx: {
         ...TX.STAKE,
-        staticArgs: [baseAmt, 0],
+        staticArgs: [baseAmt],
       } as TXLego,
       lifeCycleFns: {
         onRequestSign() {
@@ -222,7 +222,7 @@ export const Join = () => {
           <DataIndicator label="Stake Ratio:" data={`1:10`} size="sm" />
           <DataIndicator
             label="Stake Shares Cap:"
-            data={'100'}
+            data={'1000'}
             size="sm"
           />
         </DataGrid>

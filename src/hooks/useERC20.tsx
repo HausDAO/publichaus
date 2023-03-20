@@ -63,7 +63,7 @@ const fetchTokenData = async ({
       isApproved: !!allowance && allowance?.gt(0),
     };
 
-    console.log('data', data);
+    // console.log('data', data);
     return data;
   } catch (error: any) {
     console.error(error);

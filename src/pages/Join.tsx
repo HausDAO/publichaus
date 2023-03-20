@@ -107,7 +107,7 @@ export const Join = () => {
     chainId: TARGET_DAO.CHAIN_ID,
     memberAddress: address,
   });
-  const { isApproved, balance } = tokenData || {};
+  const { isApproved, balance, allowance } = tokenData || {};
   const { expiry } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
@@ -234,6 +234,7 @@ export const Join = () => {
         ):(<StakeTokenSection
           balance={balance}
           isApproved={isApproved || userOptimisticApproved}
+          allowance={allowance || "0"}
           handleApprove={handleApprove}
           handleStake={handleStake}
           isLoading={isLoadingTx || isRefetching}

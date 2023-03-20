@@ -1,11 +1,12 @@
-import { TARGET_DAO } from '../targetDAO';
-import { Button, Checkbox, Input, Label, ParSm } from '@daohaus/ui';
-import { useEffect, useState } from 'react';
-import { isNumberish, toBaseUnits } from '@daohaus/utils';
-import styled from 'styled-components';
+import { TARGET_DAO } from "../targetDAO";
+import { Button, Checkbox, Input, Label, ParSm } from "@daohaus/ui";
+import { useEffect, useState } from "react";
+import { isNumberish, toBaseUnits } from "@daohaus/utils";
+import styled from "styled-components";
 
 export const StakeTokenSection = ({
   isApproved,
+  allowance,
   handleApprove,
   isLoading,
   handleStake,
@@ -13,11 +14,12 @@ export const StakeTokenSection = ({
 }: {
   isLoading: boolean;
   isApproved: boolean;
+  allowance: string;
   balance?: string | null;
   handleApprove: () => void;
   handleStake: (wholeAmt: string) => void;
 }) => {
-  const [stkAmt, setStkAmt] = useState<string>('');
+  const [stkAmt, setStkAmt] = useState<string>("");
   const [valMsg, setValMsg] = useState<string | null>();
   const [isManifestoChecked, setIsManifestoChecked] = useState<boolean>(false);
   const [isDocsChecked, setIsDocsChecked] = useState<boolean>(false);
@@ -26,7 +28,7 @@ export const StakeTokenSection = ({
     if (!stkAmt) {
       setValMsg(null);
     } else if (!isNumberish(stkAmt)) {
-      setValMsg('Please enter a valid number');
+      setValMsg("Please enter a valid number");
     } else if (!balance) {
       setValMsg(`You do not have a ${TARGET_DAO.STAKE_TOKEN_SYMBOL} balance`);
     } else if (
@@ -58,7 +60,7 @@ export const StakeTokenSection = ({
       <div className="input-box">
         <Label>
           <>
-            {isApproved ? 'Stake' : 'Approve'} {TARGET_DAO.STAKE_TOKEN_SYMBOL}{' '}
+            {isApproved ? "Stake" : "Approve"} {TARGET_DAO.STAKE_TOKEN_SYMBOL}{" "}
             to Join
           </>
         </Label>
@@ -70,7 +72,7 @@ export const StakeTokenSection = ({
           value={stkAmt}
           disabled={!isApproved || isLoading}
           full
-          placeholder={isApproved ? '0' : 'Approve first'}
+          placeholder={isApproved ? "0" : "Approve first"}
         />
         {valMsg && <ParSm className="err">{valMsg}</ParSm>}
       </div>
@@ -93,12 +95,18 @@ export const StakeTokenSection = ({
         </CheckArea>
       )}
 
-      {isApproved ? (
+      {isApproved &&
+      BigInt(allowance) >
+        BigInt(
+          parseInt((stkAmt || "0")) * (10 ** TARGET_DAO.STAKE_TOKEN_DECIMALS)
+        ) ? (
         <Button
           type="button"
           onClick={handleLocalStake}
           fullWidth
-          disabled={isLoading || !isManifestoChecked || !isDocsChecked || !!valMsg}
+          disabled={
+            isLoading || !isManifestoChecked || !isDocsChecked || !!valMsg
+          }
         >
           Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}
         </Button>

@@ -121,7 +121,7 @@ export const MembershipSection = ({
                 You are not yet verified by the DAO.
               </ParMd>
               <Link href={`/apply`} className="space">
-                Verify your identity here
+                Verify your identity here (Champions only)
               </Link>
             </>
           )}

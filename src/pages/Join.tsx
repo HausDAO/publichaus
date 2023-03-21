@@ -1,6 +1,6 @@
-import { useDHConnect } from '@daohaus/connect';
-import { useERC20 } from '../hooks/useERC20';
-import { TARGET_DAO } from '../targetDAO';
+import { useDHConnect } from "@daohaus/connect";
+import { useERC20 } from "../hooks/useERC20";
+import { TARGET_DAO } from "../targetDAO";
 import {
   Banner,
   Card,
@@ -13,24 +13,24 @@ import {
   Spinner,
   Theme,
   useToast,
-} from '@daohaus/ui';
-import { useUserMember } from '../hooks/useUserMember';
-import { useState } from 'react';
-import { useTxBuilder } from '@daohaus/tx-builder';
-import { MaxUint256 } from '@ethersproject/constants';
-import { TX } from '../legos/tx';
+} from "@daohaus/ui";
+import { useUserMember } from "../hooks/useUserMember";
+import { useState } from "react";
+import { useTxBuilder } from "@daohaus/tx-builder";
+import { MaxUint256 } from "@ethersproject/constants";
+import { TX } from "../legos/tx";
 import {
   formatDistanceToNowFromSeconds,
   handleErrorMessage,
   toBaseUnits,
   TXLego,
-} from '@daohaus/utils';
-import styled from 'styled-components';
-import { useOnboarder } from '../hooks/useOnboarder';
-import { Member } from '../utils/types';
-import { StakeTokenSection } from '../components/StakeTokenSection';
-import { DataGrid } from '../components/DataGrid';
-import { MembershipSection } from '../components/MembershipSection';
+} from "@daohaus/utils";
+import styled from "styled-components";
+import { useOnboarder } from "../hooks/useOnboarder";
+import { Member } from "../utils/types";
+import { StakeTokenSection } from "../components/StakeTokenSection";
+import { DataGrid } from "../components/DataGrid";
+import { MembershipSection } from "../components/MembershipSection";
 
 const StakeBox = styled.div`
   max-width: 70rem;
@@ -133,12 +133,12 @@ export const Join = () => {
           setIsOptimisticApproved({ [address]: true });
           refetchToken();
           setIsLoadingTx(false);
-          successToast({ title: 'Success', description: 'Approved' });  
+          successToast({ title: "Success", description: "Approved" });
         },
         onTxError(err) {
           const errMsg = handleErrorMessage(err as any);
           console.error(err);
-          errorToast({ title: 'Error', description: errMsg });
+          errorToast({ title: "Error", description: errMsg });
           setIsLoadingTx(false);
         },
       },
@@ -147,7 +147,7 @@ export const Join = () => {
 
   const handleStake = (wholeAmt: string) => {
     if (!wholeAmt) {
-      errorToast({ title: 'Error', description: 'Please enter an amount' });
+      errorToast({ title: "Error", description: "Please enter an amount" });
       return;
     }
     const baseAmt = toBaseUnits(
@@ -166,20 +166,20 @@ export const Join = () => {
         },
         onTxSuccess() {
           defaultToast({
-            title: 'Success',
-            description: 'Transaction submitted: Syncing data on Subgraph',
+            title: "Success",
+            description: "Transaction submitted: Syncing data on Subgraph",
           });
           refetchUser();
         },
         onTxError(err) {
           const errMsg = handleErrorMessage(err as any);
-          errorToast({ title: 'Error', description: errMsg });
+          errorToast({ title: "Error", description: errMsg });
           setIsLoadingTx(false);
         },
         onPollSuccess() {
           setIsLoadingTx(false);
           successToast({
-            title: 'Success',
+            title: "Success",
             description: `Staked ${TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO Shares`,
           });
           refetchUser();
@@ -187,7 +187,7 @@ export const Join = () => {
         },
         onPollError(err) {
           const errMsg = handleErrorMessage(err as any);
-          errorToast({ title: 'Error', description: errMsg });
+          errorToast({ title: "Error", description: errMsg });
           setIsLoadingTx(false);
         },
       },
@@ -200,7 +200,7 @@ export const Join = () => {
         <StakeBox>
           <H2>Loading</H2>
           <ParMd className="space">
-            Fetching Data from RPC. Load times may be longer than usual.{' '}
+            Fetching Data from RPC. Load times may be longer than usual.{" "}
           </ParMd>
           <SpinnerBox>
             <Spinner size="12rem" />
@@ -211,8 +211,17 @@ export const Join = () => {
   return (
     <SingleColumnLayout>
       <StakeBox>
-        <H2>Join Public Haus</H2>
-        <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</ParLg>
+        {balance && parseInt(balance) > 0 ? (
+          <>
+            <H2>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}</H2>
+            <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for more DAO shares</ParLg>
+          </>
+        ) : (
+          <>
+            <H2>Join Public Haus</H2>
+            <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} to Join</ParLg>
+          </>
+        )}
         <DataGrid>
           <DataIndicator
             label="Stake Token:"
@@ -226,19 +235,18 @@ export const Join = () => {
         <MembershipSection user={user as Member | null} balance={balance} />
         {TARGET_DAO.STAKE_PAUSED ? (
           <Card className="space">
-              <ParMd>
-                Staking is currently paused. Please check back later.
-              </ParMd>
+            <ParMd>Staking is currently paused. Please check back later.</ParMd>
           </Card>
-
-        ):(<StakeTokenSection
-          balance={balance}
-          isApproved={isApproved || userOptimisticApproved}
-          allowance={allowance || "0"}
-          handleApprove={handleApprove}
-          handleStake={handleStake}
-          isLoading={isLoadingTx || isRefetching}
-        />)}
+        ) : (
+          <StakeTokenSection
+            balance={balance}
+            isApproved={isApproved || userOptimisticApproved}
+            allowance={allowance || "0"}
+            handleApprove={handleApprove}
+            handleStake={handleStake}
+            isLoading={isLoadingTx || isRefetching}
+          />
+        )}
       </StakeBox>
     </SingleColumnLayout>
   );
@@ -246,5 +254,7 @@ export const Join = () => {
 
 const ExpiryIndicator = ({ expiry }: { expiry: string }) => {
   const expiryDate = formatDistanceToNowFromSeconds(expiry);
-  return <DataIndicator label="Open Staking Expires:" data={expiryDate} size="sm" />;
+  return (
+    <DataIndicator label="Open Staking Expires:" data={expiryDate} size="sm" />
+  );
 };

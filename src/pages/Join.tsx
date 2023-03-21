@@ -130,10 +130,10 @@ export const Join = () => {
           setIsLoadingTx(true);
         },
         onTxSuccess() {
-          setIsLoadingTx(false);
           setIsOptimisticApproved({ [address]: true });
-          successToast({ title: 'Success', description: 'Approved' });
+          refetchToken();
           setIsLoadingTx(false);
+          successToast({ title: 'Success', description: 'Approved' });  
         },
         onTxError(err) {
           const errMsg = handleErrorMessage(err as any);

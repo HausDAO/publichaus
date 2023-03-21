@@ -211,7 +211,7 @@ export const Join = () => {
   return (
     <SingleColumnLayout>
       <StakeBox>
-        {balance && parseInt(balance) > 0 ? (
+        {user && parseInt(user.shares) > 0 ? (
           <>
             <H2>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}</H2>
             <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for more DAO shares</ParLg>

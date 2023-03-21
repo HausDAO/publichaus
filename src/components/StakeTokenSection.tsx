@@ -61,7 +61,6 @@ export const StakeTokenSection = ({
         <Label>
           <>
             {isApproved ? "Stake" : "Approve"} {TARGET_DAO.STAKE_TOKEN_SYMBOL}{" "}
-            to Join
           </>
         </Label>
         <Input

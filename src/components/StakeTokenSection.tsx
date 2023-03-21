@@ -96,7 +96,7 @@ export const StakeTokenSection = ({
       )}
 
       {isApproved &&
-      BigInt(allowance) >
+      BigInt(allowance) >=
         BigInt(
           parseInt((stkAmt || "0")) * (10 ** TARGET_DAO.STAKE_TOKEN_DECIMALS)
         ) ? (

@@ -9,7 +9,7 @@ import {
   Button,
 } from "@daohaus/ui";
 import { useMemo } from "react";
-import { formatValueTo, fromWei } from "@daohaus/utils";
+import { formatValueTo, fromWei, toWholeUnits } from "@daohaus/utils";
 import styled from "styled-components";
 import { DelegateData, Member } from "../utils/types";
 import { useRecords } from "../hooks/useRecord";
@@ -69,13 +69,22 @@ export const MembershipSection = ({
       <DataGrid>
         <DataIndicator
           size="sm"
-          label={`Your ${TARGET_DAO.STAKE_TOKEN_SYMBOL} Balance`}
+          label={`Your availible ${TARGET_DAO.STAKE_TOKEN_SYMBOL} Balance`}
           data={
             balance != null
               ? formatValueTo({
                   value: fromWei(balance),
                   format: "numberShort",
                 })
+              : "--"
+          }
+        />
+        <DataIndicator
+          size="sm"
+          label={`Staked ${TARGET_DAO.STAKE_TOKEN_SYMBOL}`}
+          data={
+            user?.shares != null
+              ? parseInt(user.shares) / (10 ** TARGET_DAO.STAKE_TOKEN_DECIMALS) / 10
               : "--"
           }
         />

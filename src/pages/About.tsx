@@ -24,7 +24,7 @@ export const About = () => {
           ways to improve the DAO. Introduce yourself and begin the journey now.{" "}
           <Link
             href={ABOUTLINKS.discord}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             Discord
@@ -35,7 +35,7 @@ export const About = () => {
           team and the community.{" "}
           <Link
             href={ABOUTLINKS.twitter}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             Twitter
@@ -48,7 +48,7 @@ export const About = () => {
           contributions.{" "}
           <Link
             href={"https://signal.daohaus.fun/"}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             Strategic Signaling
@@ -61,7 +61,7 @@ export const About = () => {
           delegates can vote on open proposals.{" "}
           <Link
             href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}`}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             PublicHAUS Admin
@@ -72,7 +72,7 @@ export const About = () => {
           projects in the DaoHaus repo and start to contribute now.{" "}
           <Link
             href={ABOUTLINKS.github}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             HAUSDAO repo
@@ -84,7 +84,7 @@ export const About = () => {
           stars, contributions and forks.{" "}
           <Link
             href={ABOUTLINKS.githubOnboarder}
-            linkType="external"
+             
             style={{ marginBottom: "2rem" }}
           >
             DaoHaus Onboarder

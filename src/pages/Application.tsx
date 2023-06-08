@@ -7,6 +7,7 @@ import { CustomFields } from '../legos/config';
 
 import { FORM } from '../legos/forms';
 import { TARGET_DAO } from '../targetDAO';
+import { StyledRouterLink } from '../Routes';
 
 enum PageState {
   Idle = 'Idle',
@@ -43,7 +44,7 @@ export const Application = () => {
         <ParMd style={{ marginBottom: '1rem' }}>
           You are not a member of this DAO.
         </ParMd>
-        <Link href="/join"> Please join the DAO first.</Link>
+        <StyledRouterLink to="/join"> Please join the DAO first.</StyledRouterLink>
       </FormLayout>
     );
   }
@@ -56,7 +57,7 @@ export const Application = () => {
         </ParMd>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/proposals`}
-          linkType="external"
+           
         >
           Click here to see your proposal
         </Link>

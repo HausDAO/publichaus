@@ -15,6 +15,7 @@ import { DelegateData, Member } from "../utils/types";
 import { useRecords } from "../hooks/useRecord";
 import { isDelegateData } from "../utils/typeguards";
 import { DataGrid } from "./DataGrid";
+import { StyledRouterLink } from "../Routes";
 
 const MembershipBox = styled.div`
   display: flex;
@@ -61,7 +62,7 @@ export const MembershipSection = ({
       {user ? (
         <ParLg>
           You are a member{" "}
-          <Link href="/unstake">unstake</Link>
+          <StyledRouterLink to="/unstake">unstake</StyledRouterLink>
         </ParLg>
       ) : (
         <ParLg>You are not a member of this DAO</ParLg>
@@ -111,18 +112,18 @@ export const MembershipSection = ({
               <ParMd className="small-space">
                 The DAO has verified your identity
               </ParMd>
-              <Link href={`/profile/${address}`} className="space">
+              <StyledRouterLink to={`/profile/${address}`} className="space">
                 View your profile here
-              </Link>
+              </StyledRouterLink>
             </>
           ) : (
             <>
               <ParMd className="small-space">
                 You are not yet verified by the DAO.
               </ParMd>
-              <Link href={`/apply`} className="space">
-                Verify your identity here (Champions only)
-              </Link>
+              <StyledRouterLink to={`/apply`} className="space">
+                Verify your identity (Only required for Champions)
+              </StyledRouterLink>
             </>
           )}
           <Divider className="space" />

@@ -14,7 +14,13 @@ import { Claim } from './pages/Claim';
 import { useDaoData } from './hooks/useDaoData';
 import { HeaderAvatar } from './components/HeaderAvatar';
 import { About } from './pages/About';
-import { Banner } from '@daohaus/ui';
+import { Banner, LinkStyles } from '@daohaus/ui';
+import { Link as RouterLink } from "react-router-dom";
+import styled from "styled-components";
+
+export const StyledRouterLink = styled(RouterLink)`
+  ${LinkStyles}
+`;
 
 
 export const Routes = () => {

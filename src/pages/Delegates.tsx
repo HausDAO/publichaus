@@ -15,6 +15,7 @@ import styled from 'styled-components';
 import { DelegateList } from '../components/DelegateList';
 import { MolochV3Dao } from '@daohaus/moloch-v3-data';
 import { MemberProfileAvatar } from '../components/MemberProfileAvatar';
+import { StyledRouterLink } from '../Routes';
 
 const DataRow = styled.div`
   display: flex;
@@ -214,14 +215,14 @@ export const Delegates = () => {
         <div className="link-box">
           <Link
             href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
-            linkType="external"
+             
             style={{ marginBottom: '2rem' }}
           >
             See all Members
           </Link>
-          <Link href={`/delegate`} style={{ marginBottom: '2rem' }}>
+          <StyledRouterLink to={`/delegate`} style={{ marginBottom: '2rem' }}>
             Delegate to a non-Champion
-          </Link>
+          </StyledRouterLink>
         </div>
       </DataRow>
 

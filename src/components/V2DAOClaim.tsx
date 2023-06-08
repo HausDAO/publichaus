@@ -44,7 +44,7 @@ export const V2DAOClaim = ({
 
           <Link
             href={`https://app.daohaus.club/dao/0x1/${daoAddress}`}
-            linkType="external"
+             
           >
             V2 DAO Interface
           </Link>

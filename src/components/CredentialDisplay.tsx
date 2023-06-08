@@ -168,7 +168,7 @@ const CredLink = ({ link }: { link?: string }) => {
       <ParMd className="descriptor">
         <Bold>Platform Link: </Bold>
       </ParMd>
-      <Link href={link} linkType="external">
+      <Link href={link}  >
         {charLimit(link, 30)}
       </Link>
     </div>

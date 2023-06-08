@@ -10,6 +10,7 @@ import { RegisteredMember } from '../utils/types';
 import { DaoTable } from './DaoTable';
 import { MemberProfileAvatar } from './MemberProfileAvatar';
 import { sharesDelegatedToMember } from '../utils/conversion';
+import { StyledRouterLink } from '../Routes';
 
 const DelegateContainer = styled(Card)`
   padding: 3rem;
@@ -117,7 +118,7 @@ export const DelegateTable = ({
         accessor: 'votes',
         Cell: ({ row }) => {
           const { memberAddress } = row.original;
-          return <Link href={`/profile/${memberAddress}`}>See Profile</Link>;
+          return <StyledRouterLink to={`/profile/${memberAddress}`}>See Profile</StyledRouterLink>;
         },
       },
     ];

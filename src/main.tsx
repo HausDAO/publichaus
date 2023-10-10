@@ -21,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <HashRouter>
       <HausThemeProvider>
-        {TARGET_DAO.STAKE_PAUSED && (
+        {new Date(TARGET_DAO.STAKE_NEXT_START * 1000) > (new Date()) && (
           <Banner
             bannerText={`Open staking is paused, next round begins ${new Date(
               TARGET_DAO.STAKE_NEXT_START * 1000

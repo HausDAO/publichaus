@@ -233,7 +233,7 @@ export const Join = () => {
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
-        {TARGET_DAO.STAKE_PAUSED ? (
+        {new Date(TARGET_DAO.STAKE_NEXT_START * 1000) > (new Date()) || TARGET_DAO.STAKE_PAUSED ? (
           <Card className="space">
             <ParMd>Staking is currently paused. Please check back later.</ParMd>
           </Card>

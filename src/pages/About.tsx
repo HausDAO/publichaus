@@ -18,6 +18,13 @@ export const About = () => {
       <ContentBox>
         <H2>As a member what's next?</H2>
         <ParMd>
+          <Bold>Get HAUS</Bold> You need HAUS to join PublicHAUS. HAUS is cheap
+          and available on Optimism Velodrome and other DEX{" "}
+          <Link href={ABOUTLINKS.dex} style={{ marginBottom: "2rem" }}>
+            HAUS
+          </Link>
+        </ParMd>
+        <ParMd>
           <Bold>Join the Discussion</Bold> Join the discussion on the discord
           forum and chats. Stay up to date with new announcements and
           participate in weekly events. We are always looking for feedback and
@@ -27,7 +34,7 @@ export const About = () => {
           </Link>
         </ParMd>
         <ParMd>
-          <Bold>Latest News</Bold> Get the latest news from the DaoHaus core
+          <Bold>Latest News</Bold> Get the latest news from the DAOHaus core
           team and the community.{" "}
           <Link href={ABOUTLINKS.twitter} style={{ marginBottom: "2rem" }}>
             Twitter
@@ -35,7 +42,7 @@ export const About = () => {
         </ParMd>
         <ParMd>
           <Bold>Participate in Latest Strategic Signaling</Bold> All members can
-          participate in the the strategic signaling sessions which help shape
+          participate in the strategic signaling sessions which help shape
           the future of DAOhaus and retroactively recognize and reward
           contributions.{" "}
           <Link
@@ -59,7 +66,7 @@ export const About = () => {
         </ParMd>
         <ParMd>
           <Bold>Contribute content and code</Bold> looks at open issues and
-          projects in the DaoHaus repo and start to contribute now.{" "}
+          projects in the DAOHaus repo and start to contribute now.{" "}
           <Link href={ABOUTLINKS.github} style={{ marginBottom: "2rem" }}>
             HAUSDAO repo
           </Link>
@@ -77,7 +84,7 @@ export const About = () => {
         </ParMd>
         <ParMd>
           <Bold>Get help</Bold> Do you want to DAO up your own community? Get
-          advise, help, connections and services from our growing nation of DAOs
+          advice, help, connections and services from our growing nation of DAOs
           and governerds. We are here for each other and are the most valuable
           asset we have.{" "}
         </ParMd>

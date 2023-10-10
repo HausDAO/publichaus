@@ -1,11 +1,11 @@
-import { useQuery } from 'react-query';
+import { useQuery } from "react-query";
 
-import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
-import { listRecords } from '@daohaus/moloch-v3-data';
-import { handleErrorMessage } from '@daohaus/utils';
+import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
+import { listRecords } from "@daohaus/moloch-v3-data";
+import { handleErrorMessage } from "@daohaus/utils";
 
 const defaultGraphApiKeys = {
-  '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET,
+  "0x1": import.meta.env.VITE_GRAPH_API_KEY_MAINNET,
 };
 
 const fetchRecords = async ({
@@ -42,7 +42,7 @@ const fetchRecords = async ({
   } catch (error) {
     console.error(error);
     throw new Error(
-      handleErrorMessage({ error, fallback: 'Error fetching records' })
+      handleErrorMessage({ error, fallback: "Error fetching records" })
     );
   }
 };

@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { indigoDark } from '@radix-ui/colors';
+import { useParams } from "react-router-dom";
+import styled from "styled-components";
+import { indigoDark } from "@radix-ui/colors";
 
 import {
   breakpoints,
@@ -12,22 +12,22 @@ import {
   DataIndicator,
   widthQuery,
   ProfileAvatar,
-} from '@daohaus/ui';
-import { AccountProfile } from '@daohaus/utils';
-import { Keychain } from '@daohaus/keychain-utils';
+} from "@daohaus/ui";
+import { AccountProfile } from "@daohaus/utils";
+import { Keychain } from "@daohaus/keychain-utils";
 
 import {
   formatLongDateFromSeconds,
   formatValueTo,
   fromWei,
   votingPowerPercentage,
-} from '@daohaus/utils';
+} from "@daohaus/utils";
 
 // import { MemberProfileMenu } from './MemberProfileMenu';
-import { MemberProfileAvatar } from './MemberProfileAvatar';
-import { MolochV3Member, MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { useDaoData } from '../hooks/useDaoData';
-import { sharesDelegatedToMember } from '../utils/conversion';
+import { MemberProfileAvatar } from "./MemberProfileAvatar";
+import { MolochV3Member, MolochV3Dao } from "@daohaus/moloch-v3-data";
+import { useDaoData } from "../hooks/useDaoData";
+import { sharesDelegatedToMember } from "../utils/conversion";
 
 const AvatarLarge = styled(ProfileAvatar)`
   height: 12rem;
@@ -114,14 +114,14 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
       <PSubContainer>
         <ProfileMetadataContainer>
           <AvatarLarge
-            src={profile?.avatar || ''}
+            src={profile?.avatar || ""}
             size="lg"
             alt="profile image"
             address={profile.address}
           />
           <Container>
             <ProfileNameContainer>
-              {profile?.ens && <H5>{profile?.ens || ''}</H5>}
+              {profile?.ens && <H5>{profile?.ens || ""}</H5>}
             </ProfileNameContainer>
             {membership && (
               <AddressDisplay
@@ -146,11 +146,11 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
               label="Voting Power"
               data={formatValueTo({
                 value: votingPowerPercentage(
-                  dao?.totalShares || '0',
+                  dao?.totalShares || "0",
                   membership.delegateShares
                 ),
                 decimals: 2,
-                format: 'percent',
+                format: "percent",
               })}
             />
             <DataIndicator
@@ -158,7 +158,7 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
               data={formatValueTo({
                 value: fromWei(membership.shares),
                 decimals: 2,
-                format: 'number',
+                format: "number",
               })}
             />
             <DataIndicator
@@ -171,7 +171,7 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
                   )
                 ),
                 decimals: 2,
-                format: 'number',
+                format: "number",
               })}
             />
           </DataGrid>

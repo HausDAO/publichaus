@@ -214,7 +214,9 @@ export const Join = () => {
         {user && parseInt(user.shares) > 0 ? (
           <>
             <H2>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL}</H2>
-            <ParLg>Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for more DAO shares</ParLg>
+            <ParLg>
+              Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for more DAO shares
+            </ParLg>
           </>
         ) : (
           <>
@@ -233,7 +235,8 @@ export const Join = () => {
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
-        {new Date(TARGET_DAO.STAKE_NEXT_START * 1000) > (new Date()) || TARGET_DAO.STAKE_PAUSED ? (
+        {new Date(TARGET_DAO.STAKE_NEXT_START * 1000) > new Date() ||
+        TARGET_DAO.STAKE_PAUSED ? (
           <Card className="space">
             <ParMd>Staking is currently paused. Please check back later.</ParMd>
           </Card>

@@ -1,8 +1,8 @@
-import { LOCAL_ABI } from '@daohaus/abis';
-import OnboarderABI from '../abis/Onboarder.json';
-import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
-import { useQuery } from 'react-query';
-import { createViemClient } from '@daohaus/utils';
+import { LOCAL_ABI } from "@daohaus/abis";
+import OnboarderABI from "../abis/Onboarder.json";
+import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
+import { useQuery } from "react-query";
+import { createViemClient } from "@daohaus/utils";
 
 type FetchShape = {
   baal?: boolean;
@@ -30,30 +30,30 @@ const fetchOnboarder = async ({
   });
 
   try {
-    const baal = fetchShape?.baal ? 
-    ((await client.readContract({
-      abi: OnboarderABI,
-      address: shamanAddress as `0x${string}`,
-      functionName: "baal",
-      args: [],
-    })))
-    : null;
-    const expiery = fetchShape?.expiery ? 
-    (await client.readContract({
-      abi: OnboarderABI,
-      address: shamanAddress as `0x${string}`,
-      functionName: "expiery",
-      args: [],
-      }) as bigint)
-    : null;
-    const token = fetchShape?.token ? 
-    (await client.readContract({
-      abi: OnboarderABI,
-      address: shamanAddress as `0x${string}`,
-      functionName: "token",
-      args: [],
-      }))
-    : null;
+    const baal = fetchShape?.baal
+      ? await client.readContract({
+          abi: OnboarderABI,
+          address: shamanAddress as `0x${string}`,
+          functionName: "baal",
+          args: [],
+        })
+      : null;
+    const expiery = fetchShape?.expiery
+      ? ((await client.readContract({
+          abi: OnboarderABI,
+          address: shamanAddress as `0x${string}`,
+          functionName: "expiery",
+          args: [],
+        })) as bigint)
+      : null;
+    const token = fetchShape?.token
+      ? await client.readContract({
+          abi: OnboarderABI,
+          address: shamanAddress as `0x${string}`,
+          functionName: "token",
+          args: [],
+        })
+      : null;
 
     return {
       baal,
@@ -82,7 +82,7 @@ export const useOnboarder = ({
   fetchShape?: FetchShape;
 }) => {
   const { data, error, ...rest } = useQuery(
-    'OnboarderShaman',
+    "OnboarderShaman",
     () => {
       return fetchOnboarder({
         shamanAddress,

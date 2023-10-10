@@ -1,13 +1,13 @@
-import { H2, Loading, ParMd, SingleColumnLayout } from '@daohaus/ui';
-import React, { ReactNode } from 'react';
-import styled from 'styled-components';
+import { H2, Loading, ParMd, SingleColumnLayout } from "@daohaus/ui";
+import React, { ReactNode } from "react";
+import styled from "styled-components";
 
 const DisplayBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
   .spacer {
-    margin-bottom: '2rem';
+    margin-bottom: "2rem";
   }
 `;
 

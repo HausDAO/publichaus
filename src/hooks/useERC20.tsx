@@ -49,20 +49,20 @@ const fetchTokenData = async ({
         })) as bigint)
       : null;
     const name = fetchShape?.name
-      ? ((await client.readContract({
+      ? await client.readContract({
           abi: LOCAL_ABI.ERC20,
           address: tokenAddress as `0x${string}`,
           functionName: "name",
           args: [],
-        })))
+        })
       : null;
     const symbol = fetchShape?.symbol
-      ? ((await client.readContract({
+      ? await client.readContract({
           abi: LOCAL_ABI.ERC20,
           address: tokenAddress as `0x${string}`,
           functionName: "symbol",
           args: [],
-        })))
+        })
       : null;
     const totalSupply = fetchShape?.totalSupply
       ? ((await client.readContract({

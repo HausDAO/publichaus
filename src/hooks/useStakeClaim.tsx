@@ -26,21 +26,19 @@ const fetchStakeClaimData = async ({
     chainId,
   });
 
-
   try {
     const memberData =
       fetchShape?.claim && userAddress
-        ? 
-        ((await client.readContract({
-          abi: STAKECLAIMABI,
-          address: contractAddress as `0x${string}`,
-          functionName: "claimOf",
-          args: [userAddress],
-        })))
+        ? await client.readContract({
+            abi: STAKECLAIMABI,
+            address: contractAddress as `0x${string}`,
+            functionName: "claimOf",
+            args: [userAddress],
+          })
         : null;
 
     // const claimData = fetchShape?.expiry
-    //   ? 
+    //   ?
     //   (await client.readContract({
     //     abi: STAKECLAIMABI,
     //     address: contractAddress as `0x${string}`,

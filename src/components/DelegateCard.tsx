@@ -6,7 +6,7 @@ import {
   ParMd,
   ParSm,
   ProfileAvatar,
-} from '@daohaus/ui';
+} from "@daohaus/ui";
 import {
   charLimit,
   formatValueTo,
@@ -14,14 +14,14 @@ import {
   handlePluralNoun,
   truncateAddress,
   votingPowerPercentage,
-} from '@daohaus/utils';
-import { MolochV3Dao } from '@daohaus/moloch-v3-data';
+} from "@daohaus/utils";
+import { MolochV3Dao } from "@daohaus/moloch-v3-data";
 
-import { sharesDelegatedToMember } from '../utils/conversion';
+import { sharesDelegatedToMember } from "../utils/conversion";
 
-import styled from 'styled-components';
-import { RegisteredMember } from '../utils/types';
-import { ButtonRouterLink } from './ButtonRouterLink';
+import styled from "styled-components";
+import { RegisteredMember } from "../utils/types";
+import { ButtonRouterLink } from "./ButtonRouterLink";
 
 const DelegateCardBox = styled(Card)`
   width: 100%;
@@ -68,7 +68,7 @@ export const DelegateCard = ({
   const readableShares = formatValueTo({
     value: fromWei(delegate.shares),
     decimals: 2,
-    format: 'number',
+    format: "number",
   });
   const delegatedShares = sharesDelegatedToMember(
     delegate.delegateShares,
@@ -78,7 +78,7 @@ export const DelegateCard = ({
   const readableDelShares = formatValueTo({
     value: fromWei(delegatedShares),
     decimals: 2,
-    format: 'number',
+    format: "number",
   });
 
   const votingPower = votingPowerPercentage(
@@ -114,23 +114,23 @@ export const DelegateCard = ({
           <Bold>{votingPower}%</Bold> Voting Power
         </ParMd>
         <ParMd>
-          <Bold>{readableShares}</Bold>{' '}
+          <Bold>{readableShares}</Bold>{" "}
           {handlePluralNoun(
-            { singular: 'Share', plural: 'Shares' },
+            { singular: "Share", plural: "Shares" },
             Number(readableShares)
           )}
         </ParMd>
         <ParMd>
-          <Bold>{readableDelShares}</Bold>{' '}
+          <Bold>{readableDelShares}</Bold>{" "}
           {handlePluralNoun(
-            { singular: 'Delegate Share', plural: 'Delegate Shares' },
+            { singular: "Delegate Share", plural: "Delegate Shares" },
             Number(readableDelShares)
           )}
         </ParMd>
         <ParMd>
-          <Bold>{delegate.delegateOfCount}</Bold>{' '}
+          <Bold>{delegate.delegateOfCount}</Bold>{" "}
           {handlePluralNoun(
-            { singular: 'Delegatee', plural: 'Delegatees' },
+            { singular: "Delegatee", plural: "Delegatees" },
             Number(delegate.delegateOfCount)
           )}
         </ParMd>

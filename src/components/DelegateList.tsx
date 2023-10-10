@@ -1,14 +1,14 @@
-import React, { ReactNode, useMemo } from 'react';
-import { RegisteredMembers } from '../utils/types';
-import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { Button, Input, useBreakpoint, widthQuery } from '@daohaus/ui';
-import styled from 'styled-components';
-import { SortDropdown } from './SortDropdown';
-import { DelegateCard } from './DelegateCard';
-import { RiGridFill, RiListCheck } from 'react-icons/ri/index.js';
+import React, { ReactNode, useMemo } from "react";
+import { RegisteredMembers } from "../utils/types";
+import { MolochV3Dao } from "@daohaus/moloch-v3-data";
+import { Button, Input, useBreakpoint, widthQuery } from "@daohaus/ui";
+import styled from "styled-components";
+import { SortDropdown } from "./SortDropdown";
+import { DelegateCard } from "./DelegateCard";
+import { RiGridFill, RiListCheck } from "react-icons/ri/index.js";
 
-import { BiSearch } from 'react-icons/bi';
-import { DelegateTable } from './DelegateTable';
+import { BiSearch } from "react-icons/bi";
+import { DelegateTable } from "./DelegateTable";
 
 const handleSearch = (term: string, delegates: RegisteredMembers) => {
   return Object.values(delegates).filter((delegate) => {
@@ -19,7 +19,7 @@ const handleSearch = (term: string, delegates: RegisteredMembers) => {
   });
 };
 
-type Sortable = 'shares' | 'delegateShares';
+type Sortable = "shares" | "delegateShares";
 
 export const DelegateList = ({
   registeredDelegates,
@@ -30,8 +30,8 @@ export const DelegateList = ({
   userAddress?: string;
   userDelegateAddress?: string;
 }) => {
-  const [searchTerm, setSearchTerm] = React.useState('');
-  const [sort, setSort] = React.useState<Sortable>('delegateShares');
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [sort, setSort] = React.useState<Sortable>("delegateShares");
   const [isCards, setIsCards] = React.useState(true);
 
   const isMobile = useBreakpoint(widthQuery.sm);
@@ -42,10 +42,10 @@ export const DelegateList = ({
     }
 
     return Object.values(registeredDelegates).sort((a, b) => {
-      if (sort === 'delegateShares') {
+      if (sort === "delegateShares") {
         return Number(b.delegateShares) > Number(a.delegateShares) ? 1 : -1;
       }
-      if (sort === 'shares') {
+      if (sort === "shares") {
         return Number(b.shares) > Number(a.shares) ? 1 : -1;
       }
       return 0;
@@ -58,7 +58,7 @@ export const DelegateList = ({
         <Input
           icon={BiSearch}
           id="table-search"
-          placeholder={'Search Address or Name'}
+          placeholder={"Search Address or Name"}
           onChange={(e) => setSearchTerm(e.target.value)}
           full={isMobile}
         />
@@ -69,8 +69,8 @@ export const DelegateList = ({
             IconLeft={isCards ? RiListCheck : RiGridFill}
             fullWidth={isMobile}
           >
-            {' '}
-            {isCards ? 'List' : 'Cards'}
+            {" "}
+            {isCards ? "List" : "Cards"}
           </Button>
         )}
         <SortDropdown
@@ -79,12 +79,12 @@ export const DelegateList = ({
           value={sort}
           options={[
             {
-              name: 'Voting Power',
-              value: 'delegateShares',
+              name: "Voting Power",
+              value: "delegateShares",
             },
             {
-              name: 'Shares',
-              value: 'shares',
+              name: "Shares",
+              value: "shares",
             },
           ]}
           onChange={(e: any) => setSort(e.target.value)}

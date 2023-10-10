@@ -1,27 +1,26 @@
-import { DHLayout, useDHConnect } from '@daohaus/connect';
-import { Routes as Router, Route, useLocation } from 'react-router-dom';
-import { Delegates } from './pages/Delegates';
-import { Application } from './pages/Application';
-import { Home } from './pages/Home';
-import { Profile } from './pages/Profile';
-import { TXBuilder } from '@daohaus/tx-builder';
-import { TARGET_DAO } from './targetDAO';
-import { Join } from './pages/Join';
-import { Manifesto } from './pages/Manifesto';
-import { Unstake } from './pages/Unstake';
-import { Delegate } from './pages/Delegate';
-import { Claim } from './pages/Claim';
-import { useDaoData } from './hooks/useDaoData';
-import { HeaderAvatar } from './components/HeaderAvatar';
-import { About } from './pages/About';
-import { Banner, LinkStyles } from '@daohaus/ui';
+import { DHLayout, useDHConnect } from "@daohaus/connect";
+import { Routes as Router, Route, useLocation } from "react-router-dom";
+import { Delegates } from "./pages/Delegates";
+import { Application } from "./pages/Application";
+import { Home } from "./pages/Home";
+import { Profile } from "./pages/Profile";
+import { TXBuilder } from "@daohaus/tx-builder";
+import { TARGET_DAO } from "./targetDAO";
+import { Join } from "./pages/Join";
+import { Manifesto } from "./pages/Manifesto";
+import { Unstake } from "./pages/Unstake";
+import { Delegate } from "./pages/Delegate";
+import { Claim } from "./pages/Claim";
+import { useDaoData } from "./hooks/useDaoData";
+import { HeaderAvatar } from "./components/HeaderAvatar";
+import { About } from "./pages/About";
+import { Banner, LinkStyles } from "@daohaus/ui";
 import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledRouterLink = styled(RouterLink)`
   ${LinkStyles}
 `;
-
 
 export const Routes = () => {
   const { pathname } = useLocation();
@@ -45,12 +44,12 @@ export const Routes = () => {
       <DHLayout
         pathname={pathname}
         navLinks={[
-          { label: 'Home', href: '/' },
+          { label: "Home", href: "/" },
           // { label: 'Manifesto', href: '/manifesto' },
-          { label: 'Stake', href: '/join' },
-          { label: 'Champions', href: '/delegates' },
+          { label: "Stake", href: "/join" },
+          { label: "Champions", href: "/delegates" },
           // { label: 'Become a Champion', href: '/apply' },
-          { label: 'Next', href: '/about' },
+          { label: "Next", href: "/about" },
         ]}
         leftNav={
           dao?.name &&
@@ -62,7 +61,6 @@ export const Routes = () => {
             />
           )
         }
-        
       >
         <Router>
           <Route path="/" element={<Home />} />

@@ -1,6 +1,6 @@
-import { Bold, H2, ParMd, SingleColumnLayout } from '@daohaus/ui';
-import styled from 'styled-components';
-import { MANIFESTO } from '../targetDAO';
+import { Bold, H2, ParMd, SingleColumnLayout } from "@daohaus/ui";
+import styled from "styled-components";
+import { MANIFESTO } from "../targetDAO";
 
 const ContentBox = styled.div`
   h2 {

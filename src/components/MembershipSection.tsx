@@ -85,7 +85,9 @@ export const MembershipSection = ({
           label={`Staked ${TARGET_DAO.STAKE_TOKEN_SYMBOL}`}
           data={
             user?.shares != null
-              ? parseInt(user.shares) / (10 ** TARGET_DAO.STAKE_TOKEN_DECIMALS) / 10
+              ? parseInt(user.shares) /
+                10 ** TARGET_DAO.STAKE_TOKEN_DECIMALS /
+                10
               : "--"
           }
         />

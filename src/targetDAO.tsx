@@ -154,4 +154,5 @@ export const ABOUTLINKS = {
   twitter: "https://twitter.com/nowdaoit",
   github: "https://github.com/HausDAO/",
   githubOnboarder: "https://github.com/HausDAO/publichaus",
+  dex: "https://velodrome.finance/liquidity?sort=apr&asc=false&filter=default&query=haus"
 };

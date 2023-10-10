@@ -1,4 +1,4 @@
-import { useDHConnect } from "@daohaus/connect";
+import { ConnectButton, useDHConnect } from "@daohaus/connect";
 import { useERC20 } from "../hooks/useERC20";
 import { TARGET_DAO } from "../targetDAO";
 import {
@@ -194,6 +194,20 @@ export const Join = () => {
     });
   };
 
+  if (!address) {
+    return (
+      <SingleColumnLayout>
+        <StakeBox>
+          <H2> </H2>
+          <ParMd className="space">
+            To continue on this page you must connect your wallet.
+          </ParMd>
+          <ConnectButton isSm={false} />
+        </StakeBox>
+      </SingleColumnLayout>
+    );
+  }
+
   if (isLoadingAll)
     return (
       <SingleColumnLayout>
@@ -208,6 +222,8 @@ export const Join = () => {
         </StakeBox>
       </SingleColumnLayout>
     );
+
+
   return (
     <SingleColumnLayout>
       <StakeBox>

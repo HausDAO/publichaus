@@ -28,6 +28,10 @@ const fetchTokenData = async ({
   spenderAddress?: string | null;
   fetchShape?: FetchShape;
 }) => {
+
+  if (!userAddress) {
+    throw new Error("userAddress is required");
+  }
   const client = createViemClient({
     chainId,
   });

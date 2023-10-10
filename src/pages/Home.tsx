@@ -39,7 +39,7 @@ export const Home = () => {
         <ParLg>How to Participate</ParLg>
         <H3>JOIN:</H3>
         <ParMd>
-          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for a community share which
+          Stake <StyledRouterLink to="/about">{TARGET_DAO.STAKE_TOKEN_SYMBOL}</StyledRouterLink> for a community share which
           gives you power to guide the future of DAOs and DAO tooling.{" "}
           <StyledRouterLink to="/join">here</StyledRouterLink>
         </ParMd>

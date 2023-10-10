@@ -6,6 +6,8 @@ import {
 } from '@daohaus/utils';
 import { getProfileForAddress } from '@daohaus/profile-data';
 
+import { HAUS_RPC } from '@daohaus/keychain-utils';
+
 const localforage = import('localforage').then(async (localforage) => {
   // workaround for https://github.com/localForage/localForage/issues/1038
   if (typeof window === 'object') await localforage.default.ready();
@@ -21,7 +23,7 @@ export const getProfileStore = async () => {
 
 export const getCachedProfile = async ({ address }: { address: string }) => {
   const abiStore = await getProfileStore();
-  const profile = abiStore?.[address] as AccountProfile | undefined;
+  const profile = abiStore?.[address] as AccountProfile & {lastUpdated: string} | undefined;
   return profile;
 };
 
@@ -53,7 +55,6 @@ export const cacheProfile = async ({
   profile: AccountProfile;
 }) => {
   const profileStore = await getProfileStore();
-
   const newStore = addProfile({
     profileStore,
     address,
@@ -70,12 +71,22 @@ export const cacheProfile = async ({
   }
 };
 
+
+
 export const fetchProfile = async (
   address: string
 ): Promise<AccountProfile> => {
   const cachedProfile = await getCachedProfile({ address });
-  if (cachedProfile) return cachedProfile;
-  const profile = await getProfileForAddress(address);
+
+  const date = new Date();
+  date.setDate(date.getDate() - 14)
+  // date.setSeconds(date.getSeconds() - 14)
+
+  if (cachedProfile && new Date(cachedProfile.lastUpdated) < date ) {
+    console.log("refetch profile")
+    return cachedProfile;
+  }
+  const profile = await getProfileForAddress({address, rpcUri: HAUS_RPC['0x1']});
   cacheProfile({
     address,
     profile,

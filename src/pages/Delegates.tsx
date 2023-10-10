@@ -220,9 +220,9 @@ export const Delegates = () => {
           >
             See all Members
           </Link>
-          <StyledRouterLink to={`/delegate`} style={{ marginBottom: '2rem' }}>
+          {/* <StyledRouterLink to={`/delegate`} style={{ marginBottom: '2rem' }}>
             Delegate to a non-Champion
-          </StyledRouterLink>
+          </StyledRouterLink> */}
         </div>
       </DataRow>
 

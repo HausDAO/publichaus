@@ -30,38 +30,24 @@ export const Home = () => {
       <H2>PublicHaus Onboarder</H2>
       <HausAnimated />
       <CenterBox>
+        <H3>What is PublicHAUS?</H3>
+        <ParMd>
+          PublicHAUS is the first opensource protocol maintained and owned by
+          it's users. We use a process of seasonal iterations, to lay the
+          foundations for the orginizations of the future.
+        </ParMd>
         <ParLg>How to Participate</ParLg>
-        <H3>Step 1: READ</H3> 
+        <H3>JOIN:</H3>
         <ParMd>
-          Read the DAOhaus{" "}
-          <StyledRouterLink to="/manifesto">Manifesto</StyledRouterLink> and make sure that you align
-          with the values. Read the{" "}
-          <Link
-            href={`https://publichaus.club`}
-             
-            style={{ marginBottom: "2rem" }}
-          >
-            PublicHAUS docs
-          </Link>{" "}
-          and make sure you understand what this is all about.
+          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for a community share which
+          gives you power to guide the future of DAOs and DAO tooling.{" "}
+          <StyledRouterLink to="/join">here</StyledRouterLink>
         </ParMd>
-
-          <H3>Step 2: STAKE</H3> 
-          <ParMd>
-          Stake {TARGET_DAO.STAKE_TOKEN_SYMBOL} for DAO
-          shares. <StyledRouterLink to="/join">here</StyledRouterLink>
-          </ParMd>
-          <H3>Step 3: DELEGATE</H3>
+        <H3>CONTRIBUTE:</H3>
         <ParMd>
-          Delegate your shares to a DAO Champion <Bold>OR</Bold> apply to be a
-          Champion yourself. You can read Champion platforms on their profile
-          page. <StyledRouterLink to="/delegates">here</StyledRouterLink>
-        </ParMd>
-        <ParMd>
-          * Championship requires a DAO vote to ensure you are a real person,
-          and you are aligned with the DAOhaus mission. If you are ready for
-          this resposibility create a DAO proposal{" "}
-          <StyledRouterLink to="/apply">here</StyledRouterLink>.
+          Through participation in seasonal "signal sessions" we manage a
+          community treasury to fund direct action, and recognize each others
+          hard work.
         </ParMd>
       </CenterBox>
     </SingleColumnLayout>

@@ -36,16 +36,11 @@ export const V2DAOClaim = ({
           <ParMd>
             Go to your profile in the V2 interface and ragequit to withdraw.
           </ParMd>
-          <ParMd>
-            Then you can come back to this app and stake.
-          </ParMd>
+          <ParMd>Then you can come back to this app and stake.</ParMd>
           <ParMd>Shares: {v2DAOData?.shares}</ParMd>
           <ParMd>Loot: {v2DAOData?.loot}</ParMd>
 
-          <Link
-            href={`https://app.daohaus.club/dao/0x1/${daoAddress}`}
-             
-          >
+          <Link href={`https://app.daohaus.club/dao/0x1/${daoAddress}`}>
             V2 DAO Interface
           </Link>
         </>

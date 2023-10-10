@@ -1,21 +1,21 @@
-import { useMemo } from 'react';
-import { H2, Link, ParMd, widthQuery } from '@daohaus/ui';
+import { useMemo } from "react";
+import { H2, Link, ParMd, widthQuery } from "@daohaus/ui";
 
-import { useMembers } from '../hooks/useMembers';
-import { useRecords } from '../hooks/useRecord';
-import { DELEGATE_TABLE_REF } from '../legos/tx';
-import { isDelegateData } from '../utils/typeguards';
-import { RegisteredMembers } from '../utils/types';
-import { TARGET_DAO } from '../targetDAO';
-import { StatusDisplay } from '../components/StatusDisplay';
-import { useDaoData } from '../hooks/useDaoData';
-import { useUserMember } from '../hooks/useUserMember';
-import { useDHConnect } from '@daohaus/connect';
-import styled from 'styled-components';
-import { DelegateList } from '../components/DelegateList';
-import { MolochV3Dao } from '@daohaus/moloch-v3-data';
-import { MemberProfileAvatar } from '../components/MemberProfileAvatar';
-import { StyledRouterLink } from '../Routes';
+import { useMembers } from "../hooks/useMembers";
+import { useRecords } from "../hooks/useRecord";
+import { DELEGATE_TABLE_REF } from "../legos/tx";
+import { isDelegateData } from "../utils/typeguards";
+import { RegisteredMembers } from "../utils/types";
+import { TARGET_DAO } from "../targetDAO";
+import { StatusDisplay } from "../components/StatusDisplay";
+import { useDaoData } from "../hooks/useDaoData";
+import { useUserMember } from "../hooks/useUserMember";
+import { useDHConnect } from "@daohaus/connect";
+import styled from "styled-components";
+import { DelegateList } from "../components/DelegateList";
+import { MolochV3Dao } from "@daohaus/moloch-v3-data";
+import { MemberProfileAvatar } from "../components/MemberProfileAvatar";
+import { StyledRouterLink } from "../Routes";
 
 const DataRow = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ export const Delegates = () => {
   } = useRecords({
     daoId: TARGET_DAO.ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
-    recordType: 'credential',
+    recordType: "credential",
     credentialType: DELEGATE_TABLE_REF,
   });
 
@@ -130,7 +130,7 @@ export const Delegates = () => {
       // If the record is not valid, skip it
       const { parsedContent, createdAt } = record;
       if (!isDelegateData(parsedContent)) {
-        console.warn('Delegate data is not valid', parsedContent);
+        console.warn("Delegate data is not valid", parsedContent);
         return acc;
       }
       const delegateAddress = parsedContent.recipientAddress.toLowerCase();
@@ -161,7 +161,7 @@ export const Delegates = () => {
 
       if (!delegateMemberData) {
         console.warn(
-          'Delegate is not a member of the DAO',
+          "Delegate is not a member of the DAO",
           delegateAddress,
           members
         );
@@ -200,7 +200,7 @@ export const Delegates = () => {
           <ParMd>Champions: {Object.keys(registeredDelegates).length}</ParMd>
 
           <div className="delegating-to">
-            <ParMd>You are delegating to: </ParMd>{' '}
+            <ParMd>You are delegating to: </ParMd>{" "}
             {user?.delegatingTo ? (
               <MemberProfileAvatar
                 daochain={TARGET_DAO.CHAIN_ID}
@@ -215,8 +215,7 @@ export const Delegates = () => {
         <div className="link-box">
           <Link
             href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/members`}
-             
-            style={{ marginBottom: '2rem' }}
+            style={{ marginBottom: "2rem" }}
           >
             See all Members
           </Link>

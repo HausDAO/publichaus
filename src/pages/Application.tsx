@@ -1,18 +1,18 @@
-import { useDHConnect } from '@daohaus/connect';
-import { FormBuilder } from '@daohaus/form-builder';
-import { FormLayout, Link, Loading, ParMd, Spinner } from '@daohaus/ui';
-import { useState } from 'react';
-import { useUserMember } from '../hooks/useUserMember';
-import { CustomFields } from '../legos/config';
+import { useDHConnect } from "@daohaus/connect";
+import { FormBuilder } from "@daohaus/form-builder";
+import { FormLayout, Link, Loading, ParMd, Spinner } from "@daohaus/ui";
+import { useState } from "react";
+import { useUserMember } from "../hooks/useUserMember";
+import { CustomFields } from "../legos/config";
 
-import { FORM } from '../legos/forms';
-import { TARGET_DAO } from '../targetDAO';
-import { StyledRouterLink } from '../Routes';
+import { FORM } from "../legos/forms";
+import { TARGET_DAO } from "../targetDAO";
+import { StyledRouterLink } from "../Routes";
 
 enum PageState {
-  Idle = 'Idle',
-  Success = 'Success',
-  Error = 'Error',
+  Idle = "Idle",
+  Success = "Success",
+  Error = "Error",
 }
 
 export const Application = () => {
@@ -41,10 +41,13 @@ export const Application = () => {
   if (!isMember) {
     return (
       <FormLayout title="Not a member">
-        <ParMd style={{ marginBottom: '1rem' }}>
+        <ParMd style={{ marginBottom: "1rem" }}>
           You are not a member of this DAO.
         </ParMd>
-        <StyledRouterLink to="/join"> Please join the DAO first.</StyledRouterLink>
+        <StyledRouterLink to="/join">
+          {" "}
+          Please join the DAO first.
+        </StyledRouterLink>
       </FormLayout>
     );
   }
@@ -52,12 +55,11 @@ export const Application = () => {
   if (pageState === PageState.Success) {
     return (
       <FormLayout title="Success!">
-        <ParMd style={{ marginBottom: '1rem' }}>
+        <ParMd style={{ marginBottom: "1rem" }}>
           Your verification Proposal is ready for voting
         </ParMd>
         <Link
           href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/proposals`}
-           
         >
           Click here to see your proposal
         </Link>

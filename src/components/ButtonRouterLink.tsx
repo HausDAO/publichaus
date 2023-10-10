@@ -1,14 +1,14 @@
-import { ComponentProps } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import styled from 'styled-components';
-import { Button } from '@daohaus/ui';
+import { ComponentProps } from "react";
+import { Link as RouterLink } from "react-router-dom";
+import styled from "styled-components";
+import { Button } from "@daohaus/ui";
 
 type ProfileLinkProps = {
   href?: string;
   to: string;
   selected?: boolean;
   disabled?: boolean;
-  linkType?: 'internal' | 'external' | 'no-icon-external';
+  linkType?: "internal" | "external" | "no-icon-external";
   hideIcon?: boolean;
   target?: string;
   rel?: string;

@@ -1,9 +1,9 @@
-import { Card, DataIndicator, ParMd, Theme, widthQuery } from '@daohaus/ui';
-import { useMemo } from 'react';
-import styled from 'styled-components';
-import { TARGET_DAO } from '../targetDAO';
-import { RegisteredMembers } from '../utils/types';
-import { MemberProfileAvatar } from './MemberProfileAvatar';
+import { Card, DataIndicator, ParMd, Theme, widthQuery } from "@daohaus/ui";
+import { useMemo } from "react";
+import styled from "styled-components";
+import { TARGET_DAO } from "../targetDAO";
+import { RegisteredMembers } from "../utils/types";
+import { MemberProfileAvatar } from "./MemberProfileAvatar";
 
 const DataGrid = styled.div`
   display: flex;
@@ -80,7 +80,7 @@ export const DelegateOverview = ({
               memberAddress={userDelegateData}
             />
           ) : (
-            'SELF'
+            "SELF"
           )}
         </DataIndicatorContainer>
       </DataGrid>

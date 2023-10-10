@@ -1,6 +1,6 @@
-import { H4, Link, ProfileAvatar } from '@daohaus/ui';
-import styled from 'styled-components';
-import { StyledRouterLink } from '../Routes';
+import { H4, Link, ProfileAvatar } from "@daohaus/ui";
+import styled from "styled-components";
+import { StyledRouterLink } from "../Routes";
 
 const DaoNavContainer = styled.div`
   display: flex;
@@ -23,9 +23,7 @@ export const HeaderAvatar = ({ name, imgUrl, address }: HAvatar) => {
     <DaoNavContainer>
       <DaoProfileAvatar image={imgUrl} address={address} />
       <H4>{name}</H4>
-      <StyledRouterLink to='/claim' >
-        claims
-      </StyledRouterLink>
+      <StyledRouterLink to="/claim">claims</StyledRouterLink>
     </DaoNavContainer>
   );
 };

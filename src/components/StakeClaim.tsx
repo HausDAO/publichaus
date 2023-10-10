@@ -8,7 +8,12 @@ import {
   SingleColumnLayout,
   useToast,
 } from "@daohaus/ui";
-import { formatDistanceToNowFromSeconds, handleErrorMessage, toWholeUnits, TXLego } from "@daohaus/utils";
+import {
+  formatDistanceToNowFromSeconds,
+  handleErrorMessage,
+  toWholeUnits,
+  TXLego,
+} from "@daohaus/utils";
 import React, { useState } from "react";
 import { useStakeClaim } from "../hooks/useStakeClaim";
 import { TX } from "../legos/tx";
@@ -100,8 +105,16 @@ export const StakeClaim = ({
           <H3>{label}</H3>
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
           <ParMd>Will automatically be staked in Publichaus</ParMd>
-          <ParMd>Claim: {toWholeUnits((parseInt(StakeClaimData?.claim) * 10).toString())} PUB</ParMd>
-          <Button type="button" onClick={handleStakeClaim} disabled={chainId != TARGET_DAO.CHAIN_ID}>
+          <ParMd>
+            Claim:{" "}
+            {toWholeUnits((parseInt(StakeClaimData?.claim) * 10).toString())}{" "}
+            PUB
+          </ParMd>
+          <Button
+            type="button"
+            onClick={handleStakeClaim}
+            disabled={chainId != TARGET_DAO.CHAIN_ID}
+          >
             Stake Claim
           </Button>
         </SingleColumnLayout>

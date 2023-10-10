@@ -22,22 +22,14 @@ export const About = () => {
           forum and chats. Stay up to date with new announcements and
           participate in weekly events. We are always looking for feedback and
           ways to improve the DAO. Introduce yourself and begin the journey now.{" "}
-          <Link
-            href={ABOUTLINKS.discord}
-             
-            style={{ marginBottom: "2rem" }}
-          >
+          <Link href={ABOUTLINKS.discord} style={{ marginBottom: "2rem" }}>
             Discord
           </Link>
         </ParMd>
         <ParMd>
           <Bold>Latest News</Bold> Get the latest news from the DaoHaus core
           team and the community.{" "}
-          <Link
-            href={ABOUTLINKS.twitter}
-             
-            style={{ marginBottom: "2rem" }}
-          >
+          <Link href={ABOUTLINKS.twitter} style={{ marginBottom: "2rem" }}>
             Twitter
           </Link>
         </ParMd>
@@ -48,7 +40,6 @@ export const About = () => {
           contributions.{" "}
           <Link
             href={"https://signal.daohaus.fun/"}
-             
             style={{ marginBottom: "2rem" }}
           >
             Strategic Signaling
@@ -61,7 +52,6 @@ export const About = () => {
           delegates can vote on open proposals.{" "}
           <Link
             href={`https://admin.daohaus.fun/#/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}`}
-             
             style={{ marginBottom: "2rem" }}
           >
             PublicHAUS Admin
@@ -70,11 +60,7 @@ export const About = () => {
         <ParMd>
           <Bold>Contribute content and code</Bold> looks at open issues and
           projects in the DaoHaus repo and start to contribute now.{" "}
-          <Link
-            href={ABOUTLINKS.github}
-             
-            style={{ marginBottom: "2rem" }}
-          >
+          <Link href={ABOUTLINKS.github} style={{ marginBottom: "2rem" }}>
             HAUSDAO repo
           </Link>
         </ParMd>
@@ -84,7 +70,6 @@ export const About = () => {
           stars, contributions and forks.{" "}
           <Link
             href={ABOUTLINKS.githubOnboarder}
-             
             style={{ marginBottom: "2rem" }}
           >
             DaoHaus Onboarder
@@ -92,9 +77,9 @@ export const About = () => {
         </ParMd>
         <ParMd>
           <Bold>Get help</Bold> Do you want to DAO up your own community? Get
-          advise, help, connections and services from our growing nation of DAOs and
-          governerds. We are here for each other and are the most valuable asset
-          we have.{" "}
+          advise, help, connections and services from our growing nation of DAOs
+          and governerds. We are here for each other and are the most valuable
+          asset we have.{" "}
         </ParMd>
       </ContentBox>
     </SingleColumnLayout>

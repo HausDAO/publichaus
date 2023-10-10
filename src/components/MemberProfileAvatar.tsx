@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { AccountProfile } from '@daohaus/utils';
-import { Keychain } from '@daohaus/keychain-utils';
+import { useCallback, useEffect, useState } from "react";
+import styled from "styled-components";
+import { AccountProfile } from "@daohaus/utils";
+import { Keychain } from "@daohaus/keychain-utils";
 
-import { MemberCard } from '@daohaus/ui';
+import { MemberCard } from "@daohaus/ui";
 
-import { fetchProfile } from '../utils/cacheProfile';
+import { fetchProfile } from "../utils/cacheProfile";
 
 type MemberProfileProps = {
   memberAddress: string;

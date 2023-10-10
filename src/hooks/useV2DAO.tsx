@@ -1,8 +1,8 @@
 import V2DAOABI from "../abis/V2DAO.json";
 
 import { useQuery } from "react-query";
-import { createContract } from "@daohaus/tx-builder";
 import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
+import { createViemClient } from "@daohaus/utils";
 
 type FetchShape = {
     shares: string;
@@ -27,18 +27,22 @@ const fetchV2DAOData = async ({
   fetchShape?: FetchShape;
 }) => {
 
-  const v2DAOContract = createContract({
-    address: daoAddress,
-    abi: V2DAOABI,
+  const client = createViemClient({
     chainId,
-    rpcs,
   });
+
 
   try {
     
     const memberData = 
       fetchShape?.shares && userAddress
-        ? await v2DAOContract.members(userAddress)
+        ? 
+        ((await client.readContract({
+          abi: V2DAOABI,
+          address: daoAddress as `0x${string}`,
+          functionName: "members",
+          args: [userAddress],
+        }))) as FetchShape
         : null;
     
     const data = {

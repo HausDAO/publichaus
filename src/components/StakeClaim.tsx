@@ -3,9 +3,9 @@ import { useTxBuilder } from "@daohaus/tx-builder";
 import {
   Button,
   H3,
+  Loading,
   ParMd,
   SingleColumnLayout,
-  Spinner,
   useToast,
 } from "@daohaus/ui";
 import { formatDistanceToNowFromSeconds, handleErrorMessage, toWholeUnits, TXLego } from "@daohaus/utils";
@@ -80,7 +80,7 @@ export const StakeClaim = ({
   if (isStakeClaimLoading) {
     return (
       <SingleColumnLayout>
-        <Spinner size="12rem" />
+        <Loading size={20} />
         <ParMd>Checking {label}...</ParMd>
       </SingleColumnLayout>
     );
@@ -92,26 +92,7 @@ export const StakeClaim = ({
       </SingleColumnLayout>
     );
   }
-  if (
-    StakeClaimData?.expiery &&
-    parseInt(StakeClaimData.expiery) == 0
-  ) {
-    return (
-      <SingleColumnLayout>
-        <ParMd>{label}: Not Active...</ParMd>
-      </SingleColumnLayout>
-    );
-  }
-  if (
-    StakeClaimData?.expiery &&
-    parseInt(StakeClaimData.expiery) < Math.floor(Date.now() / 1000)
-  ) {
-    return (
-      <SingleColumnLayout>
-        <ParMd>{label}: Expired...</ParMd>
-      </SingleColumnLayout>
-    );
-  }
+
   return (
     <>
       {StakeClaimData?.claim && parseInt(StakeClaimData.claim) > 0 ? (
@@ -120,14 +101,13 @@ export const StakeClaim = ({
           <ParMd>You have unclaimed tokens that can be claimed</ParMd>
           <ParMd>Will automatically be staked in Publichaus</ParMd>
           <ParMd>Claim: {toWholeUnits((parseInt(StakeClaimData?.claim) * 10).toString())} PUB</ParMd>
-          {StakeClaimData?.expiery && <ParMd>Expires: {formatDistanceToNowFromSeconds(StakeClaimData.expiery)}</ParMd>}
           <Button type="button" onClick={handleStakeClaim} disabled={chainId != TARGET_DAO.CHAIN_ID}>
             Stake Claim
           </Button>
         </SingleColumnLayout>
       ) : (
         <SingleColumnLayout>
-          <ParMd>{label}: currently not eligible</ParMd>
+          <ParMd>{label}: Currently Not Eligible</ParMd>
         </SingleColumnLayout>
       )}
     </>

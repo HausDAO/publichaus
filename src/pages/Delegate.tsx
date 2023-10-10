@@ -5,7 +5,7 @@ import { DelegateTo } from "../components/DelegateTo";
 import { FORM } from "../legos/forms";
 
 export const Delegate = () => {
-  const { provider } = useDHConnect();
+  const { publicClient } = useDHConnect();
 
   return (
     <SingleColumnLayout>

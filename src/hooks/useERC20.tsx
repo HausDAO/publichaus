@@ -1,8 +1,8 @@
-import { LOCAL_ABI } from '@daohaus/abis';
-import { useQuery } from 'react-query';
+import { LOCAL_ABI } from "@daohaus/abis";
+import { useQuery } from "react-query";
 
-import { createContract } from '@daohaus/tx-builder';
-import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
+import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
+import { createViemClient } from "@daohaus/utils";
 
 type FetchShape = {
   decimals?: boolean;
@@ -28,29 +28,67 @@ const fetchTokenData = async ({
   spenderAddress?: string | null;
   fetchShape?: FetchShape;
 }) => {
-  const tokenContract = createContract({
-    address: tokenAddress,
-    abi: LOCAL_ABI.ERC20,
+  const client = createViemClient({
     chainId,
-    rpcs,
   });
+
+  const balance = (await client.readContract({
+    abi: LOCAL_ABI.ERC20,
+    address: tokenAddress as `0x${string}`,
+    functionName: "balanceOf",
+    args: [userAddress],
+  })) as bigint;
 
   try {
     const decimals = fetchShape?.decimals
-      ? await tokenContract.decimals()
+      ? ((await client.readContract({
+          abi: LOCAL_ABI.ERC20,
+          address: tokenAddress as `0x${string}`,
+          functionName: "decimals",
+          args: [],
+        })) as bigint)
       : null;
-    const name = fetchShape?.name ? await tokenContract.name() : null;
-    const symbol = fetchShape?.symbol ? await tokenContract.symbol() : null;
+    const name = fetchShape?.name
+      ? ((await client.readContract({
+          abi: LOCAL_ABI.ERC20,
+          address: tokenAddress as `0x${string}`,
+          functionName: "name",
+          args: [],
+        })))
+      : null;
+    const symbol = fetchShape?.symbol
+      ? ((await client.readContract({
+          abi: LOCAL_ABI.ERC20,
+          address: tokenAddress as `0x${string}`,
+          functionName: "symbol",
+          args: [],
+        })))
+      : null;
     const totalSupply = fetchShape?.totalSupply
-      ? await tokenContract.totalSupply()
+      ? ((await client.readContract({
+          abi: LOCAL_ABI.ERC20,
+          address: tokenAddress as `0x${string}`,
+          functionName: "totalSupply",
+          args: [],
+        })) as bigint)
       : null;
     const balance =
       fetchShape?.balanceOf && userAddress
-        ? await tokenContract.balanceOf(userAddress)
+        ? ((await client.readContract({
+            abi: LOCAL_ABI.ERC20,
+            address: tokenAddress as `0x${string}`,
+            functionName: "balanceOf",
+            args: [userAddress],
+          })) as bigint)
         : null;
     const allowance =
       fetchShape?.allowance && userAddress && spenderAddress
-        ? await tokenContract.allowance(userAddress, spenderAddress)
+        ? ((await client.readContract({
+            abi: LOCAL_ABI.ERC20,
+            address: tokenAddress as `0x${string}`,
+            functionName: "allowance",
+            args: [userAddress, spenderAddress],
+          })) as bigint)
         : null;
 
     const data = {
@@ -60,7 +98,7 @@ const fetchTokenData = async ({
       totalSupply: totalSupply ? (totalSupply?.toString() as string) : null,
       balance: balance ? (balance?.toString() as string) : null,
       allowance: allowance ? (allowance?.toString() as string) : null,
-      isApproved: !!allowance && allowance?.gt(0),
+      isApproved: !!allowance && allowance > 0n,
     };
 
     // console.log('data', data);

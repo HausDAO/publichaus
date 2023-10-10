@@ -1,4 +1,4 @@
-import { H2, ParMd, SingleColumnLayout, Spinner } from '@daohaus/ui';
+import { H2, Loading, ParMd, SingleColumnLayout } from '@daohaus/ui';
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
 
@@ -29,7 +29,7 @@ export const StatusDisplay = ({
       <DisplayBox>
         {status && <H2 className="spacer">{status}</H2>}
         {description && <ParMd className="spacer">{description}</ParMd>}
-        {spinner && <Spinner size="12rem" />}
+        {spinner && <Loading size={100} />}
         {element}
       </DisplayBox>
     </SingleColumnLayout>

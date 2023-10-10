@@ -26,7 +26,7 @@ export const StyledRouterLink = styled(RouterLink)`
 export const Routes = () => {
   const { pathname } = useLocation();
 
-  const { address, provider } = useDHConnect();
+  const { address, publicClient } = useDHConnect();
   const { dao } = useDaoData({
     daoid: TARGET_DAO.ADDRESS,
     daochain: TARGET_DAO.CHAIN_ID,
@@ -34,7 +34,7 @@ export const Routes = () => {
 
   return (
     <TXBuilder
-      provider={provider}
+      publicClient={publicClient}
       chainId={TARGET_DAO.CHAIN_ID}
       daoId={TARGET_DAO.ADDRESS}
       safeId={TARGET_DAO.SAFE_ADDRESS}
@@ -46,10 +46,10 @@ export const Routes = () => {
         pathname={pathname}
         navLinks={[
           { label: 'Home', href: '/' },
-          { label: 'Manifesto', href: '/manifesto' },
+          // { label: 'Manifesto', href: '/manifesto' },
           { label: 'Stake', href: '/join' },
-          { label: 'Delegate', href: '/delegates' },
-          { label: 'Become a Champion', href: '/apply' },
+          { label: 'Champions', href: '/delegates' },
+          // { label: 'Become a Champion', href: '/apply' },
           { label: 'Next', href: '/about' },
         ]}
         leftNav={

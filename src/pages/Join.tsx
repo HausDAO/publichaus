@@ -7,10 +7,10 @@ import {
   DataIndicator,
   Divider,
   H2,
+  Loading,
   ParLg,
   ParMd,
   SingleColumnLayout,
-  Spinner,
   Theme,
   useToast,
 } from "@daohaus/ui";
@@ -64,7 +64,7 @@ const StakeBox = styled.div`
   }
   .err {
     margin-top: 1rem;
-    color: ${({ theme }: { theme: Theme }) => theme.danger.step9};
+    color: ${({ theme }) => theme.danger.step9};
   }
 `;
 
@@ -95,7 +95,7 @@ export const Join = () => {
     shamanAddress: TARGET_DAO.SHAMAN_ADDRESS,
     chainId: TARGET_DAO.CHAIN_ID,
     fetchShape: {
-      expiry: true,
+      expiery: true,
     },
   });
   const {
@@ -108,7 +108,7 @@ export const Join = () => {
     memberAddress: address,
   });
   const { isApproved, balance, allowance } = tokenData || {};
-  const { expiry } = shamanData || {};
+  const { expiery } = shamanData || {};
 
   const [isOptimisticApproved, setIsOptimisticApproved] = useState<
     Record<string, boolean>
@@ -203,7 +203,7 @@ export const Join = () => {
             Fetching Data from RPC. Load times may be longer than usual.{" "}
           </ParMd>
           <SpinnerBox>
-            <Spinner size="12rem" />
+            <Loading size={100} />
           </SpinnerBox>
         </StakeBox>
       </SingleColumnLayout>
@@ -229,7 +229,7 @@ export const Join = () => {
             size="sm"
           />
           <DataIndicator label="Stake Ratio:" data={`1:10`} size="sm" />
-          {expiry && <ExpiryIndicator expiry={expiry} />}
+          {expiery && <ExpiryIndicator expiery={expiery} />}
         </DataGrid>
         <Divider className="space" />
         <MembershipSection user={user as Member | null} balance={balance} />
@@ -252,8 +252,8 @@ export const Join = () => {
   );
 };
 
-const ExpiryIndicator = ({ expiry }: { expiry: string }) => {
-  const expiryDate = formatDistanceToNowFromSeconds(expiry);
+const ExpiryIndicator = ({ expiery }: { expiery: string }) => {
+  const expiryDate = formatDistanceToNowFromSeconds(expiery);
   return (
     <DataIndicator label="Open Staking Expires:" data={expiryDate} size="sm" />
   );

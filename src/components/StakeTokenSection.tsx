@@ -13,7 +13,7 @@ export const StakeTokenSection = ({
   balance,
 }: {
   isLoading: boolean;
-  isApproved: boolean;
+  isApproved: string | boolean | undefined;
   allowance: string;
   balance?: string | null;
   handleApprove: () => void;

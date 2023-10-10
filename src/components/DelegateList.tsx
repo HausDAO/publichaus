@@ -13,7 +13,6 @@ import { DelegateTable } from './DelegateTable';
 const handleSearch = (term: string, delegates: RegisteredMembers) => {
   return Object.values(delegates).filter((delegate) => {
     return (
-      delegate?.profile?.name?.toLowerCase().includes(term.toLowerCase()) ||
       delegate?.profile?.ens?.toLowerCase().includes(term.toLowerCase()) ||
       delegate.memberAddress.toLowerCase().includes(term.toLowerCase())
     );

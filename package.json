@@ -9,11 +9,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@daohaus/connect": "^0.1.18",
-    "@daohaus/form-builder": "^0.1.18",
-    "@daohaus/tx-builder": "^0.1.18",
-    "@daohaus/ui": "^0.1.18",
-    "@daohaus/utils": "^0.1.18",
+    "@daohaus/connect": "^0.3.0",
+    "@daohaus/form-builder": "^0.3.0",
+    "@daohaus/tx-builder": "^0.3.0",
+    "@daohaus/ui": "^0.3.0",
+    "@daohaus/utils": "^0.3.0",
     "localforage": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -27,7 +27,7 @@
     "@types/react-table": "^7.7.12",
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^2.2.0",
-    "typescript": "^4.6.4",
+    "typescript": "^5.0.4",
     "vite": "^3.2.0"
   }
 }

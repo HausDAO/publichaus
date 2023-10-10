@@ -29,7 +29,7 @@ const SpacedIndicator = styled(DataIndicator)`
 `;
 
 const DelegatesOverviewCard = styled(Card)`
-  background-color: ${({ theme }: { theme: Theme }) => theme.secondary.step3};
+  background-color: ${({ theme }) => theme.secondary.step3};
   border: none;
   padding: 3rem;
   width: 100%;

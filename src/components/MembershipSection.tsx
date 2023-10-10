@@ -91,11 +91,24 @@ export const MembershipSection = ({
         />
         <DataIndicator
           size="sm"
-          label={"DAO Shares"}
+          label={"Operator Stake"}
           data={
             user?.shares != null
               ? formatValueTo({
                   value: fromWei(user.shares),
+                  decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
+                  format: "number",
+                })
+              : "--"
+          }
+        />
+        <DataIndicator
+          size="sm"
+          label={"Community Stake"}
+          data={
+            user?.loot != null
+              ? formatValueTo({
+                  value: fromWei(user.loot),
                   decimals: TARGET_DAO.STAKE_TOKEN_DECIMALS,
                   format: "number",
                 })

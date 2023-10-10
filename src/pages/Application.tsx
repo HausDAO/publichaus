@@ -1,6 +1,6 @@
 import { useDHConnect } from '@daohaus/connect';
 import { FormBuilder } from '@daohaus/form-builder';
-import { FormLayout, Link, ParMd, Spinner } from '@daohaus/ui';
+import { FormLayout, Link, Loading, ParMd, Spinner } from '@daohaus/ui';
 import { useState } from 'react';
 import { useUserMember } from '../hooks/useUserMember';
 import { CustomFields } from '../legos/config';
@@ -27,7 +27,7 @@ export const Application = () => {
   if (isLoading) {
     return (
       <FormLayout title="Loading">
-        <Spinner size="12rem" />
+        <Loading size={100} />
       </FormLayout>
     );
   }

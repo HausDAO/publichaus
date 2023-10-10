@@ -1,4 +1,4 @@
-import { H3, Link, ParMd, SingleColumnLayout, Spinner } from "@daohaus/ui";
+import { H3, Link, Loading, ParMd, SingleColumnLayout } from "@daohaus/ui";
 import React from "react";
 import { useV2DAO } from "../hooks/useV2DAO";
 import { TARGET_DAO } from "../targetDAO";
@@ -20,7 +20,7 @@ export const V2DAOClaim = ({
   if (isV2DAOLoading) {
     return (
       <SingleColumnLayout>
-        <Spinner size="12rem" />
+        <Loading size={100} />
         <ParMd>Checking {label}...</ParMd>
       </SingleColumnLayout>
     );

@@ -1,6 +1,5 @@
 import {
   Bold,
-  border,
   Card,
   Italic,
   ParLg,
@@ -50,7 +49,7 @@ const DelegateCardBox = styled(Card)`
 
   .description {
     height: 6rem;
-    border-radius: ${border.radius};
+    border-radius: ${({ theme }) => theme.card.radius};
     padding: 1rem;
     background: ${(props) => props.theme.secondary.step3};
     margin-bottom: 2rem;
@@ -95,10 +94,10 @@ export const DelegateCard = ({
         <ProfileAvatar
           size="xl"
           address={delegate.memberAddress}
-          image={profile?.image}
+          image={profile?.avatar}
         />
         <ParLg>
-          {charLimit(profile?.name || profile?.ens, 10) ||
+          {charLimit(profile?.ens, 10) ||
             truncateAddress(delegate?.memberAddress)}
         </ParLg>
       </div>

@@ -92,13 +92,13 @@
     "inputs": [],
     "name": "baal",
     "outputs": [
-      { "internalType": "contract IBAAL", "name": "", "type": "address" }
+      { "internalType": "contract IBaal", "name": "", "type": "address" }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [{ "internalType": "address", "name": "_to", "type": "address" }],
     "name": "claim",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -121,25 +121,10 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "_to", "type": "address" }],
-    "name": "daoWithdraw",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "expiery",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "_moloch", "type": "address" },
       { "internalType": "address", "name": "_stakeToken", "type": "address" },
       { "internalType": "bool", "name": "_isShares", "type": "bool" },
-      { "internalType": "uint256", "name": "_expiery", "type": "uint256" },
       { "internalType": "uint256", "name": "_multiplier", "type": "uint256" }
     ],
     "name": "init",
@@ -158,6 +143,13 @@
     "inputs": [],
     "name": "multiplier",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
     "stateMutability": "view",
     "type": "function"
   },

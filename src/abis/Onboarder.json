@@ -1,93 +1,112 @@
 [
-  { "type": "constructor", "inputs": [] },
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
   {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "amounts",
-    "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [
-      { "type": "address", "name": "", "internalType": "contract IBAAL" }
-    ],
-    "name": "baal",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "address", "name": "", "internalType": "address" }],
-    "name": "cuts",
-    "inputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "uint256", "name": "", "internalType": "uint256" }],
-    "name": "expiery",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "init",
+    "anonymous": false,
     "inputs": [
-      { "type": "address", "name": "_moloch", "internalType": "address" },
       {
-        "type": "address",
-        "name": "_token",
-        "internalType": "address payable"
-      },
-      { "type": "uint256", "name": "_expiery", "internalType": "uint256" },
-      { "type": "bool", "name": "_shares", "internalType": "bool" },
-      { "type": "address[]", "name": "_cuts", "internalType": "address[]" },
-      { "type": "uint256[]", "name": "_amounts", "internalType": "uint256[]" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "nonpayable",
-    "outputs": [],
-    "name": "onboarder",
-    "inputs": [
-      { "type": "uint256", "name": "_value", "internalType": "uint256" }
-    ]
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [{ "type": "bool", "name": "", "internalType": "bool" }],
-    "name": "shares",
-    "inputs": []
-  },
-  {
-    "type": "function",
-    "stateMutability": "view",
-    "outputs": [
-      { "type": "address", "name": "", "internalType": "contract IERC20" }
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
     ],
-    "name": "token",
-    "inputs": []
-  },
-  {
-    "type": "event",
     "name": "Initialized",
-    "inputs": [{ "type": "uint8", "name": "version", "indexed": false }],
-    "anonymous": false
+    "type": "event"
   },
   {
-    "type": "event",
-    "name": "ObReceived",
+    "anonymous": false,
     "inputs": [
-      { "type": "address", "name": "contributorAddress", "indexed": true },
-      { "type": "uint256", "name": "amount", "indexed": false },
-      { "type": "address", "name": "baal", "indexed": false },
-      { "type": "uint256", "name": "lootToCuts", "indexed": false }
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "contributorAddress",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amountStaked",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amountMinted",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "baal",
+        "type": "address"
+      }
     ],
-    "anonymous": false
+    "name": "ObReceived",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "baal",
+    "outputs": [
+      { "internalType": "contract IBaal", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "expiery",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_moloch", "type": "address" },
+      {
+        "internalType": "address payable",
+        "name": "_token",
+        "type": "address"
+      },
+      { "internalType": "uint256", "name": "_expiery", "type": "uint256" },
+      { "internalType": "uint256", "name": "_multiplier", "type": "uint256" },
+      { "internalType": "bool", "name": "_isShares", "type": "bool" }
+    ],
+    "name": "init",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isShares",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "multiplier",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "_value", "type": "uint256" }
+    ],
+    "name": "onboarder",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "token",
+    "outputs": [
+      { "internalType": "contract IERC20", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
   }
 ]

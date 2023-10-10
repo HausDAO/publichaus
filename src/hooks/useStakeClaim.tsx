@@ -1,12 +1,12 @@
 import STAKECLAIMABI from "../abis/StakeClaim.json";
 
 import { useQuery } from "react-query";
-import { createContract } from "@daohaus/tx-builder";
 import { ValidNetwork, Keychain } from "@daohaus/keychain-utils";
+import { createViemClient } from "@daohaus/utils";
 
 type FetchShape = {
   claim: string;
-  expiery: string;
+  expiry: string;
 };
 
 const fetchStakeClaimData = async ({
@@ -22,26 +22,35 @@ const fetchStakeClaimData = async ({
   rpcs?: Keychain;
   fetchShape?: FetchShape;
 }) => {
-  const stakeClaimContract = createContract({
-    address: contractAddress,
-    abi: STAKECLAIMABI,
+  const client = createViemClient({
     chainId,
-    rpcs,
   });
+
 
   try {
     const memberData =
       fetchShape?.claim && userAddress
-        ? await stakeClaimContract.claimOf(userAddress)
+        ? 
+        ((await client.readContract({
+          abi: STAKECLAIMABI,
+          address: contractAddress as `0x${string}`,
+          functionName: "claimOf",
+          args: [userAddress],
+        })))
         : null;
 
-    const claimData = fetchShape?.expiery
-      ? await stakeClaimContract.expiery()
-      : null;
+    // const claimData = fetchShape?.expiry
+    //   ? 
+    //   (await client.readContract({
+    //     abi: STAKECLAIMABI,
+    //     address: contractAddress as `0x${string}`,
+    //     functionName: "expiry",
+    //     args: [],
+    //   }))
+    //   : null;
 
     const data = {
       claim: memberData ? (memberData.toString() as string) : null,
-      expiery: claimData ? (claimData.toString() as string) : null,
     };
 
     // console.log("Data", data);
@@ -60,7 +69,7 @@ export const useStakeClaim = ({
   rpcs,
   fetchShape = {
     claim: "0",
-    expiery: "0",
+    expiry: "0",
   },
 }: {
   contractAddress: string;

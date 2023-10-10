@@ -1,12 +1,12 @@
 import { LOCAL_ABI } from '@daohaus/abis';
 import OnboarderABI from '../abis/Onboarder.json';
-import { createContract } from '@daohaus/tx-builder';
 import { ValidNetwork, Keychain } from '@daohaus/keychain-utils';
 import { useQuery } from 'react-query';
+import { createViemClient } from '@daohaus/utils';
 
 type FetchShape = {
   baal?: boolean;
-  expiry?: boolean;
+  expiery?: boolean;
   token?: boolean;
 };
 
@@ -16,7 +16,7 @@ const fetchOnboarder = async ({
   rpcs,
   fetchShape = {
     baal: true,
-    expiry: true,
+    expiery: true,
     token: true,
   },
 }: {
@@ -25,21 +25,39 @@ const fetchOnboarder = async ({
   rpcs?: Keychain;
   fetchShape?: FetchShape;
 }) => {
-  const shamanContract = createContract({
-    address: shamanAddress,
-    abi: OnboarderABI,
+  const client = createViemClient({
     chainId,
-    rpcs,
   });
 
   try {
-    const baal = fetchShape?.baal ? await shamanContract.baal() : null;
-    const expiry = fetchShape?.expiry ? await shamanContract.expiery() : null;
-    const token = fetchShape?.token ? await shamanContract.token() : null;
+    const baal = fetchShape?.baal ? 
+    ((await client.readContract({
+      abi: OnboarderABI,
+      address: shamanAddress as `0x${string}`,
+      functionName: "baal",
+      args: [],
+    })))
+    : null;
+    const expiery = fetchShape?.expiery ? 
+    (await client.readContract({
+      abi: OnboarderABI,
+      address: shamanAddress as `0x${string}`,
+      functionName: "expiery",
+      args: [],
+      }) as bigint)
+    : null;
+    const token = fetchShape?.token ? 
+    (await client.readContract({
+      abi: OnboarderABI,
+      address: shamanAddress as `0x${string}`,
+      functionName: "token",
+      args: [],
+      }))
+    : null;
 
     return {
       baal,
-      expiry: expiry.toString() as string,
+      expiery: expiery?.toString(),
       token,
     };
   } catch (error: any) {
@@ -54,7 +72,7 @@ export const useOnboarder = ({
   rpcs,
   fetchShape = {
     baal: true,
-    expiry: true,
+    expiery: true,
     token: true,
   },
 }: {

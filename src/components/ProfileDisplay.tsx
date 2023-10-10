@@ -114,19 +114,14 @@ export const ProfileDisplay = ({ profile, membership, dao }: ProfileProps) => {
       <PSubContainer>
         <ProfileMetadataContainer>
           <AvatarLarge
-            src={profile?.image || ''}
+            src={profile?.avatar || ''}
             size="lg"
             alt="profile image"
             address={profile.address}
           />
           <Container>
             <ProfileNameContainer>
-              {profile?.name && <H5>{profile?.name || ''}</H5>}
-              {profile?.emoji && (
-                <ParLg as="span" role="img" aria-label="profile emoji">
-                  {profile?.emoji || ''}
-                </ParLg>
-              )}
+              {profile?.ens && <H5>{profile?.ens || ''}</H5>}
             </ProfileNameContainer>
             {membership && (
               <AddressDisplay

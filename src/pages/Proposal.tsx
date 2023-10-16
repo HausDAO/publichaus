@@ -6,13 +6,14 @@ import {
   ProposalDetails,
   ProposalHistory,
 } from "@daohaus/moloch-v3-macro-ui";
-import { BiColumnLayout, Card, ParLg, Loading, widthQuery } from "@daohaus/ui";
+import { BiColumnLayout, Card, ParLg, Loading, widthQuery, Progress, Button } from "@daohaus/ui";
 import {
   getProposalTypeLabel,
   PROPOSAL_TYPE_LABELS,
   TXLego,
 } from "@daohaus/utils";
 import { DaoContainer } from "../layouts/DaoContainer";
+import { CommunityVetoControl } from "../components/CommunityVetoControl";
 
 const LoadingContainer = styled.div`
   margin-top: 5rem;
@@ -52,7 +53,6 @@ export const Proposal = () => {
   const { daoChain, daoId } = useCurrentDao();
   console.log("daoChain", daoChain);
   console.log("proposal", proposal);
-  
 
   if (!daoChain || !daoId)
     return (
@@ -107,9 +107,7 @@ export const Proposal = () => {
             daoId={daoId}
             includeLinks
           />
-          <ParLg>
-            <strong>Veto</strong>
-            </ParLg>
+          <CommunityVetoControl proposalId={proposal.proposalId} />
         </RightCard>
       }
     />

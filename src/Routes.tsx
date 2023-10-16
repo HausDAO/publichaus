@@ -1,5 +1,10 @@
 import { DHLayout, useDHConnect } from "@daohaus/connect";
-import { Routes as Router, Route, useLocation } from "react-router-dom";
+import {
+  Routes as Router,
+  Route,
+  useLocation,
+  matchPath,
+} from "react-router-dom";
 import { Delegates } from "./pages/Delegates";
 import { Application } from "./pages/Application";
 import { Home } from "./pages/Home";
@@ -17,6 +22,10 @@ import { About } from "./pages/About";
 import { Banner, LinkStyles } from "@daohaus/ui";
 import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
+import { Proposals } from "./pages/Proposals";
+
+import { Proposal } from "./pages/Proposal";
+import { DaoContainer } from "./layouts/DaoContainer";
 
 export const StyledRouterLink = styled(RouterLink)`
   ${LinkStyles}
@@ -73,6 +82,10 @@ export const Routes = () => {
           <Route path="/delegate" element={<Delegate />} />
           <Route path="/claim" element={<Claim />} />
           <Route path="/about" element={<About />} />
+          <Route path={`/molochv3/:daoChain/:daoId`} element={<DaoContainer />}>
+            <Route path={`proposals`} element={<Proposals />} />
+            <Route path={`proposal/:proposalId`} element={<Proposal />} />
+          </Route>
         </Router>
       </DHLayout>
     </TXBuilder>

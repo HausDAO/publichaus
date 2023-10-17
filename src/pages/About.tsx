@@ -46,7 +46,7 @@ export const About = () => {
           the future of DAOhaus and retroactively recognize and reward
           contributions.{" "}
           <Link
-            href={"https://signal.daohaus.fun/"}
+            href={"https://signal.daohaus.fun/#/0xa/0xf5d6b637a9185707f52d40d452956ca49018247a"}
             style={{ marginBottom: "2rem" }}
           >
             Strategic Signaling

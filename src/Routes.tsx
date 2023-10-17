@@ -59,6 +59,8 @@ export const Routes = () => {
           { label: "Champions", href: "/delegates" },
           // { label: 'Become a Champion', href: '/apply' },
           { label: "Next", href: "/about" },
+          { label: "DAO", href: `/molochv3/${TARGET_DAO.CHAIN_ID}/${TARGET_DAO.ADDRESS}/proposals` },
+
         ]}
         leftNav={
           dao?.name &&

@@ -26,14 +26,14 @@ export const CommunityVetoControl = ({
   return (
     <>
       <ParLg>
-        <strong>Community Veto</strong>
+        <strong>Community Veto (comming soon)</strong>
       </ParLg>
       <Progress
-        backgroundColor="red"
+        backgroundColor="black"
         progressSection={[
           {
             color: "green",
-            percentage: "50%",
+            percentage: "0%",
           },
         ]}
       />

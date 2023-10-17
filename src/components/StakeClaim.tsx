@@ -43,12 +43,14 @@ export const StakeClaim = ({
     userAddress: address || "",
     chainId: TARGET_DAO.CHAIN_ID,
   });
+  console.log("StakeClaimData", StakeClaimData);
+  
 
   const handleStakeClaim = () => {
     fireTransaction({
       tx: {
         ...TX.STAKECLAIM,
-        staticArgs: [],
+        staticArgs: [address],
       } as TXLego,
       callerState: { contractAddress },
       lifeCycleFns: {
@@ -70,7 +72,7 @@ export const StakeClaim = ({
           setIsLoadingTx(false);
           successToast({
             title: "Success",
-            description: `Staked for DAO Shares`,
+            description: `Staked for DAO Loot`,
           });
         },
         onPollError(err) {
@@ -100,14 +102,13 @@ export const StakeClaim = ({
 
   return (
     <>
-      {StakeClaimData?.claim && parseInt(StakeClaimData.claim) > 0 ? (
+      {StakeClaimData?.claim && BigInt(StakeClaimData.claim) > 0 ? (
         <SingleColumnLayout>
           <H3>{label}</H3>
-          <ParMd>You have unclaimed tokens that can be claimed</ParMd>
-          <ParMd>Will automatically be staked in Publichaus</ParMd>
+          <ParMd>You have unclaimed PUB Loot that can be claimed</ParMd>
           <ParMd>
             Claim:{" "}
-            {toWholeUnits((parseInt(StakeClaimData?.claim) * 10).toString())}{" "}
+            {toWholeUnits((BigInt(StakeClaimData?.claim) * BigInt(10)).toString())}{" "}
             PUB
           </ParMd>
           <Button
@@ -115,7 +116,7 @@ export const StakeClaim = ({
             onClick={handleStakeClaim}
             disabled={chainId != TARGET_DAO.CHAIN_ID}
           >
-            Stake Claim
+            Claim
           </Button>
         </SingleColumnLayout>
       ) : (

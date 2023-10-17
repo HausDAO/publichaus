@@ -51,7 +51,7 @@ const fetchStakeClaimData = async ({
       claim: memberData ? (memberData.toString() as string) : null,
     };
 
-    // console.log("Data", data);
+    console.log("Data", data);
     // console.log("contractAddress", contractAddress);
     return data;
   } catch (error: any) {

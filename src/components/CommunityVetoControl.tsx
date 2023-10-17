@@ -29,7 +29,7 @@ export const CommunityVetoControl = ({
         <strong>Community Veto (comming soon)</strong>
       </ParLg>
       <Progress
-        backgroundColor="black"
+        backgroundColor="hsl(207, 5.6%, 31.6%)"
         progressSection={[
           {
             color: "green",
@@ -37,7 +37,7 @@ export const CommunityVetoControl = ({
           },
         ]}
       />
-      <Button size="md" variant="solid">
+      <Button size="sm" variant="solid">
         Stake On Veto
       </Button>
     </>

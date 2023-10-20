@@ -6,7 +6,6 @@ import { createViemClient } from "@daohaus/utils";
 
 type FetchShape = {
   claim: string;
-  expiry: string;
 };
 
 const fetchStakeClaimData = async ({
@@ -67,7 +66,6 @@ export const useStakeClaim = ({
   rpcs,
   fetchShape = {
     claim: "0",
-    expiry: "0",
   },
 }: {
   contractAddress: string;

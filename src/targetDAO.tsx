@@ -1,6 +1,8 @@
 import { ValidNetwork } from "@daohaus/keychain-utils";
 import { EthAddress } from "@daohaus/utils";
 
+import { Keychain } from "@daohaus/keychain-utils";
+
 export const TARGET_DAO: {
   ADDRESS: EthAddress;
   SAFE_ADDRESS: EthAddress;
@@ -25,8 +27,8 @@ export const TARGET_DAO: {
   STAKE_TOKEN_SYMBOL: "HAUS",
   STAKE_TOKEN_DECIMALS: 18,
   SHAMAN_ADDRESS: "0x8d53663810824716b2baDBc9B5f486b36C13e4bE",
-  STAKE_PAUSED: false,
-  STAKE_NEXT_START: 1697479200,
+  STAKE_PAUSED: true,
+  STAKE_NEXT_START: 1703087518,
 };
 
 // export const TARGET_DAO: {
@@ -50,6 +52,17 @@ export const TARGET_DAO: {
 //   STAKE_TOKEN_DECIMALS: 18,
 //   SHAMAN_ADDRESS: '0xf9d0aBc84c704e25EB73960daB83da1656Ea114b',
 // };
+
+export const DEFAULT_GRAPH_URL =
+  "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr-optimism";
+
+export const TCR_GRAPH_URL: Keychain = {
+  "0x1": "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr",
+  "0x5": "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr-goerli",
+  "0xa": "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr-optimism",
+  "0x64":
+    "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr-gnosis",
+};
 
 export const MANIFESTO = {
   title: "The DAOhaus Manifesto",

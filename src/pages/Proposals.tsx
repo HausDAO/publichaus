@@ -10,23 +10,48 @@ import {
   SingleColumnLayout,
 } from "@daohaus/ui";
 import { DaoContainer } from "../layouts/DaoContainer";
+import { Signals } from "../components/Signals";
+import { useState } from "react";
+import { styled } from "styled-components";
 
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 1rem;
+  margin: 1rem 0;
+  Button {
+    width: 12rem;
+  }
+`;
 
 export const Proposals = () => {
-    console.log("Proposals");
+  const [isProposals, setIsProposals] = useState(true);
+
+  const toggleIsProposals = () => {
+    setIsProposals(!isProposals);
+  };
+
   return (
     <SingleColumnLayout>
-      <Link
-            href={"https://signal.daohaus.fun/#/0xa/0xf5d6b637a9185707f52d40d452956ca49018247a"}
-            style={{ marginBottom: "2rem" }}
-          >
-            Community Strategic Signaling
-          </Link>
-      <ProposalList
-        header="Proposals"
-        allowLinks={true}
+      <ButtonContainer>
+        <Button
+          variant={!isProposals ? "outline" : "solid"}
+          onClick={toggleIsProposals}
+        >
+          Proposals
+        </Button>
+        <Button
+          variant={isProposals ? "outline" : "solid"}
+          onClick={toggleIsProposals}
+        >
+          Signals
+        </Button>
+      </ButtonContainer>
 
-      />
+      {isProposals ? (
+        <ProposalList header="Proposals" allowLinks={true} />
+      ) : (
+        <Signals />
+      )}
     </SingleColumnLayout>
   );
 };

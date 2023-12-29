@@ -1,8 +1,6 @@
 import { useDHConnect } from "@daohaus/connect";
 import { H2, ParMd, SingleColumnLayout } from "@daohaus/ui";
 import { StakeClaim } from "../components/StakeClaim";
-import { V2DAOClaim } from "../components/V2DAOClaim";
-import { TARGET_DAO } from "../targetDAO";
 
 export const Claim = () => {
   const { address, chainId } = useDHConnect();

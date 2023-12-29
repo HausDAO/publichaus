@@ -86,6 +86,7 @@ export const Routes = () => {
           <Route path="/about" element={<About />} />
           <Route path={`/molochv3/:daoChain/:daoId`} element={<DaoContainer />}>
             <Route path={`proposals`} element={<Proposals />} />
+            <Route path={`signals`} element={<Proposals />} />
             <Route path={`proposal/:proposalId`} element={<Proposal />} />
           </Route>
         </Router>

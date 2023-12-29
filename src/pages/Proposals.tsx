@@ -13,6 +13,7 @@ import { DaoContainer } from "../layouts/DaoContainer";
 import { Signals } from "../components/Signals";
 import { useState } from "react";
 import { styled } from "styled-components";
+import { useLocation } from "react-router-dom";
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -24,7 +25,8 @@ const ButtonContainer = styled.div`
 `;
 
 export const Proposals = () => {
-  const [isProposals, setIsProposals] = useState(true);
+  const location = useLocation();
+  const [isProposals, setIsProposals] = useState(location.pathname.indexOf("signals") == -1);
 
   const toggleIsProposals = () => {
     setIsProposals(!isProposals);

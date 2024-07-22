@@ -11,7 +11,10 @@ import { Member, MemberWithProfile } from '../utils/types';
 import { handleErrorMessage } from '@daohaus/utils';
 import { fetchProfile } from '../utils/cacheProfile';
 
-const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
+const defaultGraphKeys = { 
+  '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET,
+  '0xa': import.meta.env.VITE_GRAPH_API_KEY_MAINNET
+ };
 
 const fetchMembers = async ({
   chainId,

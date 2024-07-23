@@ -54,7 +54,7 @@ export const TARGET_DAO: {
 // };
 
 export const DEFAULT_GRAPH_URL =
-  "https://api.thegraph.com/subgraphs/name/hausdao/dh-signal-tcr-optimism";
+  `https://gateway-arbitrum.network.thegraph.com/api/${import.meta.env.VITE_GRAPH_API_KEY_MAINNET}/subgraphs/id/w2XuZdUEdkrXwaT5T3hfCxMjvG3e4BBJ5q3RquCygBQ`;
 
   export const TCR_GRAPH_URL: Keychain = {
     "0x1": `https://gateway-arbitrum.network.thegraph.com/api/${import.meta.env.VITE_GRAPH_API_KEY_MAINNET}/subgraphs/id/CXBMbGqinokR79QvcQDDiFgmh6TgCZwRDazAQV5KzhQA`,

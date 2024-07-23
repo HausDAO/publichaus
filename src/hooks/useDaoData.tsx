@@ -5,7 +5,10 @@ import { Keychain, ValidNetwork } from '@daohaus/keychain-utils';
 import { useQuery } from 'react-query';
 import { handleErrorMessage } from '@daohaus/utils';
 
-const defaultGraphKeys = { '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET };
+const defaultGraphKeys = { 
+  '0x1': import.meta.env.VITE_GRAPH_API_KEY_MAINNET,
+  '0xa': import.meta.env.VITE_GRAPH_API_KEY_MAINNET
+ };
 
 export const fetchDao = async ({
   daoid,

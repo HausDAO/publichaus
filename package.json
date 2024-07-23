@@ -27,8 +27,8 @@
     "@types/react-dom": "^18.0.7",
     "@types/react-table": "^7.7.12",
     "@types/styled-components": "^5.1.26",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@vitejs/plugin-react": "^4.0.4",
     "typescript": "^5.0.4",
-    "vite": "^3.2.0"
+    "vite": "^4.4.9"
   }
 }

@@ -174,8 +174,8 @@ export const MANIFESTO = {
 };
 
 export const ABOUTLINKS = {
-  discord: "https://discord.gg/daohaus",
-  twitter: "https://twitter.com/nowdaoit",
+  discord: "https://discord.gg/ABy26DdgfK",
+  twitter: "https://twitter.com/daohaus",
   github: "https://github.com/HausDAO/",
   githubOnboarder: "https://github.com/HausDAO/publichaus",
   dex: "https://velodrome.finance/liquidity?sort=apr&asc=false&filter=default&query=haus"
